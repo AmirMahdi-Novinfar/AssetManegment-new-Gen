@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/barcode_main_layout"
+    android:background="@drawable/background_gradient">
+
+    <RelativeLayout
+        android:id="@+id/rlSecond"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/iransansweb"
+            android:gravity="center"
+            android:text="@string/inquiryAssetByBarcodeOrTag_fa"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_arrow_left" />
+
+    </RelativeLayout>
+
+
+
+
+
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/select_queri_db_mode"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+
+        android:layout_below="@+id/rlSecond"
+        android:layout_margin="30dp"
+        android:dropDownVerticalOffset="60dp"
+        android:spinnerMode="dropdown"
+        android:background="@drawable/background_gray4_light_corners_round_2"
+        android:gravity="center"
+
+
+        style="@style/SpinnerTheme"
+        android:layoutDirection="rtl"
+        android:textDirection="rtl">
+
+    </androidx.appcompat.widget.AppCompatSpinner>
+
+
+    <ImageView
+        android:id="@+id/ivDropcodee"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="32dp"
+        android:layout_below="@+id/rlSecond"
+        android:padding="12dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/ic_down"
+        android:translationZ="10dp" />
+
+        <EditText
+            android:id="@+id/etBarcode"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/select_queri_db_mode"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/background_gray4_light_corners_round_2"
+            android:fontFamily="@font/iransansweb"
+            android:gravity="right|center_vertical"
+            android:imeOptions="actionDone"
+            android:maxLength="25"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="24dp"
+            android:paddingBottom="10dp"
+            android:textColorHint="@color/hint_color"
+            android:textSize="15sp"
+            />
+
+        <Button
+            android:id="@+id/btnInquiry"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/background_gradient_right_with_border"
+            android:fontFamily="@font/iransansweb"
+            android:text="@string/inquiry_fa"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:visibility="gone"/>
+
+
+</RelativeLayout>

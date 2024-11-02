@@ -1,0 +1,104 @@
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/backfragment.xml" value="0.168" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_border_blue.xml" value="0.143" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_border_green.xml" value="0.168" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_circle.xml" value="0.14" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_error.xml" value="0.143" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_gradient.xml" value="0.171" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_gradient_right_with_border.xml" value="0.1435" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_gray3_light_corners_round_2.xml" value="0.1435" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_gray4_light_corners_green_round_2.xml" value="0.183" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_gray4_light_corners_round_2.xml" value="0.1525" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_gray_light_corners_round_5.xml" value="0.1525" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_green_borders_round.xml" value="0.1645" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_green_bottom_corners_round.xml" value="0.141" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_green_corners_round.xml" value="0.174" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_green_left_corners_round.xml" value="0.174" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_green_light_corners_round_5.xml" value="0.1525" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_green_light_corners_round_5_2.xml" value="0.1525" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_green_right_corners_round.xml" value="0.174" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_profile_corners_round.xml" value="0.14" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_success.xml" value="0.143" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_white_border_black_corners_round.xml" value="0.1435" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_white_border_black_corners_round10.xml" value="0.1435" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_white_border_red_corners_round.xml" value="0.1435" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_white_corners_round.xml" value="0.174" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/background_yellow_borders_round.xml" value="0.143" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/backmain.xml" value="0.174" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/btm_mainback.xml" value="0.168" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/btn_primary.xml" value="0.1525" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/ic_arrow_left.xml" value="0.1435" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/ic_close.xml" value="0.1435" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/ic_exit.xml" value="0.1435" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/ic_info.xml" value="0.183" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/ic_menu.xml" value="0.1915" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/ic_user.xml" value="0.1525" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/ic_user1.xml" value="0.1405" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/ic_user2.xml" value="0.1525" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/drawable/ic_user3.xml" value="0.1525" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/activity_asset_allocation.xml" value="0.25" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/activity_login.xml" value="0.22" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/activity_modify_asset.xml" value="0.25" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/activity_modify_asset2.xml" value="0.25" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/activity_profile.xml" value="0.22" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/activity_search_asset_by_location.xml" value="0.2" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/activity_search_by_barcode.xml" value="0.25" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/activity_search_by_barcode2.xml" value="0.1921875" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/activity_search_by_username_or_national_code.xml" value="0.1921875" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/activity_show_asset_information.xml" value="0.22" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/activity_show_person_list.xml" value="0.19114583333333332" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/activity_show_user_information.xml" value="0.25" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/barcodeview_dr.xml" value="0.1921875" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/custom_scanner_for_scan_qr_activity.xml" value="0.1921875" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/custom_spinner_item.xml" value="0.1921875" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/dialog_barcode.xml" value="0.19114583333333332" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/dialog_confirm_exit.xml" value="0.25" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/dialog_confirm_vision.xml" value="0.1921875" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/dialog_help.xml" value="0.1921875" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/dialog_info.xml" value="0.1921875" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/dialog_list_search_types.xml" value="0.1921875" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/dialog_searchable_list.xml" value="0.25" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/dialog_searchable_spinner.xml" value="0.1921875" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/edit_info_user_layout.xml" value="0.33" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/loading.xml" value="0.1921875" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/row_asset_info.xml" value="0.33" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/row_asset_info2.xml" value="0.1921875" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/row_asset_info_child.xml" value="0.25" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/row_asset_info_expandable.xml" value="0.25" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/row_asset_info_group.xml" value="0.1921875" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/row_person_info.xml" value="0.25" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/row_searchable_spinner.xml" value="0.1921875" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/layout/row_spinner.xml" value="0.1921875" />
+        <entry key="..\:/Projeha/Monicipality/AssetManagement/app/src/main/res/menu/menu_barcode_tag.xml" value="0.1921875" />
+        <entry key="..\:/Projeha/Monicipality/PropertyManagement/app/src/main/res/drawable/backfragment.xml" value="0.1525" />
+        <entry key="..\:/Projeha/Monicipality/PropertyManagement/app/src/main/res/layout/activity_amval_mahal_activity.xml" value="0.1921875" />
+        <entry key="..\:/Projeha/Monicipality/PropertyManagement/app/src/main/res/layout/activity_asset_allocation.xml" value="0.1921875" />
+        <entry key="..\:/Projeha/Monicipality/PropertyManagement/app/src/main/res/layout/activity_barcode_search.xml" value="0.18" />
+        <entry key="..\:/Projeha/Monicipality/PropertyManagement/app/src/main/res/layout/activity_international_code_search.xml" value="0.2" />
+        <entry key="..\:/Projeha/Monicipality/PropertyManagement/app/src/main/res/layout/activity_login.xml" value="0.1921875" />
+        <entry key="..\:/Projeha/Monicipality/PropertyManagement/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Projeha/Monicipality/PropertyManagement/app/src/main/res/layout/activity_modify_asset.xml" value="0.18" />
+        <entry key="..\:/Projeha/Monicipality/PropertyManagement/app/src/main/res/layout/activity_property_allocation.xml" value="0.22" />
+        <entry key="..\:/Projeha/Monicipality/PropertyManagement/app/src/main/res/layout/activity_search_asset_by_location.xml" value="0.1921875" />
+        <entry key="..\:/Projeha/Monicipality/PropertyManagement/app/src/main/res/layout/activity_search_by_barcode.xml" value="0.18923076923076923" />
+        <entry key="..\:/Projeha/Monicipality/PropertyManagement/app/src/main/res/layout/activity_search_by_national_code.xml" value="0.33" />
+        <entry key="..\:/Projeha/Monicipality/PropertyManagement/app/src/main/res/layout/activity_search_by_username_or_national_code.xml" value="0.22" />
+        <entry key="..\:/Projeha/Monicipality/PropertyManagement/app/src/main/res/layout/activity_show_information_user.xml" value="0.2" />
+        <entry key="..\:/Projeha/Monicipality/PropertyManagement/app/src/main/res/layout/activity_show_user_information.xml" value="0.18923076923076923" />
+        <entry key="..\:/Projeha/Monicipality/PropertyManagement/app/src/main/res/layout/barcodeview_dr.xml" value="0.1921875" />
+        <entry key="..\:/Projeha/Monicipality/PropertyManagement/app/src/main/res/layout/edit_info_user_layout.xml" value="0.33" />
+        <entry key="..\:/Projeha/Monicipality/PropertyManagement/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.168" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

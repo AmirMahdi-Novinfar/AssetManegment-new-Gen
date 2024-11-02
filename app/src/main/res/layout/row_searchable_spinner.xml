@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+
+    android:layout_height="50dp">
+
+    <TextView
+        android:id="@+id/tvItem"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="qwedxwede"
+
+
+
+        android:textColor="@color/black"
+        android:fontFamily="@font/iransansweb"
+        android:gravity="center"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvSeparator"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:gravity="center"
+        android:text="@string/dash1"
+        android:textColor="@color/black"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

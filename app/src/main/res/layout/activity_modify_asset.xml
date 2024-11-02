@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gradient">
+
+    <RelativeLayout
+        android:id="@+id/rlFirst"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:paddingTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/iransansweb"
+            android:text="title"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_arrow_left" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/info_user"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rlFirst">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="15dp">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <RelativeLayout
+                        android:id="@+id/rlAssetInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="65dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/background_white_border_black_corners_round10">
+
+                        <TextView
+                            android:id="@+id/tvAssetName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_marginBottom="12dp"
+                            android:layout_toRightOf="@+id/tvBarcodeNumberShow2Header"
+                            android:fontFamily="@font/iransansweb"
+                            android:gravity="right"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tvAssetTag"
+                            android:layout_width="180dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_marginBottom="4dp"
+                            android:fontFamily="@font/iransansweb"
+                            android:gravity="right"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tvBarcodeNumberShow2Header"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginLeft="32dp"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginEnd="2dp"
+                            android:layout_marginBottom="2dp"
+                            android:fontFamily="@font/iransansweb"
+                            android:gravity="center"
+                            android:text="@string/barcode_fa2"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tvBarcode"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginLeft="32dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="2dp"
+                            android:layout_marginBottom="4dp"
+                            android:fontFamily="@font/iransansweb"
+                            android:gravity="center"
+                            android:text="1234329809"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                    </RelativeLayout>
+
+                    <!--                    -&#45;&#45;&#45;&#45;-->
+
+                    <RelativeLayout
+                        android:id="@+id/rlNationalCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_below="@+id/rlAssetInfo">
+
+                        <TextView
+                            android:id="@+id/tvNationalCodeTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="16dp"
+                            android:fontFamily="@font/iransansweb"
+                            android:text="کد ملی"
+                            android:textColor="@color/white"
+                            android:textSize="11sp" />
+
+                        <EditText
+                            android:id="@+id/etNationalCode"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:background="@drawable/background_gray4_light_corners_green_round_2"
+                            android:fontFamily="@font/iransansweb"
+                            android:gravity="right|center_vertical"
+                            android:inputType="number"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tvSectionSeparator0"
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp"
+                        android:layout_below="@+id/rlNationalCode"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                    <RelativeLayout
+                        android:id="@+id/rlCostCenter"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_below="@+id/tvSectionSeparator0">
+
+                        <TextView
+                            android:id="@+id/tvCostCenterTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="16dp"
+                            android:fontFamily="@font/iransansweb"
+                            android:text="مرکز هزینه اصلی"
+                            android:textColor="@color/white"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/tvCostCenter"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:background="@drawable/background_gray4_light_corners_green_round_2"
+                            android:fontFamily="@font/iransansweb"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tvSectionSeparator1"
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp"
+                        android:layout_below="@+id/rlCostCenter"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                    <RelativeLayout
+                        android:id="@+id/rlSubCostCenter"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_below="@+id/tvSectionSeparator1">
+
+                        <TextView
+                            android:id="@+id/tvSubCostCenterTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="16dp"
+                            android:fontFamily="@font/iransansweb"
+                            android:text="مرکز هزینه فرعی"
+                            android:textColor="@color/white"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/tvSubCostCenter"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:background="@drawable/background_gray4_light_corners_green_round_2"
+                            android:fontFamily="@font/iransansweb"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tvSectionSeparator2"
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp"
+                        android:layout_below="@+id/rlSubCostCenter"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                    <RelativeLayout
+                        android:id="@+id/rlLocationList"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_below="@+id/tvSectionSeparator2">
+
+                        <TextView
+                            android:id="@+id/tvLocationListTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="16dp"
+                            android:fontFamily="@font/iransansweb"
+                            android:text="محل استقرار"
+                            android:textColor="@color/white"
+                            android:textSize="11sp" />
+
+                        <RelativeLayout
+                            android:id="@+id/rlLocation"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:background="@drawable/background_gray4_light_corners_green_round_2">
+
+                            <TextView
+                                android:id="@+id/tvLocation"
+                                android:layout_width="match_parent"
+                                android:layout_height="55dp"
+                                android:fontFamily="@font/iransansweb"
+                                android:gravity="right|center_vertical"
+                                android:paddingLeft="8dp"
+                                android:paddingRight="8dp"
+                                android:textColor="@color/black"
+                                android:textSize="12sp" />
+
+                            <ImageView
+                                android:id="@+id/ivDropDownLocation"
+                                android:layout_width="55dp"
+                                android:layout_height="55dp"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:padding="16dp"
+                                android:src="@drawable/ic_down"
+                                android:translationZ="10dp" />
+
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tvSectionSeparator3"
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp"
+                        android:layout_below="@+id/rlLocationList"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                    <RelativeLayout
+                        android:id="@+id/rlPersonList"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_below="@+id/tvSectionSeparator3">
+
+                        <TextView
+                            android:id="@+id/tvPersonListTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="16dp"
+                            android:fontFamily="@font/iransansweb"
+                            android:text="نام تحویل گیرنده"
+                            android:textColor="@color/white"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/tvPerson"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:background="@drawable/background_gray4_light_corners_green_round_2"
+                            android:fontFamily="@font/iransansweb"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tvSectionSeparator4"
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp"
+                        android:layout_below="@+id/rlPersonList"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                    <RelativeLayout
+                        android:id="@+id/rlAssetStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_below="@+id/tvSectionSeparator4">
+
+                        <TextView
+                            android:id="@+id/tvAssetStatusTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="16dp"
+                            android:fontFamily="@font/iransansweb"
+                            android:text="وضعیت کالا"
+                            android:textColor="@color/white"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/tvAssetStatus"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:background="@drawable/background_gray4_light_corners_green_round_2"
+                            android:fontFamily="@font/iransansweb"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tvSectionSeparator5"
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp"
+                        android:layout_below="@+id/rlPersonList"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_below="@+id/rlAssetStatus"
+                        android:gravity="center"
+                        android:layoutDirection="rtl"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/acbRegisterAsset"
+                            android:layout_width="0dp"
+                            android:layout_height="45dp"
+                            android:layout_below="@+id/tvSectionSeparator4"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_weight="5"
+                            android:background="@drawable/background_white_borders_green_corners_round_1"
+                            android:fontFamily="@font/iransansweb"
+                            android:text="@string/registerAsset_fa"
+                            android:textColor="@color/system_green_light"
+                            android:textSize="14dp" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/acbRegisterBarcode"
+                            android:layout_width="0dp"
+                            android:layout_height="45dp"
+                            android:layout_below="@+id/acbRegisterAsset"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="4dp"
+                            android:layout_weight="5"
+                            android:background="@drawable/background_green_light_corners_round_5"
+                            android:fontFamily="@font/iransansweb"
+                            android:text="@string/registerBarcode_fa2"
+                            android:textColor="@color/white"
+                            android:textSize="13dp" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </ScrollView>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/vwLoading"
+        layout="@layout/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:elevation="10dp"
+        android:visibility="gone" />
+
+</RelativeLayout>

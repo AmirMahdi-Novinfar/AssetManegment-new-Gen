@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@android:color/transparent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:padding="12dp"
+            android:src="@drawable/ic_close" />
+
+        <ImageView
+            android:id="@+id/ivicon_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+          android:layout_centerInParent="true"
+            android:padding="12dp"
+            android:src="@drawable/layer_2" />
+
+        <!--<TextView
+            android:id="@+id/tvDeleteTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/iransansweb"
+            android:text="@string/setBarcodeTitle"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />-->
+
+        <EditText
+            android:id="@+id/etBarcode"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/ivicon_scan"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/background_gray_light_corners_round_5"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:fontFamily="@font/iransansweb"
+            android:gravity="center"
+            android:hint="- - - - - - - - -"
+            android:inputType="number"
+            android:maxLength="9"
+            android:maxLines="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acbConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/backscanbarcode"
+            android:fontFamily="@font/iransansweb"
+            android:text="@string/scan"
+            android:layout_below="@+id/etBarcode"
+            android:textColor="@color/app_background1"
+            android:textSize="20sp"
+           />
+
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

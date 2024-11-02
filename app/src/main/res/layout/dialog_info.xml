@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="260dp"
+    android:layout_gravity="center">
+
+    <RelativeLayout
+        android:id="@+id/rlHeader"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:fontFamily="@font/iransansweb"
+            android:text="هشدار"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlBody"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_below="@+id/rlHeader">
+        
+        <ImageView
+            android:id="@+id/ivIcon"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/ic_success"/>
+
+        <TextView
+            android:id="@+id/tvMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivIcon"
+            android:layout_centerHorizontal="true"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:text="ثبت با موفقیت انجام شد"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginRight="12dp"
+            android:layout_marginLeft="12dp"
+            android:fontFamily="@font/iransansweb"
+            android:layout_marginTop="12dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlFooter"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/btnClose"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/iransansweb"
+            android:textSize="16sp"
+            android:background="@drawable/background_success" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

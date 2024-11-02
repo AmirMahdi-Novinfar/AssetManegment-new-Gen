@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlRowGroupRoot"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    android:layout_gravity="center"
+    android:background="@drawable/background_gray4_light_corners_green_round_2">
+
+    <TextView
+        android:id="@+id/tvAssetName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:fontFamily="@font/iransansweb"
+        android:textColor="@color/system_green_light"
+        android:textSize="14sp"
+        android:layout_marginRight="16dp"/>
+
+    <ImageView
+        android:id="@+id/ivDropDownAsset"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:padding="12dp"
+        android:translationZ="10dp"
+        android:src="@drawable/ic_down"/>
+
+</RelativeLayout>

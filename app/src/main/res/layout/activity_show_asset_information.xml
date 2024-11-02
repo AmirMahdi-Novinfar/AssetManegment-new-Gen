@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gradient">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true">
+
+        <TextView
+            android:id="@+id/tvProductName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="17dp"
+            android:drawableRight="@drawable/ic_user5"
+            android:fontFamily="@font/iransansweb"
+            android:gravity="center"
+            android:textColor="#9C9C9C"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="17dp"
+            android:fontFamily="@font/iransansweb"
+            android:gravity="center"
+            android:textAlignment="0"
+            android:textColor="#9C9C9C"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvAssetTypeName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvProductName"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="17dp"
+            android:fontFamily="@font/iransansweb"
+            android:gravity="center"
+            android:text=""
+            android:textAlignment="0"
+            android:textColor="#9C9C9C"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvProductName"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="17dp"
+            android:fontFamily="@font/iransansweb"
+            android:gravity="center"
+            android:text=""
+            android:textAlignment="0"
+            android:textColor="#9C9C9C"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvAssetListTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/iransansweb"
+            android:text="@string/assetList"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_arrow_left" />
+
+<!--        <ImageView-->
+<!--            android:id="@+id/ivInfo"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentRight="true"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:layout_marginBottom="16dp"-->
+<!--            android:src="@drawable/ic_info" />-->
+
+        <RelativeLayout
+            android:id="@+id/rlSearch"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/tvAssetListTitle"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/background_white_borders_green_corners_round_1">
+
+
+            <EditText
+                android:id="@+id/acetSearchText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="2dp"
+                android:hint="جست و جوی اموال"
+                android:layout_marginEnd="2dp"
+                android:fontFamily="@font/iransansweb"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@null"
+                android:focusable="true"
+                android:gravity="right|center_vertical"
+                android:paddingRight="8dp"
+                android:textColorHint="@color/gray_btn_bg_color"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/ivSearch"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="4dp"
+                android:padding="8dp"
+                android:src="@drawable/ic_search"
+                android:translationZ="10dp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvItem1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rlSearch"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:fontFamily="@font/iransansweb"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvItem2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvItem1"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
+            android:fontFamily="@font/iransansweb"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvRecordCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rlSearch"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:fontFamily="@font/iransansweb"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <!--        <ExpandableListView-->
+        <!--            android:id="@+id/elvAssetInformation"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_below="@id/tvRecordCount"-->
+        <!--            android:layout_marginLeft="16dp"-->
+        <!--            android:layout_marginTop="4dp"-->
+        <!--            android:layout_marginRight="16dp"-->
+        <!--            android:childDivider="@color/white"-->
+        <!--            android:divider="@color/white"-->
+        <!--            android:dividerHeight="12dp"-->
+        <!--            android:groupIndicator="@null" />-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAssetInformation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tvItem2"
+            android:layout_marginLeft="16dp"
+
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="16dp"
+            android:childDivider="@color/white"
+            android:divider="@color/white"
+            android:dividerHeight="12dp" />
+
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/vwLoading"
+        layout="@layout/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:elevation="10dp"
+        android:visibility="gone" />
+
+</RelativeLayout>

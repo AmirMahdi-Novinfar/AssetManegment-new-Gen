@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlAssetInfoExpandableRowRoot"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#00000000"
+    android:layout_marginBottom="8dp">
+
+    <RelativeLayout
+        android:id="@+id/rlRowGroupRoot"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_gravity="center"
+        android:background="@drawable/background_white_border_black_corners_round10">
+
+        <TextView
+            android:id="@+id/assetNumber"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:text="1"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:background="@drawable/back_row_assert"/>
+
+        <TextView
+            android:id="@+id/tvAssetName"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_centerInParent="true"
+            android:layout_toStartOf="@+id/assetNumber"
+            android:fontFamily="@font/iransansweb"
+            android:gravity="right"
+            android:textStyle="bold"
+
+            android:textColor="@color/black"
+            android:textSize="13sp"/>
+
+        <RelativeLayout
+            android:id="@+id/rlBarcode"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="6dp">
+
+            <TextView
+                android:id="@+id/tvBarcodeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/iransansweb"
+                android:text="@string/barcode_fa2"
+                android:gravity="center"
+                android:padding="4dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvBarcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_below="@+id/tvBarcodeTitle"
+                android:fontFamily="@font/iransansweb"
+                android:textColor="@color/black"
+                android:layout_marginTop="-5dp"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/ivDropDownAsset"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:padding="6dp"
+                android:src="@drawable/ic_down"
+                android:translationZ="10dp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlRowChildRoot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlRowGroupRoot"
+        android:layout_marginTop="8dp"
+        android:background="#00070707"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/rlContainer"
+            android:layout_width="match_parent"
+            android:layout_height="410dp"
+            android:background="@drawable/background_white_border_black_corners_round">
+
+            <RelativeLayout
+                android:id="@+id/rlRow1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="true">
+
+                <TextView
+                    android:id="@+id/tvItem1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="16dp"
+                    android:fontFamily="@font/iransansweb"
+                    android:textSize="14sp" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:text="@string/dash1"
+                    android:textColor="#A6848484" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlRow2"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@+id/rlRow1">
+
+                <TextView
+                    android:id="@+id/tvItem2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="16dp"
+                    android:fontFamily="@font/iransansweb"
+                    android:textSize="14sp" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:text="@string/dash1"
+                    android:textColor="#A6848484" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlRow3"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/rlRow2">
+
+                <TextView
+                    android:id="@+id/tvItem3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="16dp"
+                    android:fontFamily="@font/iransansweb"
+                    android:textSize="14sp" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:text="@string/dash1"
+                    android:textColor="#A6848484" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlRow4"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/rlRow3">
+
+                <TextView
+                    android:id="@+id/tvItem4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:fontFamily="@font/iransansweb"
+                    android:textSize="14sp" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:text="@string/dash1"
+                    android:textColor="#A6848484" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlRow5"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/rlRow4">
+
+                <TextView
+                    android:id="@+id/tvItem5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:layout_toRightOf="@+id/vwSeparatorRow4"
+                    android:fontFamily="@font/iransansweb"
+                    android:textSize="14sp" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:text="@string/dash1"
+                    android:textColor="#A6848484" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlRow6"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/rlRow5">
+
+                <TextView
+                    android:id="@+id/tvItem7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:fontFamily="@font/iransansweb"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:text="@string/dash1"
+                    android:textColor="#A6848484" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlRow7"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/rlRow6">
+
+                <TextView
+                    android:id="@+id/tvItem9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:layout_toRightOf="@+id/vwSeparatorRow6"
+                    android:fontFamily="@font/iransansweb"
+                    android:textSize="13sp" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:text="@string/dash1"
+                    android:textColor="#A6848484" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlRow8"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/rlRow7">
+
+                <TextView
+                    android:id="@+id/tvItem11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:layout_toRightOf="@+id/vwSeparatorRow7"
+                    android:fontFamily="@font/iransansweb"
+                    android:gravity="right|center_vertical"
+                    android:textSize="14sp" />
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlRow11"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_below="@+id/rlContainer">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layoutDirection="rtl"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <Button
+                    android:id="@+id/btnAssetEdit"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+
+                    android:layout_weight="5"
+                    android:background="@drawable/background_white_borders_green_corners_round_1"
+                    android:fontFamily="@font/iransansweb"
+                    android:text="ویرایش"
+                    android:textColor="#089DA7"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btnSetBarcode"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+
+                    android:layout_weight="5"
+                    android:background="@drawable/setbarcode_back"
+                    android:fontFamily="@font/iransansweb"
+                    android:text="@string/registerBarcode_fa2"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

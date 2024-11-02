@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="480dp"
+    android:layout_margin="8dp">
+
+    <View
+        android:id="@+id/vwCenterLine"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true" />
+
+    <TextView
+        android:id="@+id/tvRowNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/background_circle"
+        android:fontFamily="@font/iransansweb"
+        android:gravity="center"
+        android:paddingTop="4dp"
+        android:text="1"
+        android:textColor="@color/green" />
+
+    <TextView
+        android:id="@+id/tvItem1"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvRowNumber"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_toRightOf="@+id/vwCenterLine"
+        android:background="@color/row_background3"
+        android:fontFamily="@font/iransansweb"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvItem2"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvRowNumber"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_toLeftOf="@+id/vwCenterLine"
+        android:background="@color/row_background3"
+        android:fontFamily="@font/iransansweb"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+
+    <TextView
+        android:id="@+id/tvItem3"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvItem1"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="8dp"
+        android:layout_toRightOf="@+id/vwCenterLine"
+        android:fontFamily="@font/iransansweb"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvItem4"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvItem2"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="8dp"
+        android:layout_toLeftOf="@+id/vwCenterLine"
+        android:fontFamily="@font/iransansweb"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvItem5"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvItem3"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="8dp"
+        android:layout_toRightOf="@+id/vwCenterLine"
+        android:background="@color/row_background3"
+        android:fontFamily="@font/iransansweb"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvItem6"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvItem4"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="8dp"
+        android:layout_toLeftOf="@+id/vwCenterLine"
+        android:background="@color/row_background3"
+        android:fontFamily="@font/iransansweb"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvItem7"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvItem5"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="8dp"
+        android:layout_toRightOf="@+id/vwCenterLine"
+        android:fontFamily="@font/iransansweb"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvItem8"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvItem6"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="8dp"
+        android:layout_toLeftOf="@+id/vwCenterLine"
+        android:fontFamily="@font/iransansweb"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvItem9"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvItem7"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="8dp"
+        android:layout_toRightOf="@+id/vwCenterLine"
+        android:background="@color/row_background3"
+        android:fontFamily="@font/iransansweb"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvItem10"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvItem8"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="8dp"
+        android:layout_toLeftOf="@+id/vwCenterLine"
+        android:background="@color/row_background3"
+        android:fontFamily="@font/iransansweb"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvItem11"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvItem9"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="8dp"
+        android:layout_toRightOf="@+id/vwCenterLine"
+        android:fontFamily="@font/iransansweb"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvItem12"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvItem10"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="8dp"
+        android:layout_toLeftOf="@+id/vwCenterLine"
+        android:fontFamily="@font/iransansweb"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvItem13"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvItem11"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="8dp"
+        android:layout_toRightOf="@+id/vwCenterLine"
+        android:background="@color/row_background3"
+        android:fontFamily="@font/iransansweb"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvItem14"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvItem12"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="8dp"
+        android:layout_toLeftOf="@+id/vwCenterLine"
+        android:background="@color/row_background3"
+        android:fontFamily="@font/iransansweb"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvItem15"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvItem13"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="8dp"
+        android:layout_toRightOf="@+id/vwCenterLine"
+        android:fontFamily="@font/iransansweb"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvItem16"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvItem14"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="8dp"
+        android:layout_toLeftOf="@+id/vwCenterLine"
+        android:fontFamily="@font/iransansweb"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvItem17"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvItem15"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="8dp"
+        android:layout_toRightOf="@+id/vwCenterLine"
+        android:background="@color/row_background3"
+        android:fontFamily="@font/iransansweb"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvItem18"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvItem16"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="8dp"
+        android:layout_toLeftOf="@+id/vwCenterLine"
+        android:background="@color/row_background3"
+        android:fontFamily="@font/iransansweb"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        android:layoutDirection="rtl">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAssetEdit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:layout_margin="8dp"
+            android:background="@drawable/background_border_green"
+            android:fontFamily="@font/iransansweb"
+            android:text="ویرایش"
+            android:textColor="@color/green" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSetBarcode"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:layout_weight="5"
+            android:background="@drawable/background_border_blue"
+            android:fontFamily="@font/iransansweb"
+            android:text="@string/registerBarcode_fa2"
+            android:textColor="@color/blue" />
+
+    </LinearLayout>
+
+</RelativeLayout>

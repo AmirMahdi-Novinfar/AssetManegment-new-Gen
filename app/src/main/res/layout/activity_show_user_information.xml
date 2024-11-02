@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background1">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/backfragment">
+
+        <TextView
+            android:id="@+id/tvProductName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="17dp"
+            android:drawableRight="@drawable/ic_user5"
+            android:fontFamily="@font/iransansweb"
+            android:gravity="center"
+            android:textColor="#9C9C9C"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="17dp"
+            android:drawableRight="@drawable/ic_mahal_esteghrar2"
+            android:fontFamily="@font/iransansweb"
+            android:gravity="center"
+            android:textAlignment="0"
+            android:textColor="#9C9C9C"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvAssetTypeName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvProductName"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="17dp"
+            android:drawableRight="@drawable/nationalcode"
+            android:fontFamily="@font/iransansweb"
+            android:gravity="center"
+            android:text=""
+            android:textAlignment="0"
+            android:textColor="#9C9C9C"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvProductName"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="17dp"
+            android:fontFamily="@font/iransansweb"
+            android:gravity="center"
+            android:text=""
+            android:textAlignment="0"
+            android:textColor="#9C9C9C"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/regionCodeTitle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="8dp"
+            android:background="#17673D"
+            android:fontFamily="@font/iransansweb"
+            android:gravity="center"
+            android:text="لیست اموال"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvRegionInfo"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/regionCodeTitle"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginRight="8dp"
+            android:background="#17673D"
+            android:fontFamily="@font/iransansweb"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvUserInformation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/rlRecordCount"
+            android:layout_below="@+id/tvRegionInfo" />
+
+        <RelativeLayout
+            android:id="@+id/rlRecordCount"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/tvRecordCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="24dp"
+                android:fontFamily="@font/iransansweb"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+
+        <!--        <Button-->
+        <!--            android:layout_width="250dp"-->
+        <!--            android:layout_height="40dp"-->
+        <!--            android:layout_below="@+id/info_user"-->
+        <!--            android:layout_centerHorizontal="true"-->
+        <!--            android:fontFamily="@font/iransansweb"-->
+        <!--            android:id="@+id/estelam_daraiie_user"-->
+        <!--            android:text="نمایش اموال و دارایی"-->
+        <!--            android:layout_marginTop="5dp"-->
+        <!--            android:textSize="12dp"-->
+        <!--            android:backgroundTint="#045E08"-->
+        <!--            ></Button>-->
+        <!--        <Button-->
+        <!--            android:layout_width="250dp"-->
+        <!--            android:layout_height="40dp"-->
+        <!--            android:layout_below="@+id/estelam_daraiie_user"-->
+        <!--            android:layout_centerHorizontal="true"-->
+        <!--            android:fontFamily="@font/iransansweb"-->
+        <!--            android:text="بازگشت"-->
+        <!--            android:textSize="12dp"-->
+        <!--            android:backgroundTint="#6F706F"-->
+        <!--            ></Button>-->
+
+    </RelativeLayout>
+
+    <!--    <RelativeLayout-->
+    <!--        android:id="@+id/rlLoadingGifContainer"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_centerInParent="true"-->
+    <!--        android:visibility="gone">-->
+
+    <!--        <pl.droidsonroids.gif.GifImageView-->
+    <!--            android:id="@+id/loading_gif"-->
+    <!--            android:layout_width="130dp"-->
+    <!--            android:layout_height="130dp"-->
+    <!--            android:layout_centerInParent="true"-->
+    <!--            android:src="@drawable/gif3"-->
+    <!--            android:visibility="visible" />-->
+    <!--    </RelativeLayout>-->
+
+    <include
+        android:id="@+id/vwLoading"
+        layout="@layout/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:elevation="10dp"
+        android:visibility="gone" />
+
+</RelativeLayout>

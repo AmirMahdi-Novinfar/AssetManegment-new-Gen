@@ -1,0 +1,13 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@android:color/transparent" /> <!-- Transparent center -->
+            <stroke
+                android:width="2dp"
+                android:color="#17673D" /> <!-- Green border with 2dp width -->
+            <size
+                android:width="30dp"
+                android:height="30dp" /> <!-- Adjust dimensions as needed -->
+        </shape>
+    </item>
+</layer-list>

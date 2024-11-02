@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gradient">
+
+    <include
+        android:id="@+id/vwLoading"
+        layout="@layout/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:elevation="10dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        android:fontFamily="@font/iransansweb"
+        android:text="@string/assetAllocation_fa"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/ivBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_arrow_left" />
+
+    <TextView
+        android:id="@+id/tvEnterBarcodeFa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTitle"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:fontFamily="@font/iransansweb"
+        android:text="@string/barcode"
+        android:textColor="@color/white" />
+
+    <EditText
+        android:id="@+id/etAssetBarcode"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_below="@+id/tvEnterBarcodeFa"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/background_gray4_light_corners_green_round_2"
+        android:drawableLeft="@drawable/barcode3"
+        android:fontFamily="@font/iransansweb"
+        android:gravity="center_vertical|right"
+        android:hint="@string/scan"
+        android:inputType="number"
+        android:layoutDirection="rtl"
+        android:maxLength="9"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp" />
+
+    <TextView
+        android:id="@+id/tvMainBranchFa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etAssetBarcode"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:fontFamily="@font/iransansweb"
+        android:text="@string/mainBranch_fa"
+        android:textColor="@color/white" />
+
+    <RelativeLayout
+        android:id="@+id/rlChooseMainBranch"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_below="@+id/tvMainBranchFa"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/background_gray4_light_corners_green_round_2">
+
+        <TextView
+            android:id="@+id/tvChooseMainBranch"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/ivDropDownMainBranch"
+            android:fontFamily="@font/iransansweb"
+            android:gravity="center_vertical|right"
+            android:layoutDirection="rtl"
+            android:paddingRight="16dp"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/ivDropDownMainBranch"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:padding="12dp"
+            android:src="@drawable/ic_down"
+            android:translationZ="10dp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvAssetName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlChooseMainBranch"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:fontFamily="@font/iransansweb"
+        android:text="@string/assetName_fa"
+        android:textColor="@color/white" />
+
+    <RelativeLayout
+        android:id="@+id/rlChooseAssetName"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_below="@+id/tvAssetName"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/background_gray4_light_corners_green_round_2">
+
+        <TextView
+            android:id="@+id/tvChooseAssetName"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/ivDropDownAssetName"
+            android:fontFamily="@font/iransansweb"
+            android:gravity="center_vertical|right"
+            android:layoutDirection="rtl"
+            android:paddingRight="16dp"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/ivDropDownAssetName"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:padding="12dp"
+            android:src="@drawable/ic_down"
+            android:translationZ="10dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlAssetType"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_below="@+id/rlChooseAssetName"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp">
+
+        <RadioGroup
+            android:id="@+id/rgProductType"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layoutDirection="rtl"
+            android:orientation="horizontal">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/mrbNew"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:button="@drawable/ic_selected"
+                android:checked="true"
+                android:fontFamily="@font/iransansweb"
+                android:paddingRight="8dp"
+                android:text="@string/new_fa"
+                android:textColor="@color/white" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/mrbScratch"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:button="@drawable/ic_unselected"
+                android:fontFamily="@font/iransansweb"
+                android:paddingRight="8dp"
+                android:text="@string/scratched_fa"
+                android:textColor="@color/white" />
+        </RadioGroup>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btnAddAsset"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_below="@+id/rlAssetType"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/background_gradient_right_with_border"
+        android:fontFamily="@font/iransansweb"
+        android:text="@string/registerProducts_fa"
+        android:textColor="@color/white"
+        android:textSize="14dp" />
+
+</RelativeLayout>

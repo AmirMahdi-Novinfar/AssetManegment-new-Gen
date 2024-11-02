@@ -1,0 +1,194 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.tehranmunicipality.assetmanagement"
+        minSdk 21
+        targetSdk 33
+        versionCode 2
+        versionName "2.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    def kotlin_version = "1.6.10"
+    def compose_version = "1.2.0-alpha03"
+    def hilt_version = "2.40.5"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.android.support:multidex:1.0.3'
+
+    //material
+    implementation 'com.google.android.material:material:1.6.1'
+
+    //cardView
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    //drawerLayout
+    implementation "androidx.drawerlayout:drawerlayout:1.1.1"
+
+    //ktx
+    implementation "androidx.core:core-ktx:1.9.0"
+    def activity_version = "1.5.1"
+    def fragment_version = "1.5.1"
+    implementation "androidx.activity:activity-ktx:$activity_version"
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.1'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
+
+    def lifecycle_version = "2.5.1"
+    //implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+
+    def roomVersion = "2.4.2"
+    implementation "androidx.room:room-runtime:$roomVersion"
+    //Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+
+    //zxing barcode scanner
+    //implementation project(path: ':zxing-android-embedded')
+
+    def appCompatVersion = '1.4.1'
+    implementation "androidx.appcompat:appcompat:$appCompatVersion"
+    def cardViewVersion = '1.0.0'
+    implementation "androidx.cardview:cardview:$cardViewVersion"
+    def recyclerViewVersion = '1.2.1'
+    implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
+
+    //Retrofit
+    def retrofitVersion = '2.9.0'
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    implementation 'com.google.code.gson:gson:2.8.9'
+    def loggingInterceptorVersion = '4.9.3'
+    implementation "com.squareup.okhttp3:logging-interceptor:$loggingInterceptorVersion"
+
+    //viewbinding
+    implementation 'com.android.databinding:viewbinding:7.2.1'
+
+    // Coroutines
+    def coroutineVersion = '1.5.2'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
+
+    // Coroutine Lifecycle Scopes
+    def coroutineLifecycleScopeVersion = '2.4.0'
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$coroutineLifecycleScopeVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.0-alpha01'
+
+    //gson
+    def gsonVersion = '2.8.9'
+    implementation "com.google.code.gson:gson:$gsonVersion"
+
+    implementation 'com.airbnb.android:lottie:6.5.2'
+
+
+    //jsoup
+    def jsoupVersion = '1.14.3'
+    implementation "org.jsoup:jsoup:$jsoupVersion"
+
+    //scalars
+    def scalarsVersion = '2.6.2'
+    implementation "com.squareup.retrofit2:converter-scalars:$scalarsVersion"
+
+    //new component replace lifecycle to this
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+
+    // Glide
+//    def glideVersion = '4.12.0'
+//    implementation "com.github.bumptech.glide:glide:$glideVersion"
+//    kapt "com.github.bumptech.glide:compiler:$glideVersion"
+
+    // Dagger Hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    //implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
+    kapt "androidx.hilt:hilt-compiler:1.0.0"
+
+    // google mobile vision
+    implementation 'com.google.android.gms:play-services-vision:20.1.3'
+
+    implementation "androidx.window:window:1.0.0-beta02"
+
+    //apache commons net
+    implementation 'commons-net:commons-net:3.8.0'
+    implementation 'commons-io:commons-io:2.4'
+    implementation 'commons-codec:commons-codec:1.10'
+    implementation 'org.apache.commons:commons-lang3:3.0'
+    implementation 'org.apache.commons:commons-collections4:4.0'
+
+    //persianDate
+    implementation 'com.github.samanzamani:PersianDate:1.6.1'
+
+    implementation 'commons-io:commons-io:2.4'
+    implementation 'commons-codec:commons-codec:1.10'
+    implementation 'org.apache.commons:commons-lang3:3.0'
+    implementation 'org.apache.commons:commons-collections4:4.0'
+    implementation 'commons-net:commons-net:3.6'
+
+    //from base version
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.23'
+    implementation 'com.github.MdFarhanRaja:SearchableSpinner:2.0'
+   // implementation 'com.toptoche.searchablespinner:searchablespinnerlibrary:1.3.1'
+    implementation 'com.auth0.android:jwtdecode:2.0.1'
+    implementation 'com.github.andreseko:sweet-alert-dialog:1.0.6'
+
+    //jwt
+    implementation 'com.auth0.android:jwtdecode:2.0.1'
+
+    //sweet alert dialog
+    implementation 'com.github.andreseko:sweet-alert-dialog:1.0.6'
+
+    //persianDate Dialog
+    implementation 'com.github.aliab:Persian-Date-Picker-Dialog:1.8.0'
+
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
+kapt {
+    correctErrorTypes true
+}

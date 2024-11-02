@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gradient">
+
+    <RelativeLayout
+        android:id="@+id/rlSecond"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="60dp"
+            android:fontFamily="@font/iransansweb"
+            android:gravity="center"
+            android:text="@string/inquiryAssetByLocation_fa"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_arrow_left" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/rlChooseSearchMode"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="6dp"
+            android:fontFamily="@font/iransansweb"
+            android:text="@string/asset_location"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <RelativeLayout
+            android:id="@+id/rlChooseSearchMode"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/tvTitle"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/background_gray4_light_corners_green_round_2">
+
+            <TextView
+                android:id="@+id/tvLocationList"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/ivDropDownLocation"
+                android:fontFamily="@font/iransansweb"
+                android:gravity="center_vertical|right"
+                android:hint="@string/enter_asset_location"
+                android:layoutDirection="rtl"
+                android:paddingRight="16dp"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/ivDropDownLocation"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:padding="12dp"
+                android:src="@drawable/ic_down"
+                android:translationZ="10dp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvInputTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rlChooseSearchMode"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/iransansweb"
+            android:gravity="center"
+            android:text=""
+            android:textAlignment="0"
+            android:textColor="#9C9C9C"
+            android:textSize="13sp" />
+
+
+        <EditText
+            android:id="@+id/etUsernameOrNationalCode"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/tvInputTitle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/background_gray4_light_corners_round_2"
+            android:fontFamily="@font/iransansweb"
+            android:gravity="right|center_vertical"
+            android:imeOptions="actionDone"
+            android:maxLength="25"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="24dp"
+            android:paddingBottom="10dp"
+            android:textColorHint="@color/hint_color"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnInquiry"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/background_gradient_right_with_border"
+            android:fontFamily="@font/iransansweb"
+            android:text="@string/inquiry_fa"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/vwLoading"
+        layout="@layout/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:elevation="10dp"
+        android:visibility="gone" />
+
+</RelativeLayout>
+
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+    <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="match_parent"-->
+    <!--    android:background="@color/app_background1">-->
+
+    <!--    <RelativeLayout-->
+    <!--        android:id="@+id/rlFirst"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content">-->
+
+    <!--        <ImageView-->
+    <!--            android:id="@+id/logo_shahrdari"-->
+    <!--            android:layout_width="90dp"-->
+    <!--            android:layout_height="90dp"-->
+    <!--            android:layout_centerHorizontal="true"-->
+    <!--            android:layout_marginTop="10dp" />-->
+
+    <!--        <TextView-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_below="@id/logo_shahrdari"-->
+    <!--            android:layout_centerHorizontal="true"-->
+    <!--            android:layout_marginTop="5dp"-->
+    <!--            android:layout_marginBottom="10dp"-->
+    <!--            android:fontFamily="@font/iransansweb"-->
+    <!--            android:gravity="center"-->
+    <!--            android:text="@string/appName_fa"-->
+    <!--            android:textAlignment="0"-->
+    <!--            android:textColor="#045E08"-->
+    <!--            android:textSize="20sp" />-->
+    <!--    </RelativeLayout>-->
+
+
+    <!--    <RelativeLayout-->
+    <!--        android:id="@+id/rlSecond"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_below="@+id/rlFirst">-->
+
+    <!--        <RelativeLayout-->
+    <!--            android:id="@+id/showvis_id"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content">-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/tvPitchName"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_alignParentRight="true"-->
+    <!--                android:layout_marginTop="30dp"-->
+    <!--                android:layout_marginRight="27dp"-->
+    <!--                android:fontFamily="@font/iransansweb"-->
+    <!--                android:gravity="center"-->
+    <!--                android:text="@string/pitchName_fa"-->
+    <!--                android:textAlignment="0"-->
+    <!--                android:textColor="#9C9C9C"-->
+    <!--                android:textSize="18sp" />-->
+
+    <!--            <RelativeLayout-->
+    <!--                android:id="@+id/rlSpinnerAssetId"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_below="@+id/tvPitchName"-->
+    <!--                android:layout_marginLeft="40dp"-->
+    <!--                android:layout_marginTop="20dp"-->
+    <!--                android:layout_marginRight="40dp">-->
+
+    <!--                <com.toptoche.searchablespinnerlibrary.SearchableSpinner-->
+    <!--                    android:id="@+id/ssModifyAssetLocationName"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="50dp"-->
+    <!--                    android:fontFamily="@font/iransansweb"-->
+    <!--                    android:layoutDirection="rtl"-->
+    <!--                    android:visibility="gone"-->
+    <!--                    android:theme="@style/SpinnerTheme" />-->
+
+    <!--                <EditText-->
+    <!--                    android:id="@+id/etAssetLocationName"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="50dp"-->
+    <!--                    android:background="@color/white"-->
+    <!--                    android:textColor="@color/black"-->
+    <!--                    android:gravity="center"-->
+    <!--                    android:textSize="14sp"-->
+    <!--                    android:hint="@string/enter_asset_location"-->
+    <!--                    android:fontFamily="@font/iransansweb"/>-->
+
+    <!--            </RelativeLayout>-->
+
+    <!--            <Button-->
+    <!--                android:id="@+id/btnInquiry"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="60dp"-->
+    <!--                android:layout_below="@+id/rlSpinnerAssetId"-->
+    <!--                android:layout_centerHorizontal="true"-->
+    <!--                android:layout_marginLeft="40dp"-->
+    <!--                android:layout_marginTop="10dp"-->
+    <!--                android:layout_marginRight="40dp"-->
+    <!--                android:backgroundTint="#17673D"-->
+    <!--                android:fontFamily="@font/iransansweb"-->
+    <!--                android:text="@string/inquiry_fa"-->
+    <!--                android:textColor="@color/white"-->
+    <!--                android:textSize="20dp" />-->
+
+    <!--        </RelativeLayout>-->
+
+    <!--    </RelativeLayout>-->
+
+    <!--    <include-->
+    <!--        android:id="@+id/vwLoading"-->
+    <!--        layout="@layout/loading"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_alignParentTop="true"-->
+    <!--        android:elevation="10dp"-->
+    <!--        android:visibility="gone" />-->
+
+    <!--</RelativeLayout>-->
