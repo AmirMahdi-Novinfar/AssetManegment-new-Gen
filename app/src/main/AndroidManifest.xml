@@ -9,83 +9,66 @@
     <application
         android:name=".AssetManagementApplication"
         android:allowBackup="true"
+        android:fitsSystemWindows="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/appName_fa"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:windowSoftInputMode="adjustResize"
         android:supportsRtl="true"
-        android:fitsSystemWindows="true"
         android:theme="@style/Theme.assetManagement"
+        android:windowSoftInputMode="adjustResize"
         tools:replace="android:label"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ui.asset_information.testactivity_tag"
+            android:exported="false" />
+        <activity
+            android:name=".ui.user_information.HelpActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.login.ActivityLogin"
             android:exported="true"
-            android:noHistory="true"
-
-            >
-
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
-        <activity android:name=".ui.main.ActivityMain" android:windowSoftInputMode="adjustResize"
-            android:fitsSystemWindows="true"
+        <activity
+            android:name=".ui.main.ActivityMain"
             android:exported="true"
-            />
-
-
+            android:fitsSystemWindows="true"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.asset_allocation.ActivityAssetAllocation"
-            android:noHistory="true"
-            android:windowSoftInputMode="adjustResize"
             android:fitsSystemWindows="true"
-            />
-
-
+            android:noHistory="true"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.asset.ActivityModifyAsset"
-            android:windowSoftInputMode="adjustResize"
             android:fitsSystemWindows="true"
-            />
-
-
-
-        <activity android:name=".ui.search.barcode.ActivitySearchByBarcode" android:fitsSystemWindows="true"
-            android:windowSoftInputMode="adjustResize"
-            />
-
-        <activity android:name=".ui.search.location.ActivitySearchByAssetLocation"
-            />
-
-        <activity android:name=".ui.search.username_or_national_code.ActivitySearchByUsernameOrNationalCode" android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.search.barcode.ActivitySearchByBarcode"
             android:fitsSystemWindows="true"
-            />
-
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.search.location.ActivitySearchByAssetLocation" />
+        <activity
+            android:name=".ui.search.username_or_national_code.ActivitySearchByUsernameOrNationalCode"
+            android:fitsSystemWindows="true"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.asset_information.ActivityShowAssetInformation"
-            android:windowSoftInputMode="adjustResize"
             android:fitsSystemWindows="true"
-            />
-
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.profile.ActivityProfile"
-            android:windowSoftInputMode="adjustResize"
             android:fitsSystemWindows="true"
-            />
-
-
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.person_list.ActivityPersonList"
-            android:windowSoftInputMode="adjustResize"
             android:fitsSystemWindows="true"
-            />
-
-
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

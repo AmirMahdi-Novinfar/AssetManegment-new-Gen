@@ -27,7 +27,7 @@
 
         <TextView
             android:id="@+id/tvAssetName"
-            android:layout_width="250dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:layout_centerInParent="true"
@@ -35,19 +35,22 @@
             android:fontFamily="@font/iransansweb"
             android:gravity="right"
             android:textStyle="bold"
-
             android:textColor="@color/black"
-            android:textSize="13sp"/>
+            android:textSize="11sp"
+            android:ellipsize="none"
+            android:singleLine="false"
+            android:maxLines="2"
+            android:scrollHorizontally="false" />
 
         <RelativeLayout
             android:id="@+id/rlBarcode"
-            android:layout_width="120dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="6dp"
-            android:layout_marginBottom="6dp">
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp">
 
             <TextView
                 android:id="@+id/tvBarcodeTitle"
@@ -62,7 +65,7 @@ android:layout_alignParentTop="true"
                 android:padding="4dp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/tvBarcode"
@@ -73,12 +76,12 @@ android:layout_alignParentTop="true"
                 android:fontFamily="@font/iransansweb"
                 android:textColor="@color/black"
                 android:layout_marginTop="-5dp"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
 
             <ImageView
                 android:id="@+id/ivDropDownAsset"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:padding="6dp"
@@ -228,7 +231,6 @@ android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
-                    android:layout_toRightOf="@+id/vwSeparatorRow4"
                     android:fontFamily="@font/iransansweb"
                     android:textSize="14sp" />
 
@@ -282,7 +284,6 @@ android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
-                    android:layout_toRightOf="@+id/vwSeparatorRow6"
                     android:fontFamily="@font/iransansweb"
                     android:textSize="13sp" />
 
@@ -310,7 +311,6 @@ android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
-                    android:layout_toRightOf="@+id/vwSeparatorRow7"
                     android:fontFamily="@font/iransansweb"
                     android:gravity="right|center_vertical"
                     android:textSize="14sp" />
@@ -320,48 +320,54 @@ android:layout_alignParentTop="true"
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/rlRow11"
+
+        <Button
+            android:id="@+id/btnSetBarcode"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_below="@+id/rlContainer">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rlContainer"
+            android:background="@drawable/setbarcode_back"
+            android:fontFamily="@font/iransansweb"
+            android:text="@string/registerBarcode_fa2"
+            android:layout_marginTop="15px"
+            android:layout_marginBottom="15px"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
-                android:layoutDirection="rtl"
-                android:orientation="horizontal"
-                android:weightSum="10">
 
-                <Button
-                    android:id="@+id/btnAssetEdit"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+        <Button
+            android:id="@+id/btnAssetEdit"
+            android:layout_width="200dp"
 
-                    android:layout_weight="5"
-                    android:background="@drawable/background_white_borders_green_corners_round_1"
-                    android:fontFamily="@font/iransansweb"
-                    android:text="ویرایش"
-                    android:textColor="#089DA7"
-                    android:textSize="16sp" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnSetBarcode"
+            android:layout_alignParentRight="true"
 
-                <Button
-                    android:id="@+id/btnSetBarcode"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_toEndOf="@+id/btnAddAssetTag"
+            android:background="@drawable/background_white_borders_green_corners_round_1"
+            android:fontFamily="@font/iransansweb"
+            android:text="ویرایش"
+            android:textColor="#089DA7"
+            android:textSize="14sp" />
 
-                    android:layout_weight="5"
-                    android:background="@drawable/setbarcode_back"
-                    android:fontFamily="@font/iransansweb"
-                    android:text="@string/registerBarcode_fa2"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
 
-            </LinearLayout>
+        <Button
+            android:id="@+id/btnAddAssetTag"
+            android:layout_width="200dp"
 
-        </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnSetBarcode"
+            android:background="@drawable/backscanbarcode"
+            android:fontFamily="@font/iransansweb"
+            android:text="ثبت برچسب"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
+
+
 
     </RelativeLayout>
+
 
 </RelativeLayout>

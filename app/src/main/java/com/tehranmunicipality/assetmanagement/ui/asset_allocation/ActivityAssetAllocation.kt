@@ -33,8 +33,7 @@ class ActivityAssetAllocation : BaseActivity(), View.OnClickListener,
     private lateinit var rlChooseAssetName: RelativeLayout
     private lateinit var tvChooseMainBranch: TextView
     private lateinit var tvChooseAssetName: TextView
-    private lateinit var mrbNew: MaterialRadioButton
-    private lateinit var mrbScratch: MaterialRadioButton
+
     private lateinit var btnAddAsset: Button
     private lateinit var tvAssetName: TextView
     private lateinit var vwLoading: View
@@ -43,7 +42,7 @@ class ActivityAssetAllocation : BaseActivity(), View.OnClickListener,
     private lateinit var goodList: List<GoodList>
     private var goodItem: GoodList? = null
     private var assetTypeCode: Int = 16
-    private var barcode: Long = -1
+    private var barcode: String = "-1"
     private var productId: Int = -1
     private var accessToken = ""
 
@@ -54,7 +53,6 @@ class ActivityAssetAllocation : BaseActivity(), View.OnClickListener,
 
         bindView()
         setupClicks()
-        setupRadioChangesListeners()
         getUser()
         observeViewModel()
     }
@@ -86,11 +84,18 @@ class ActivityAssetAllocation : BaseActivity(), View.OnClickListener,
         rlChooseAssetName = findViewById(R.id.rlChooseAssetName)
         tvChooseMainBranch = findViewById(R.id.tvChooseMainBranch)
         tvChooseAssetName = findViewById(R.id.tvChooseAssetName)
-        mrbNew = findViewById(R.id.mrbNew)
-        mrbScratch = findViewById(R.id.mrbScratch)
+
         btnAddAsset = findViewById(R.id.btnAddAsset)
         tvAssetName = findViewById(R.id.tvAssetName)
         vwLoading = findViewById(R.id.vwLoading)
+
+        if (intent.getStringExtra("fromactivitynewormakhdoosh")=="rlDenominateAssetamir") {
+            assetTypeCode = 16
+        }else if (intent.getStringExtra("fromactivitynewormakhdoosh")=="makhdoosh_activity"){
+            assetTypeCode=17
+        }
+
+        Log.i("amiramirassettype",assetTypeCode.toString())
     }
 
     private fun showLoading() {
@@ -101,10 +106,7 @@ class ActivityAssetAllocation : BaseActivity(), View.OnClickListener,
         vwLoading.visibility = View.GONE
     }
 
-    private fun setupRadioChangesListeners() {
-        mrbNew.setOnCheckedChangeListener(this)
-        mrbScratch.setOnCheckedChangeListener(this)
-    }
+
 
     private fun setupClicks() {
         ivBack.setOnClickListener(this)
@@ -491,8 +493,14 @@ class ActivityAssetAllocation : BaseActivity(), View.OnClickListener,
                     showArticlePatternListPopup(articlePatternList)
                 } else {
                     val errorMessage = "لیست مراکز هزینه خالی است"
-                    showSnackBarMessage(ivDropDownMainBranch, errorMessage)
-                }
+                    showCustomDialog(
+                        this,
+                        DialogType.ERROR,
+                        errorMessage, object : IClickListener {
+                            override fun onClick(view: View?, dialog: Dialog) {
+                                dialog.dismiss()
+                            }
+                        })                }
             }
 
             rlChooseAssetName -> {
@@ -511,14 +519,14 @@ class ActivityAssetAllocation : BaseActivity(), View.OnClickListener,
 
             btnAddAsset -> {
                 Log.i("DEBUG", "class name = ${javaClass.simpleName}")
+                Log.i("amiramirfindassettype",assetTypeCode.toString())
                 if (isInputValid()) {
-                    barcode = acetAssetBarcode.text.toString().toLong()
+                    barcode = acetAssetBarcode.text.toString()
                     Log.i("DEBUG", "assetTypeCode=${assetTypeCode}")
                     Log.i("DEBUG", "barcode=${barcode}")
                     Log.i("DEBUG", "productId=${productId}")
                     var assetId: Int? = null
                     assetId = null
-
                     assetAllocationViewModel.modifyAsset(
                         accessToken,
                         assetId,
@@ -573,30 +581,36 @@ class ActivityAssetAllocation : BaseActivity(), View.OnClickListener,
         }
 
         if (!isValid) {
-            showSnackBarMessage(btnAddAsset, errorMessage)
-        }
+            showCustomDialog(
+                this,
+                DialogType.ERROR,
+                errorMessage, object : IClickListener {
+                    override fun onClick(view: View?, dialog: Dialog) {
+                        dialog.dismiss()
+                    }
+                })        }
         return isValid
     }
 
     override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
         when (p0) {
 
-            mrbNew -> {
-                if (p1) {
-                    mrbNew.setButtonDrawable(R.drawable.ic_selected)
-                    mrbScratch.setButtonDrawable(R.drawable.ic_unselected)
-                    assetTypeCode = 16
-
-                }
-            }
-
-            mrbScratch -> {
-                if (p1) {
-                    mrbNew.setButtonDrawable(R.drawable.ic_unselected)
-                    mrbScratch.setButtonDrawable(R.drawable.ic_selected)
-                    assetTypeCode = 17
-                }
-            }
+//            mrbNew -> {
+//                if (p1) {
+//                    mrbNew.setButtonDrawable(R.drawable.ic_selected)
+//                    mrbScratch.setButtonDrawable(R.drawable.ic_unselected)
+//                    assetTypeCode = 16
+//
+//                }
+//            }
+//
+//            mrbScratch -> {
+//                if (p1) {
+//                    mrbNew.setButtonDrawable(R.drawable.ic_unselected)
+//                    mrbScratch.setButtonDrawable(R.drawable.ic_selected)
+//                    assetTypeCode = 17
+//                }
+         //   }
         }
     }
 }

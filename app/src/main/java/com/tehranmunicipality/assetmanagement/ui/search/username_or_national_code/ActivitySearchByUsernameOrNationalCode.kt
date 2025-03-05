@@ -1,5 +1,6 @@
 package com.tehranmunicipality.assetmanagement.ui.search.username_or_national_code
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputFilter
@@ -30,7 +31,7 @@ class ActivitySearchByUsernameOrNationalCode : BaseActivity(), View.OnClickListe
     private lateinit var layout_codemeli_main: RelativeLayout
     private var isSearchByUsername: Boolean = false
     private lateinit var ivDropDownLocation2:ImageView
-    val searchArray = arrayOf("کدملی", "نام تحویل گیرنده")
+    val searchArray = arrayOf("کدملی", "نام خانوادگی تحویل گیرنده")
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -326,8 +327,14 @@ class ActivitySearchByUsernameOrNationalCode : BaseActivity(), View.OnClickListe
         }
 
         if (!isValid) {
-            showSnackBarMessage(btnInquiry, errorMessage)
-        }
+            showCustomDialog(
+                this,
+                DialogType.ERROR,
+                errorMessage, object : IClickListener {
+                    override fun onClick(view: View?, dialog: Dialog) {
+                        dialog.dismiss()
+                    }
+                })        }
         return isValid
     }
 }

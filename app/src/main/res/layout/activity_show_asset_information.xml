@@ -136,6 +136,7 @@
                 android:layout_marginBottom="2dp"
                 android:background="@null"
                 android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:gravity="right|center_vertical"
                 android:paddingRight="8dp"
                 android:textColorHint="@color/gray_btn_bg_color"
@@ -158,7 +159,7 @@
             android:id="@+id/tvItem1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rlSearch"
+            android:layout_below="@+id/tvItem2"
             android:layout_alignParentRight="true"
             android:layout_marginRight="16dp"
             android:fontFamily="@font/iransansweb"
@@ -169,7 +170,7 @@
             android:id="@+id/tvItem2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvItem1"
+            android:layout_below="@+id/rlSearch"
             android:layout_alignParentRight="true"
             android:layout_marginTop="8dp"
             android:layout_marginRight="16dp"
@@ -181,13 +182,52 @@
             android:id="@+id/tvRecordCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rlSearch"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
+            android:layout_below="@+id/tvItem1"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
             android:fontFamily="@font/iransansweb"
             android:textColor="@color/white"
             android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/filterbaassas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rlSearch"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="20dp"
+            android:fontFamily="@font/iransansweb"
+            android:textColor="@color/white"
+            android:text="فیلتر بر اساس :"
+            android:textSize="12sp" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/selectfilterasset"
+            android:layout_width="100dp"
+            android:layout_height="38dp"
+            android:layout_below="@+id/filterbaassas"
+            android:layout_marginLeft="16dp"
+            android:dropDownVerticalOffset="50dp"
+            android:spinnerMode="dropdown"
+            android:background="@drawable/background_gray4_light_corners_round_2"
+            style="@style/SpinnerTheme"
+            android:layoutDirection="rtl"
+            android:textDirection="rtl">
+
+        </androidx.appcompat.widget.AppCompatSpinner>
+
+
+        <ImageView
+            android:id="@+id/ivDropcodee"
+            android:layout_width="18dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="22dp"
+            android:layout_below="@+id/filterbaassas"
+            android:src="@drawable/ic_down"
+            android:translationZ="10dp" />
 
         <!--        <ExpandableListView-->
         <!--            android:id="@+id/elvAssetInformation"-->
@@ -206,7 +246,7 @@
             android:id="@+id/rvAssetInformation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/tvItem2"
+            android:layout_below="@id/tvRecordCount"
             android:layout_marginLeft="16dp"
 
             android:layout_marginTop="4dp"

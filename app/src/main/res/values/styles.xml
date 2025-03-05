@@ -5,7 +5,7 @@
         <item name="android:textColor">#D0000000</item>
         <item name="android:fontFamily">@font/iransansweb</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">8sp</item>
         <item name="android:radius">10dp</item>
         <item name="android:popupBackground">@drawable/background_gray4_light_corners_round_2</item>
 

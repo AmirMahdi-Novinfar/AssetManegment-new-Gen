@@ -36,7 +36,9 @@ class PersonListAdapter(
                 item2 = "${_personItem.identityNo}"
             }
 
-            item3 = "سازمان فناوری اطلاعات و ارتباطات شهرداری تهران"
+            if (_personItem != null) {
+                item3 = "${_personItem.subCostCenterName}"
+            }
 
             val name = englishToPersian(item1)
             val identityNo = englishToPersian(item2)
@@ -46,7 +48,7 @@ class PersonListAdapter(
             setFormattedText(itemView.findViewById(R.id.tvIdentity), "کد ملی : ", identityNo)
             setFormattedText(
                 itemView.findViewById(R.id.tvLocation),
-                "محل استقرار : ",
+                "مرکز هزینه فرعی : ",
                 location
             )
         }
@@ -66,7 +68,7 @@ class PersonListAdapter(
 
 
         holder.itemView.setOnClickListener {
-            personItemClickListener.itemClicked(personList?.get(position)?.lastName.toString())
+            personItemClickListener.itemClicked(personList?.get(position)?.identityNo.toString())
         }
     }
 

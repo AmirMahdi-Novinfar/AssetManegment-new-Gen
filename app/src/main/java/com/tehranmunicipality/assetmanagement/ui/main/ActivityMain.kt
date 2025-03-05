@@ -29,6 +29,7 @@ import com.tehranmunicipality.assetmanagement.ui.profile.ProfileViewModel
 import com.tehranmunicipality.assetmanagement.ui.search.barcode.ActivitySearchByBarcode
 import com.tehranmunicipality.assetmanagement.ui.search.location.ActivitySearchByAssetLocation
 import com.tehranmunicipality.assetmanagement.ui.search.username_or_national_code.ActivitySearchByUsernameOrNationalCode
+import com.tehranmunicipality.assetmanagement.ui.user_information.HelpActivity
 import com.tehranmunicipality.assetmanagement.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -44,6 +45,7 @@ class ActivityMain : BaseActivity(), View.OnClickListener,
     private lateinit var acbSearchByNationalCode: AppCompatButton
     private lateinit var acbSearchByBarcode: AppCompatButton
     private lateinit var rlDenominateAsset: AppCompatButton
+    private lateinit var makhdoosh_activity: AppCompatButton
     private lateinit var acbSearchByAssetLocation: AppCompatButton
     private var appUser: AppUser? = null
     private lateinit var drawerLayout: DrawerLayout
@@ -82,8 +84,10 @@ class ActivityMain : BaseActivity(), View.OnClickListener,
         acbSearchByNationalCode = findViewById(R.id.acbSearchByNationalCode)
         acbSearchByBarcode = findViewById(R.id.acbSearchByBarcode)
         rlDenominateAsset = findViewById(R.id.rlDenominateAsset)
+        makhdoosh_activity = findViewById(R.id.makhdoosh_activity)
         navigationView=findViewById(R.id.nav_view)
         acbSearchByAssetLocation = findViewById(R.id.acbSearchByAssetLocation)
+
     }
 
     private fun setupClicks() {
@@ -91,6 +95,7 @@ class ActivityMain : BaseActivity(), View.OnClickListener,
         acbSearchByNationalCode.setOnClickListener(this)
         acbSearchByBarcode.setOnClickListener(this)
         rlDenominateAsset.setOnClickListener(this)
+        makhdoosh_activity.setOnClickListener(this)
         acbSearchByAssetLocation.setOnClickListener(this)
     }
 
@@ -151,6 +156,13 @@ class ActivityMain : BaseActivity(), View.OnClickListener,
             rlDenominateAsset -> {
                 Log.i("DEBUG", "ActivityMain acbDenominateAsset clicked")
                 val intent = Intent(this, ActivityAssetAllocation::class.java)
+                intent.putExtra("fromactivitynewormakhdoosh","rlDenominateAssetamir")
+                startActivity(intent)
+            }
+            makhdoosh_activity -> {
+                Log.i("DEBUG", "ActivityMain acbDenominateAsset clicked")
+                val intent = Intent(this, ActivityAssetAllocation::class.java)
+                intent.putExtra("fromactivitynewormakhdoosh","makhdoosh_activity")
                 startActivity(intent)
             }
 
@@ -211,6 +223,9 @@ class ActivityMain : BaseActivity(), View.OnClickListener,
             }
             R.id.nav_faq -> {
 
+            }R.id.nav_help -> {
+            val intent = Intent(this, HelpActivity::class.java)
+            startActivity(intent)
             }
 
 

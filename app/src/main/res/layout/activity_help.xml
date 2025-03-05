@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:background="@drawable/background_gradient"
+    android:layout_height="match_parent"
+    tools:context=".ui.user_information.HelpActivity">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/amirhelp"
+                android:layout_width="match_parent"
+                android:layout_height="150dp">
+
+                <ImageView
+                    android:id="@+id/ivBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:src="@drawable/ic_arrow_left" />
+
+                <ImageView
+                    android:id="@+id/ba"
+                    android:layout_width="80dp"
+                    android:layout_height="65dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="36dp"
+                    android:src="@drawable/baseline_info_24_white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ba"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="@font/iransansweb"
+                    android:text="راهنمای سامانه اموال‌گردانی"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/help1"
+                android:paddingRight="30dp"
+                android:paddingLeft="30dp"
+                android:paddingTop="30dp"
+
+                android:fontFamily="@font/iransansweb"
+                android:text="⁕	امکان استعلام اموال بر اساس کد ملی یا نام تحویل‌گیرنده، بارکد یا برچسب و همچنین محل استقرار وجود دارد"
+                android:textColor="@color/white"
+                android:justificationMode="inter_word"
+                android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/help2"
+                    android:paddingRight="30dp"
+                    android:paddingLeft="30dp"
+                    android:paddingTop="10dp"                    android:fontFamily="@font/iransansweb"
+                    android:text="⁕ شناسایی اموال جدید یا مخدوش شده با اسکن بارکد اموال یا وارد کردن شماره بارکد و سپس انتخاب گروه اصلی کالا انجام شده و پس از آن با وارد کردن کد ملی به فرد موردنظر اختصاص میابد "
+                    android:textColor="@color/white"
+                    android:justificationMode="inter_word"
+                    android:textSize="16sp" />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/help3"
+                    android:paddingRight="30dp"
+                    android:paddingLeft="30dp"
+                    android:paddingTop="10dp"
+                android:text="⁕	تگ رنگی نشانه دارا بودن بارکد اموال است و کلیه اموالی که با تگ رنگی در این اپلیکیشن نمایش داده می‌شوند دارای بارکد هستند و مواردی که رنگی نیستند فاقد بارکد هستند"
+                android:fontFamily="@font/iransansweb"
+                    android:textColor="@color/white"
+                    android:justificationMode="inter_word"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingRight="30dp"
+                    android:paddingLeft="30dp"
+                    android:background="@drawable/roundimagehelp"
+                    android:src="@drawable/nobarcodefull"></ImageView>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingRight="30dp"
+                android:paddingLeft="30dp"
+                android:paddingTop="10dp"
+                android:text="⁕	درصورت اضافه شدن یا ویرایش کالاها تگ مذکور تا ۲۴ ساعت با رنگ زرد نمایش داده میشود ."
+                android:fontFamily="@font/iransansweb"
+                android:textColor="@color/white"
+                android:justificationMode="inter_word"
+                android:textSize="16sp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingRight="30dp"
+                android:paddingLeft="30dp"
+                android:background="@drawable/roundimagehelp"
+                android:src="@drawable/zardbarcodehelp"></ImageView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingRight="30dp"
+                android:paddingLeft="30dp"
+                android:paddingTop="10dp"
+                android:text="⁕	پس از گذشت 24 ساعت از ویرایش یا اضافه شدن بارکد به کالاها رنگ تک به سبز تغییر میابد"
+                android:fontFamily="@font/iransansweb"
+                android:textColor="@color/white"
+                android:justificationMode="inter_word"
+                android:textSize="16sp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingRight="30dp"
+                android:paddingLeft="30dp"
+                android:background="@drawable/roundimagehelp"
+                android:src="@drawable/sabzbarcodefull"></ImageView>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingRight="30dp"
+                android:paddingLeft="30dp"
+                android:paddingTop="10dp"
+                android:text="⁕	امکان اضافه کردن بارکد تکراری وجود ندارد "
+                android:fontFamily="@font/iransansweb"
+                android:textColor="@color/white"
+                android:justificationMode="inter_word"
+                android:textSize="16sp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingRight="30dp"
+                android:paddingLeft="30dp"
+                android:background="@drawable/roundimagehelp"
+                android:src="@drawable/barcodetekrarigers"></ImageView>
+
+
+        </LinearLayout>
+
+
+
+
+    </ScrollView>
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.tehranmunicipality.assetmanagement.ui.search.barcode
 
+import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -126,7 +127,7 @@ class ActivitySearchByBarcode : BaseActivity(), View.OnClickListener {
                 ivDropDownLocation2.setImageResource(R.drawable.ic_down)
 
                 if (p2==1){
-                    etBarcode.hint = "بارکد را وارد نمایید"
+                    etBarcode.hint = "بارکد را اسکن یا وارد نمایید"
                     etBarcode.filters = arrayOf(InputFilter.LengthFilter(BARCODE_LENGTH))
                     etBarcode.keyListener = DigitsKeyListener.getInstance("0123456789")
                     isSearchByBarcodeId = true
@@ -177,19 +178,28 @@ class ActivitySearchByBarcode : BaseActivity(), View.OnClickListener {
         }
 
         if (isSearchByBarcodeId) {
-            if (etBarcode.text.isEmpty()) {
+            if (etBarcode.text.isEmpty() ) {
                 isValid = false
                 errorMessage = "بارکد کالا را وارد نمایید"
-            }
-        } else {
-            if (etBarcode.text.isEmpty()) {
+            } else if (etBarcode.length()!=11) {
+                    isValid = false
+                    errorMessage = "بارکد باید 11 رقم باشد "
+                }
+        }else if (etBarcode.text.isEmpty()) {
                 isValid = false
-                errorMessage = "برچسب کالا را وارد نمایید"
+                errorMessage = "برچسب را وارد نمایید"
             }
-        }
 
         if (!isValid) {
-            showSnackBarMessage(btnInquiry, errorMessage)
+
+            showCustomDialog(
+                this,
+                DialogType.ERROR,
+                errorMessage, object : IClickListener {
+                    override fun onClick(view: View?, dialog: Dialog) {
+                        dialog.dismiss()
+                    }
+                })
         }
         return isValid
     }

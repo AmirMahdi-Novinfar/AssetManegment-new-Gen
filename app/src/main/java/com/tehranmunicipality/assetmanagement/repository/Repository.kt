@@ -163,7 +163,7 @@ class Repository @Inject constructor(
             }
 
             SearchType.Barcode -> {
-                gsonObject.addProperty("barCode", searchText.toInt())
+                gsonObject.addProperty("barCode", searchText)
             }
 
             SearchType.TagText -> {
@@ -204,7 +204,7 @@ class Repository @Inject constructor(
     suspend fun getGoodList(
         accessToken: String,
         goodCode: Int,
-        parentArticlePatternId: Int,
+        articlePatternId: Int,
         productName: String
     ): GetGoodListResponse {
 
@@ -212,7 +212,7 @@ class Repository @Inject constructor(
         //
         //body properties
         //gsonObject.addProperty("goodCode", goodCode)
-        gsonObject.addProperty("parentArticlePatternId", parentArticlePatternId)
+        gsonObject.addProperty("articlePatternId", articlePatternId)
         //gsonObject.addProperty("productName", productName)
         //
         return assetManagementApi.getGoodList(
@@ -231,7 +231,7 @@ class Repository @Inject constructor(
         accessToken: String,
         assetId: Int,
         assetTypeCode: Int,
-        barcode: Int,
+        barcode: String,
         note: String,
         productId: Int
     ): GetModifyAssetResponse {
@@ -263,7 +263,28 @@ class Repository @Inject constructor(
         //body properties
         gsonObject.addProperty("assetId", assetId.toInt())
         gsonObject.addProperty("assetTypeCode", assetTypeCode)
-        gsonObject.addProperty("barcode", barcode.toInt())
+        gsonObject.addProperty("barcode", barcode)
+        //
+        return assetManagementApi.getModifyAsset(
+            authorization = "Bearer $accessToken",
+            body = gsonObject
+        )
+    }
+
+
+    suspend fun setAssetMoreClicked(
+        accessToken: String,
+        assetId: String,
+        assetTypeCode: Int,
+        barcode: String,
+    ): GetModifyAssetResponse {
+
+        val gsonObject = JsonObject()
+        //
+        //body properties
+        gsonObject.addProperty("assetId", assetId.toInt())
+        gsonObject.addProperty("assetTypeCode", assetTypeCode)
+        gsonObject.addProperty("barcode", barcode)
         //
         return assetManagementApi.getModifyAsset(
             authorization = "Bearer $accessToken",
@@ -363,7 +384,7 @@ class Repository @Inject constructor(
         accessToken: String,
         assetId: Int?,
         assetTypeCode: Int,
-        barcode: Long,
+        barcode: String,
         note: String,
         productId: Int
     ): GetModifyAssetResponse {

@@ -116,6 +116,8 @@ class ActivityLogin : AppCompatActivity(), View.OnClickListener {
                     Log.i("DEBUG", "ActivityLogin token=${it.data?.accessToken.toString()}")
                     if (!it.data?.accessToken.isNullOrEmpty()) {
                         token = it.data?.accessToken.toString()
+
+                        Log.i("DEBUG", "amirtoken=$token")
                         val jwt = JWT(token)
                         val jwtClaim: Claim = jwt.getClaim("DisplayName")
                         val displayName = jwtClaim.asString()

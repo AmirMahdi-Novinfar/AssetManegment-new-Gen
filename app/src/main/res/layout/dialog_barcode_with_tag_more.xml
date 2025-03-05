@@ -5,9 +5,7 @@
     android:layout_gravity="center"
     android:background="@android:color/transparent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
 
         <ImageView
             android:id="@+id/ivClose"
@@ -22,8 +20,8 @@
             android:id="@+id/ivicon_scan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-          android:layout_centerInParent="true"
             android:padding="12dp"
+            android:layout_centerHorizontal="true"
             android:src="@drawable/layer_2" />
 
         <!--<TextView
@@ -66,25 +64,71 @@
             android:textStyle="bold" />
 
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/acbConfirm"
+
+
+        <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etBarcode"
+            android:orientation="horizontal"
+            android:id="@+id/moreAssetsContainer"
+            >
+
+
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/sabtmoreasset"
+            android:layout_width="70dp"
             android:layout_height="50dp"
-            android:layout_centerInParent="true"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/backscanbarcodetoosi"
             android:fontFamily="@font/iransansweb"
-            android:text="ثبت"
-            android:layout_below="@+id/etBarcode"
+            android:drawableTop="@drawable/new_amval"
             android:textColor="@color/app_background1"
-            android:textSize="20sp"
            />
 
 
 
+            <EditText
+                android:id="@+id/moreassetedt"
+                android:layout_width="205dp"
+                android:layout_height="50dp"
+                android:background="@drawable/background_gray_light_corners_round_5"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:fontFamily="@font/iransansweb"
+                android:gravity="center"
+                android:hint="شماره برچسب را وارد نمایید"
+                android:inputType="number"
+                android:layout_marginTop="-15dp"
+                android:maxLength="11"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/acbConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/backscanbarcodetoosi"
+        android:fontFamily="@font/iransansweb"
+        android:text="ثبت"
+        android:layout_below="@+id/moreAssetsContainer"
+        android:textColor="@color/app_background1"
+        android:textSize="20sp"
+        />
     </RelativeLayout>
 
-</RelativeLayout>

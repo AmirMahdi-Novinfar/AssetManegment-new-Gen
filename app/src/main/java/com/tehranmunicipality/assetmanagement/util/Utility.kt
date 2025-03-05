@@ -8,6 +8,7 @@ import android.content.DialogInterface.OnDismissListener
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -31,6 +32,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.tehranmunicipality.assetmanagement.R
 import com.tehranmunicipality.assetmanagement.ui.asset_information.IDialogDismissListener
 import com.tehranmunicipality.assetmanagement.ui.asset_information.IDialogListClickListener
+import com.tehranmunicipality.assetmanagement.ui.asset_information.ShowAssetInformationViewModel
 import saman.zamani.persiandate.PersianDate
 import saman.zamani.persiandate.PersianDateFormat
 import java.text.Normalizer
@@ -38,8 +40,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 interface IClickListener {
-    fun onClick(view: View?, dialog: Dialog)
+    fun onClick(view: View?,  dialog: Dialog)
 }
+
+interface IClickListenerWithEditText {
+    fun onClick(view: View?, editText: EditText?, dialog: Dialog)
+}
+
 
 fun getCurrentDateTime(): String {
     val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
@@ -518,21 +525,19 @@ fun showBarcodeDialog(context: Context, listener: IClickListener) {
     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
     dialog.setContentView(R.layout.dialog_barcode)
     dialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
-
     dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
-
     dialog.setCancelable(true)
     val acbConfirm = dialog.findViewById<AppCompatButton>(R.id.acbConfirm)
     val etBarcode = dialog.findViewById<EditText>(R.id.etBarcode)
     val ivClose = dialog.findViewById<ImageView>(R.id.ivClose)
     etBarcode.requestFocus()
     acbConfirm.setOnClickListener {
-        if (!etBarcode.text.toString().isEmpty() && etBarcode.text.toString().length == 9) {
+        if (!etBarcode.text.toString().isEmpty() && etBarcode.text.toString().length == 11) {
             listener.onClick(etBarcode, dialog)
+
             dialog.dismiss()
-        } else if (etBarcode.text.toString().length != 9) {
-            val errorMessage = "طول بارکد باید ۹ رقم باشد"
+        } else if (etBarcode.text.toString().length != 11) {
+            val errorMessage = "طول بارکد باید 11 رقم باشد"
             Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
         } else {
             val errorMessage = "لطفا بارکد را وارد نمایید"
@@ -542,11 +547,67 @@ fun showBarcodeDialog(context: Context, listener: IClickListener) {
 
     etBarcode.addTextChangedListener {
         Log.i("DEBUG", "text changed. count=${it?.length}")
-        if (it?.length == 9) {
-            acbConfirm.text = "تایید"
-        } else {
-            acbConfirm.text = "اسکن کنید"
+        if (it?.length == 11) {
+            acbConfirm.setBackgroundResource(R.drawable.backscanbarcode)
+        }else{
+            acbConfirm.setBackgroundResource(R.drawable.backscanbarcodetoosi)
+
         }
+    }
+
+    ivClose.setOnClickListener {
+        dialog.dismiss()
+    }
+    dialog.show()
+}
+
+
+fun showAssetmoreDialog(context: Context, listener: IClickListenerWithEditText) {
+    val dialog = Dialog(context)
+    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    dialog.setContentView(R.layout.dialog_barcode_with_tag_more)
+    dialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+    dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    dialog.setCancelable(true)
+    val acbConfirm = dialog.findViewById<AppCompatButton>(R.id.acbConfirm)
+    val sabtmoreasset = dialog.findViewById<AppCompatButton>(R.id.sabtmoreasset)
+    val etBarcode = dialog.findViewById<EditText>(R.id.etBarcode)
+    val moreassetedt = dialog.findViewById<EditText>(R.id.moreassetedt)
+    val ivClose = dialog.findViewById<ImageView>(R.id.ivClose)
+    etBarcode.requestFocus()
+    acbConfirm.setOnClickListener {
+        if (!etBarcode.text.toString().isEmpty() && etBarcode.text.toString().length == 11) {
+            listener.onClick(acbConfirm,etBarcode,dialog)
+            dialog.dismiss()
+        } else if (etBarcode.text.toString().length != 11) {
+            val errorMessage = "طول بارکد باید 11 رقم باشد"
+            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+        } else {
+            val errorMessage = "لطفا بارکد را وارد نمایید"
+            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+        }
+        etBarcode.addTextChangedListener {
+            Log.i("DEBUG", "text changed. count=${it?.length}")
+            if (it?.length == 11) {
+                acbConfirm.setBackgroundResource(R.drawable.backscanbarcode)
+            }else{
+                acbConfirm.setBackgroundResource(R.drawable.backscanbarcodetoosi)
+
+        }
+        }
+    }
+
+
+    sabtmoreasset.setOnClickListener{
+        moreassetedt.clearFocus() // مقدار رو ذخیره کن
+            if (!moreassetedt.text.toString().isEmpty() && moreassetedt.text.toString().length in 6..11) {
+                listener.onClick(sabtmoreasset, moreassetedt,dialog)
+            } else {
+                val errorMessage = "طول برچسب باید بین 6 تا 11 رقم باشد"
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+
+
     }
 
     ivClose.setOnClickListener {

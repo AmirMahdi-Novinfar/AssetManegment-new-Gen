@@ -86,6 +86,7 @@
             android:layout_marginRight="16dp"
             android:fontFamily="@font/iransansweb"
             android:text="شماره پرسنلی : 0063706763"
+            android:visibility="gone"
             android:textColor="@color/white"
             android:textSize="14sp" />
 
@@ -100,6 +101,7 @@
             android:fontFamily="@font/iransansweb"
             android:text="شماره ملی : 3860594508"
             android:textColor="@color/white"
+            android:visibility="gone"
             android:textSize="14sp" />
 
         <TextView
@@ -114,6 +116,7 @@
             android:fontFamily="@font/iransansweb"
             android:text="واحد اجرایی : سازمان فناوری اطلاعات و ارتباطات شهرداری تهران"
             android:textColor="@color/white"
+            android:visibility="gone"
             android:textSize="14sp" />
 
     </RelativeLayout>

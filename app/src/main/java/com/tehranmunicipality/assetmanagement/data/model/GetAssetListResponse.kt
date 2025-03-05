@@ -89,7 +89,7 @@ data class AssetListItem(
     val articlePatternName: String? = null,
 
     @field:SerializedName("barCode")
-    var barCode: Int? = null,
+    var barCode: String? = null,
 
     @field:SerializedName("assetLocationID")
     val assetLocationID: Int? = null,

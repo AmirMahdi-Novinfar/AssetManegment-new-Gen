@@ -56,7 +56,7 @@ class AssetExpandableListAdapter2(
         assetListItem = filteredAssetList[position]
 
         holder.itemView.findViewById<TextView>(R.id.assetNumber).text =
-            englishToPersian((position+1).toString())
+            englishToPersian((position + 1).toString())
 
         //group items
         val rlRowGroupRoot = holder.rlRowGroupRoot.findViewById<RelativeLayout>(R.id.rlRowGroupRoot)
@@ -65,24 +65,29 @@ class AssetExpandableListAdapter2(
         val rlBarcode = holder.rlBarcode.findViewById<RelativeLayout>(R.id.rlBarcode)
         val tvBarcode = holder.tvBarcode.findViewById<TextView>(R.id.tvBarcode)
 
-        if (assetListItem.assetHistoryDate?.equals(getPersianDate()) == true) {
+
+//        if (assetListItem.barCode != -1 && assetListItem.assetHistoryDate?.equals(getPersianDate())==true){
+//            rlBarcode.background =
+//                ContextCompat.getDrawable(context, R.drawable.background_blue_borders_round)
+//        }else{
+      var validtime= assetListItem.assetHistoryDate?.split(" ")?.get(0)
+        if (validtime.equals(getPersianDate())) {
             rlBarcode.background =
                 ContextCompat.getDrawable(context, R.drawable.background_yellow_borders_round)
-        } else if (assetListItem.barCode != -1) {
+        } else if (assetListItem.barCode != "") {
             rlBarcode.background =
                 ContextCompat.getDrawable(context, R.drawable.background_green_borders_round)
-        } else if (assetListItem.barCode == -1) {
+        } else if (assetListItem.barCode == "") {
             rlBarcode.background =
                 ContextCompat.getDrawable(context, R.color.white)
         }
 
-        if (assetListItem.barCode!=-1){
+
+        if (assetListItem.barCode!=""){
             tvBarcode.text = englishToPersian(assetListItem.barCode.toString())
         }else{
             tvBarcode.text = "فاقد بارکد"
-
         }
-
 
         //child items
         val rlRowChildRoot = holder.rlRowChildRoot.findViewById<RelativeLayout>(R.id.rlRowChildRoot)
@@ -110,7 +115,7 @@ class AssetExpandableListAdapter2(
         setFormattedText(tvItem3, "محل استقرار : ",assetListItem.assetLocationName.toString() )
         setFormattedText(tvItem4, "برچسب اموال : ",assetListItem.assetTag.toString() )
         setFormattedText(
-            tvItem5, "تاریخ تحویل اموال : ",
+            tvItem5, "تاریخ آخرین ویرایش : ",
             englishToPersian(assetListItem.assetHistoryDate.toString())
         )
         setFormattedText(
@@ -123,7 +128,7 @@ class AssetExpandableListAdapter2(
             englishToPersian(subCostCenterInfo)
         )
 
-        if (assetListItem.barCode!=-1) {
+        if (assetListItem.barCode!="") {
             setFormattedText(
                 tvItem11, "بارکد اموال : ",
                 englishToPersian(assetListItem.barCode.toString())
@@ -143,31 +148,36 @@ class AssetExpandableListAdapter2(
         }
 
         holder.btnSetBarcode.findViewById<Button>(R.id.btnSetBarcode).setOnClickListener {
+            assetListItem = filteredAssetList[position]
             itemClickListener.setBarcodeClicked(assetListItem)
         }
-
-        if (assetListItem.barCode.toString().equals("-1")) {
-            val linearLayoutParams =
-                LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT)
-            linearLayoutParams.weight = 5F
-            linearLayoutParams.setMargins(16, 16, 16, 16)
-            holder.btnAssetEdit.findViewById<Button>(R.id.btnAssetEdit).layoutParams =
-                linearLayoutParams
-            holder.btnSetBarcode.findViewById<Button>(R.id.btnSetBarcode).visibility = View.VISIBLE
-            holder.btnSetBarcode.findViewById<Button>(R.id.btnSetBarcode).layoutParams =
-                linearLayoutParams
-            holder.btnSetBarcode.findViewById<Button>(R.id.btnSetBarcode)
-                .setText("تخصیص بارکد اموال")
-        } else {
-            val linearLayoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
-            )
-            linearLayoutParams.setMargins(16, 16, 16, 16)
-            holder.btnAssetEdit.findViewById<Button>(R.id.btnAssetEdit).layoutParams =
-                linearLayoutParams
-            holder.btnSetBarcode.findViewById<Button>(R.id.btnSetBarcode).visibility = View.GONE
+        holder.btnmoreasset.findViewById<Button>(R.id.btnAddAssetTag).setOnClickListener {
+            assetListItem = filteredAssetList[position]
+            itemClickListener.setAssetMoreClicked(assetListItem)
         }
+
+//        if (assetListItem.barCode.toString().equals("")) {
+//            val linearLayoutParams =
+//                LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT)
+//            linearLayoutParams.weight = 5F
+//            linearLayoutParams.setMargins(16, 16, 16, 16)
+//            holder.btnAssetEdit.findViewById<Button>(R.id.btnAssetEdit).layoutParams =
+//                linearLayoutParams
+//            holder.btnSetBarcode.findViewById<Button>(R.id.btnSetBarcode).visibility = View.VISIBLE
+//            holder.btnSetBarcode.findViewById<Button>(R.id.btnSetBarcode).layoutParams =
+//                linearLayoutParams
+//            holder.btnSetBarcode.findViewById<Button>(R.id.btnSetBarcode)
+//                .setText("تخصیص بارکد اموال")
+//        } else {
+//            val linearLayoutParams = LinearLayout.LayoutParams(
+//                LinearLayout.LayoutParams.MATCH_PARENT,
+//                LinearLayout.LayoutParams.MATCH_PARENT
+//            )
+//            linearLayoutParams.setMargins(16, 16, 16, 16)
+//            holder.btnAssetEdit.findViewById<Button>(R.id.btnAssetEdit).layoutParams =
+//                linearLayoutParams
+//            holder.btnSetBarcode.findViewById<Button>(R.id.btnSetBarcode).visibility = View.GONE
+//        }
 
         rlRowGroupRoot.setOnClickListener {
             Log.i("DEBUG", "rlRowGroupRoot clicked.position=$position")
@@ -222,6 +232,7 @@ class AssetExpandableListAdapter2(
         val tvItem13 = row.findViewById<TextView>(R.id.tvItem13)
         val btnAssetEdit = row.findViewById<Button>(R.id.btnAssetEdit)
         val btnSetBarcode = row.findViewById<Button>(R.id.btnSetBarcode)
+        val btnmoreasset = row.findViewById<Button>(R.id.btnAddAssetTag)
 
     }
 

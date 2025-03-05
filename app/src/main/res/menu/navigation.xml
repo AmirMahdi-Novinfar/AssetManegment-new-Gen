@@ -13,10 +13,18 @@
             android:icon="@drawable/ic_user5"
             android:title="پروفایل"/>
 
+
         <item
             android:id="@+id/nav_faq"
             android:icon="@drawable/ic_lable"
             android:title="قوانین و مقررات"/>
+
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/baseline_info_24"
+            android:title="راهنما"/>
+
+
 
 
     </group>

@@ -6,7 +6,7 @@
     android:layout_height="176dp"
     android:gravity="center"
     android:padding="16dp"
-    android:background="@drawable/headersssbkg"
+    android:background="#2D8A87"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
     <ImageView
         android:layout_width="55dp"

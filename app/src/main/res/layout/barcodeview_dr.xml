@@ -42,7 +42,7 @@
             android:fontFamily="@font/iransansweb"
             android:inputType="number"
             android:maxEms="0"
-            android:maxLength="9"
+            android:maxLength="11"
             android:maxLines="1"
             android:textSize="10dp" />
 

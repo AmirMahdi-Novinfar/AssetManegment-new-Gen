@@ -69,6 +69,7 @@ class AssetExpandableListAdapter internal constructor(
 
         val btnAssetEdit = convertView!!.findViewById<Button>(R.id.btnAssetEdit)
         val btnSetBarcode = convertView!!.findViewById<Button>(R.id.btnSetBarcode)
+        val btnmoreasset = convertView!!.findViewById<Button>(R.id.btnSetBarcode)
 
         //initializing
         val costCenterInfo = englishToPersian(assetListItem.costCenterCode.toString() + " - " + assetListItem.costCenterName.toString())
@@ -83,7 +84,7 @@ class AssetExpandableListAdapter internal constructor(
         setFormattedText(tvItem6,"کد کالا : ",englishToPersian(assetListItem.productID.toString()))
         setFormattedText(tvItem7,"کد اموال : ",englishToPersian(assetListItem.assetCode.toString()))
         setFormattedText(tvItem8,"شماره برچسب : ",englishToPersian(assetListItem.assetTag.toString()))
-        if (assetListItem.barCode!=-1){
+        if (assetListItem.barCode!="-1"){
             setFormattedText(tvItem9,"بارکد اموال : ",englishToPersian(assetListItem.barCode.toString()))
 
         }else{
@@ -104,6 +105,10 @@ class AssetExpandableListAdapter internal constructor(
             itemClickListener.setBarcodeClicked(filteredAssetList[listPosition])
         }
 
+        btnmoreasset.setOnClickListener {
+            itemClickListener.setAssetMoreClicked(filteredAssetList[listPosition])
+        }
+
         if (assetListItem.barCode.toString().equals("-1")){
             val linearLayoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT)
             linearLayoutParams.weight = 5F
@@ -111,6 +116,7 @@ class AssetExpandableListAdapter internal constructor(
             btnAssetEdit.layoutParams = linearLayoutParams
             btnSetBarcode.visibility = View.VISIBLE
             btnSetBarcode.setText("ثبت بارکد")
+
         }else{
             val linearLayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
             linearLayoutParams.setMargins(0,12,0,12)

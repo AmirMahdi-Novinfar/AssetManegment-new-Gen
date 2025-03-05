@@ -60,12 +60,13 @@ class ActivityProfile : BaseActivity(), View.OnClickListener {
                             tvUsername,
                             getColor(R.color.white),
                             "نام و نام خانوادگی : ",
-                            appUser!!.displayName
+                            appUser!!.displayName.toString()
                         )
                         setFormattedText(
                             tvPersonnelNo, getColor(R.color.white),
                             "شماره پرسنلی : ",
                             englishToPersian("ثابته")
+
                         )
                         setFormattedText(
                             tvNationalCode, getColor(R.color.white),

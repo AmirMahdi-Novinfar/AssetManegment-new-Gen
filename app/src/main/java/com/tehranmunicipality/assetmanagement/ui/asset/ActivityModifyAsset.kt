@@ -12,6 +12,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doOnTextChanged
 import com.tehranmunicipality.assetmanagement.R
 import com.tehranmunicipality.assetmanagement.data.model.*
+import com.tehranmunicipality.assetmanagement.ui.asset_information.ActivityShowAssetInformation
 import com.tehranmunicipality.assetmanagement.ui.base.BaseActivity
 import com.tehranmunicipality.assetmanagement.ui.base.CustomDialog
 import com.tehranmunicipality.assetmanagement.ui.asset_information.ItemClickListener
@@ -25,6 +26,7 @@ class ActivityModifyAsset : BaseActivity(), View.OnClickListener {
     private lateinit var tvCostCenter: TextView
     private lateinit var tvSubCostCenter: TextView
     private lateinit var tvLocation: TextView
+
     private lateinit var tvPerson: TextView
     private lateinit var tvAssetStatus: TextView
     private lateinit var acbRegisterBarcode: AppCompatButton
@@ -144,7 +146,7 @@ class ActivityModifyAsset : BaseActivity(), View.OnClickListener {
         )
         tvBarcode.text = englishToPersian(barcode)
 
-        if (barcode.toInt()!=-1){
+        if (barcode!=""){
             tvBarcode.text = englishToPersian(barcode)
         }else{
             tvBarcode.text = "فاقد بارکد"
@@ -583,10 +585,26 @@ class ActivityModifyAsset : BaseActivity(), View.OnClickListener {
                         "DEBUG",
                         "ActivityModifyAsset observeViewModel setBarcodeForAssetResponse success.data=${it.data}"
                     )
+
+
+
                     if (it.data?.result == 100) {
                         val message = "بارکد به اموال با کد $assetId اضافه شد"
                         showSnackBarMessage(acbRegisterBarcode, message)
                         tvBarcode.text = barcode
+                        modifyAssetViewModel.getModifyAssetHistory(
+                            accessToken,
+                            actorId,
+                            getCurrentDateTime(),
+                            null,
+                            assetId,
+                            assetLocationId.toString().toInt(),
+                            assetStatusCode!!,
+                            "",
+                            subCostCenterId!!
+                        )
+
+
                     } else {
                         val errorMessage = it.data?.detailError?.get(0)?.errorDesc.toString()
                         showCustomDialog(
@@ -595,7 +613,6 @@ class ActivityModifyAsset : BaseActivity(), View.OnClickListener {
                             errorMessage, object : IClickListener {
                                 override fun onClick(view: View?, dialog: Dialog) {
                                     dialog.dismiss()
-                                    finish()
                                 }
                             })
                     }
@@ -622,7 +639,6 @@ class ActivityModifyAsset : BaseActivity(), View.OnClickListener {
                         errorMessage, object : IClickListener {
                             override fun onClick(view: View?, dialog: Dialog) {
                                 dialog.dismiss()
-                                finish()
                             }
                         })
                 }
@@ -726,7 +742,7 @@ class ActivityModifyAsset : BaseActivity(), View.OnClickListener {
                 showBarcodeDialog(this@ActivityModifyAsset, object : IClickListener {
                     override fun onClick(view: View?, dialog: Dialog) {
                         barcode = (view as EditText).text.toString()
-                        if (barcode.length == 9) {
+                        if (barcode.length == 11) {
                             Log.i(
                                 "DEBUG",
                                 "ActivityModifyBarcode showBarcodeDialog barcode=$barcode"
@@ -739,6 +755,9 @@ class ActivityModifyAsset : BaseActivity(), View.OnClickListener {
                                     assetTypeCode,
                                     barcode
                                 )
+
+
+
                             } else {
                                 val message = "اتصال اینترنت برقرار نیست"
                                 showCustomDialog(
@@ -748,7 +767,7 @@ class ActivityModifyAsset : BaseActivity(), View.OnClickListener {
                                 )
                             }
                         } else {
-                            val errorMessage = "طول بارکد بایستی ۹ رقم باشد"
+                            val errorMessage = "طول بارکد بایستی 11 رقم باشد"
                             Toast.makeText(applicationContext, errorMessage, Toast.LENGTH_SHORT)
                                 .show()
                         }
@@ -757,6 +776,7 @@ class ActivityModifyAsset : BaseActivity(), View.OnClickListener {
             }
 
             acbRegisterAsset -> {
+
                 if (isInputValid()) {
                     if (type != "edit") {
                         assetHistoryId = null

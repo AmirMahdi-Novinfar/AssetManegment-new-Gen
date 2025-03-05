@@ -10,18 +10,21 @@
         android:id="@+id/text_spinner_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-android:layout_margin="13dp"        android:fontFamily="@font/iransansweb"
+android:layout_marginRight="9dp"
+android:paddingTop="9dp"
+android:paddingBottom="9dp"
+android:layout_marginLeft="13dp"
+        android:fontFamily="@font/iransansweb"
         android:text="عیصزلعیلزهیه"
         android:textColor="@color/black"
-        android:textSize="13sp"
-
+        android:textSize="11sp"
         android:layout_centerInParent="true"
         ></TextView>
 
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:id="@+id/line_spiiner"
         android:background="#8D8B8B"
         android:layout_below="@+id/text_spinner_one"></View>

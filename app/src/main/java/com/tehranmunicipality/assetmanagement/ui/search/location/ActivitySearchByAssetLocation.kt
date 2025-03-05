@@ -124,7 +124,7 @@ class ActivitySearchByAssetLocation : BaseActivity(), View.OnClickListener {
                 if (isInputValid()) {
                     val intent = Intent(this, ActivityShowAssetInformation::class.java)
                     intent.putExtra("fromActivity", javaClass.simpleName)
-                    Log.i("DEBUG", "this.localClassName=${this.localClassName}")
+                    Log.i("DEBUG1", "this.localClassName=${this.localClassName}")
                     intent.putExtra("assetLocationId", locationListItem.assetLocationID.toString())
                     startActivity(intent)
                 }

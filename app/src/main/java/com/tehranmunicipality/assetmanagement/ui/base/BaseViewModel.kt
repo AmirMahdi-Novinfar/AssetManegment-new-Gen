@@ -42,6 +42,10 @@ open class BaseViewModel @Inject constructor(
     private val _getAssetListResponse = MutableLiveData<Resource<GetAssetListResponse>>()
     val getAssetListResponse: LiveData<Resource<GetAssetListResponse>> = _getAssetListResponse
 
+
+  private val _getAssetListResponseformoreasset = MutableLiveData<Resource<GetAssetListResponse>>()
+    val getAssetListResponseformoreasset: LiveData<Resource<GetAssetListResponse>> = _getAssetListResponseformoreasset
+
     private val _assetStatusListResponse = MutableLiveData<Resource<GetAssetStatusListResponse>>()
     val assetStatusListResponse: LiveData<Resource<GetAssetStatusListResponse>> =
         _assetStatusListResponse
@@ -64,6 +68,9 @@ open class BaseViewModel @Inject constructor(
     private val _setBarcodeForAssetResponse = MutableLiveData<Resource<GetModifyAssetResponse>>()
     val setBarcodeForAssetResponse: LiveData<Resource<GetModifyAssetResponse>> =
         _setBarcodeForAssetResponse
+   private val _setAssetMoreClickedResponse = MutableLiveData<Resource<GetModifyAssetResponse>>()
+    val setAssetMoreClickedResponse: LiveData<Resource<GetModifyAssetResponse>> =
+        _setAssetMoreClickedResponse
 
     private val _getModifyAssetHistoryResponse =
         MutableLiveData<Resource<GetModifyAssetHistoryResponse>>()
@@ -314,7 +321,7 @@ open class BaseViewModel @Inject constructor(
     fun getGoodList(
         accessToken: String,
         goodCode: Int,
-        parentArticlePatternId: Int,
+        articlePatternId: Int,
         productName: String
     ) {
         if (!context.let { isNetworkAvailable(it) }) {
@@ -328,7 +335,7 @@ open class BaseViewModel @Inject constructor(
                         repository.getGoodList(
                             accessToken,
                             goodCode,
-                            parentArticlePatternId,
+                            articlePatternId,
                             productName
                         )
                     _getGoodListResponse.postValue(Resource.success(getGoodListResponse))
@@ -384,9 +391,41 @@ open class BaseViewModel @Inject constructor(
                     val result =
                         repository.setBarcodeForAsset(accessToken, assetId, assetTypeCode, barcode)
                     _setBarcodeForAssetResponse.postValue(Resource.success(result))
+
                 } catch (exception: Exception) {
                     Log.i("DEBUG", "BaseViewModel setBarcodeForAsset error:${exception.message}")
                     _setBarcodeForAssetResponse.postValue(
+                        Resource.error(
+                            exception.message.toString(),
+                            null
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    fun setAssetMoreClicked(
+        accessToken: String,
+        assetId: String,
+        assetTypeCode: Int,
+        barcode: String
+
+    ) {
+        if (!context.let { isNetworkAvailable(it) }) {
+            val errorMessage = "اتصال اینترنت برقرار نیست"
+            _modifyAssetResponse.postValue(Resource.error(errorMessage, null))
+        } else {
+            viewModelScope.launch(Dispatchers.IO) {
+                _setAssetMoreClickedResponse.postValue(Resource.loading(null))
+                try {
+                    val result =
+                        repository.setAssetMoreClicked(accessToken, assetId, assetTypeCode, barcode)
+                    _setAssetMoreClickedResponse.postValue(Resource.success(result))
+
+                } catch (exception: Exception) {
+                    Log.i("DEBUG", "BaseViewModel setBarcodeForAsset error:${exception.message}")
+                    _setAssetMoreClickedResponse.postValue(
                         Resource.error(
                             exception.message.toString(),
                             null
@@ -401,7 +440,7 @@ open class BaseViewModel @Inject constructor(
         accessToken: String,
         assetId: Int,
         assetTypeCode: Int,
-        barcode: Int,
+        barcode: String,
         note: String,
         productId: Int
     ) {
@@ -442,6 +481,7 @@ open class BaseViewModel @Inject constructor(
         assetStatusCode: Int,
         note: String,
         subCostCenterId: Int
+
     ) {
         if (!context.let { isNetworkAvailable(it) }) {
             val errorMessage = "اتصال اینترنت برقرار نیست"
@@ -559,7 +599,7 @@ open class BaseViewModel @Inject constructor(
 
     fun modifyAsset(
         accessToken: String,
-        assetId: Int?, assetTypeCode: Int, barcode: Long, note: String, productId: Int
+        assetId: Int?, assetTypeCode: Int, barcode: String, note: String, productId: Int
     ) {
         if (!context.let { isNetworkAvailable(it) }) {
             val errorMessage = "اتصال اینترنت برقرار نیست"

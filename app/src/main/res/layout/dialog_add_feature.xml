@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- فیلد ثابت برای بارکد -->
+    <EditText
+        android:id="@+id/et_barcode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="بارکد را وارد کنید" />
+
+    <!-- لیستی که فیلدهای برچسب اموال را نگه می‌دارد -->
+    <LinearLayout
+        android:id="@+id/tagsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="8dp" />
+
+    <!-- دکمه افزودن فیلد جدید -->
+    <Button
+        android:id="@+id/btn_add_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="افزودن برچسب اموال"
+        android:layout_gravity="center_horizontal"
+        android:padding="8dp" />
+
+    <!-- پیام خطا (پنهان به‌صورت پیش‌فرض) -->
+    <TextView
+        android:id="@+id/tv_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="حداکثر ۵ برچسب می‌توانید اضافه کنید."
+        android:textColor="#FF0000"
+        android:visibility="gone"
+        android:gravity="center"
+        android:paddingTop="8dp" />
+
+    <!-- دکمه ذخیره اطلاعات -->
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ذخیره"
+        android:padding="8dp"
+        android:layout_marginTop="12dp" />
+
+</LinearLayout>

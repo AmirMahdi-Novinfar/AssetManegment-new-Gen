@@ -18,7 +18,7 @@
     <RelativeLayout
         android:id="@+id/rlSectionLogo"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:layout_alignParentTop="true">
 
         <ImageView
@@ -52,26 +52,12 @@
         android:visibility="visible">
 
 
-
-        <TextView
-            android:id="@+id/tvEnterTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="40dp"
-            android:fontFamily="@font/iransansweb"
-            android:text="وارد شوید"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
         <RelativeLayout
             android:id="@+id/rlUsernameForLogin"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginLeft="40dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             android:layout_marginRight="40dp">
 
             <androidx.appcompat.widget.AppCompatEditText
@@ -143,7 +129,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="40dp"
         android:layout_marginBottom="64dp"
-        android:background="@drawable/btn_primary"
+        android:background="@drawable/background_gradient_right_with_border"
         android:fontFamily="@font/iransansweb"
         android:text="@string/enter_fa"
         android:textColor="@color/white"

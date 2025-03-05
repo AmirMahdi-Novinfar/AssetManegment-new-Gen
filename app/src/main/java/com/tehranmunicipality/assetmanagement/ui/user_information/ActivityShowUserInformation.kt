@@ -1,5 +1,6 @@
 package com.tehranmunicipality.assetmanagement.ui.user_information
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -357,11 +358,15 @@ class ActivityShowUserInformation : BaseActivity(), View.OnClickListener {
                                 "ActivityShowUserInformation observeViewModel getAssetListResponse success. list is empty. so we return back"
                             )
                             val message = "اموالی یافت نشد"
-                            showSnackBarMessage(rvUserInformation, message)
-                            lifecycleScope.launch(Dispatchers.Main) {
-                                delay(2000)
-                                finish()
-                            }
+                            showCustomDialog(
+                                this,
+                                DialogType.WARNING,
+                                message, object : IClickListener {
+                                    override fun onClick(view: View?, dialog: Dialog) {
+                                        dialog.dismiss()
+                                        finish()
+                                    }
+                                })
                         }
                     } else {
                         val errorMessage = it.data?.detailError?.get(0)?.errorDesc.toString()

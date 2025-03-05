@@ -24,7 +24,7 @@
         android:fontFamily="@font/iransansweb"
         android:text="@string/assetAllocation_fa"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="14sp"
         android:textStyle="bold" />
 
     <ImageView
@@ -46,7 +46,7 @@
         android:layout_below="@+id/tvTitle"
         android:layout_alignParentRight="true"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:fontFamily="@font/iransansweb"
@@ -64,10 +64,10 @@
         android:drawableLeft="@drawable/barcode3"
         android:fontFamily="@font/iransansweb"
         android:gravity="center_vertical|right"
-        android:hint="@string/scan"
+        android:hint="بارکد را اسکن یا وارد نمایید"
         android:inputType="number"
         android:layoutDirection="rtl"
-        android:maxLength="9"
+        android:maxLength="11"
         android:paddingLeft="16dp"
         android:paddingRight="16dp" />
 
@@ -161,58 +161,12 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/rlAssetType"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_below="@+id/rlChooseAssetName"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="16dp">
-
-        <RadioGroup
-            android:id="@+id/rgProductType"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:layoutDirection="rtl"
-            android:orientation="horizontal">
-
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/mrbNew"
-                android:layout_width="80dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:button="@drawable/ic_selected"
-                android:checked="true"
-                android:fontFamily="@font/iransansweb"
-                android:paddingRight="8dp"
-                android:text="@string/new_fa"
-                android:textColor="@color/white" />
-
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/mrbScratch"
-                android:layout_width="120dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:button="@drawable/ic_unselected"
-                android:fontFamily="@font/iransansweb"
-                android:paddingRight="8dp"
-                android:text="@string/scratched_fa"
-                android:textColor="@color/white" />
-        </RadioGroup>
-
-    </RelativeLayout>
 
     <Button
         android:id="@+id/btnAddAsset"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_below="@+id/rlAssetType"
+        android:layout_below="@+id/rlChooseAssetName"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginRight="16dp"
