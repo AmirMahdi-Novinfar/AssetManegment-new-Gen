@@ -19,8 +19,10 @@
         tools:replace="android:label"
         tools:targetApi="31">
         <activity
-            android:name=".ui.asset_information.testactivity_tag"
-            android:exported="false" />
+            android:name=".ui.asset.TestActivity"
+            android:exported="false"
+            android:label="@string/title_activity_test"
+            android:theme="@style/Theme.assetManagement" />
         <activity
             android:name=".ui.user_information.HelpActivity"
             android:exported="false" />

@@ -43,6 +43,7 @@ import com.tehranmunicipality.assetmanagement.ui.base.SpinnerFilterAdapter
 import com.tehranmunicipality.assetmanagement.util.DialogType
 import com.tehranmunicipality.assetmanagement.util.IClickListener
 import com.tehranmunicipality.assetmanagement.util.IClickListenerWithEditText
+import com.tehranmunicipality.assetmanagement.util.IClickListenergone
 import com.tehranmunicipality.assetmanagement.util.Resource
 import com.tehranmunicipality.assetmanagement.util.SearchType
 import com.tehranmunicipality.assetmanagement.util.Status
@@ -1102,6 +1103,21 @@ class ActivityShowAssetInformation : BaseActivity(), View.OnClickListener {
                             }
                         }
                     }
+
+
+
+                },object : IClickListenergone{
+
+
+                    override fun onViewCreated(
+                        moreAssetsContainer: LinearLayout,
+                        moreAssetsContainer2: LinearLayout,
+                        moreAssetsContainer3: LinearLayout,
+                        moreAssetsContainer4: LinearLayout
+                    ) {
+                        TODO("Not yet implemented")
+                    }
+
                 })
             }
 

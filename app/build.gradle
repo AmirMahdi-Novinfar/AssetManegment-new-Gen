@@ -3,15 +3,17 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+  //  id 'org.jetbrains.kotlin.plugin.compose'
 }
 
 android {
-    compileSdk 33
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.tehranmunicipality.assetmanagement"
         minSdk 21
-        targetSdk 33
+        namespace 'com.tehranmunicipality.assetmanagement'
+        targetSdk 35
         versionCode 5
         versionName "3"
 
@@ -25,11 +27,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
     buildFeatures {
         viewBinding true
@@ -41,16 +43,26 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
-
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    def kotlin_version = "1.6.10"
+    implementation 'androidx.activity:activity-compose:1.10.1'
+    implementation platform('androidx.compose:compose-bom:2024.04.01')
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.ui:ui-graphics'
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    implementation 'androidx.compose.material3:material3'
+   implementation 'androidx.lifecycle:lifecycle-viewmodel:2.7.0'
+    androidTestImplementation platform('androidx.compose:compose-bom:2024.04.01')
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
+    debugImplementation 'androidx.compose.ui:ui-tooling'
+    debugImplementation 'androidx.compose.ui:ui-test-manifest'
+    def kotlin_version = "1.9.10"
     def compose_version = "1.2.0-alpha03"
-    def hilt_version = "2.40.5"
+    def hilt_version = "2.48.1"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:multidex:1.0.3'
 
@@ -74,16 +86,13 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.1'
     implementation 'androidx.preference:preference-ktx:1.2.0'
 
-    def lifecycle_version = "2.5.1"
-    //implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-    // LiveData
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 
     def roomVersion = "2.4.2"
     implementation "androidx.room:room-runtime:$roomVersion"
     //Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
+
 
     //zxing barcode scanner
     //implementation project(path: ':zxing-android-embedded')
@@ -97,6 +106,11 @@ dependencies {
 
     //Retrofit
     def retrofitVersion = '2.9.0'
+    implementation "androidx.room:room-runtime:2.6.1"
+    kapt "androidx.room:room-compiler:2.6.1"
+    implementation "androidx.room:room-ktx:2.6.1"
+    implementation "androidx.room:room-rxjava2:2.6.1" // اگر نیاز هست
+
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
@@ -112,11 +126,6 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
 
-    // Coroutine Lifecycle Scopes
-    def coroutineLifecycleScopeVersion = '2.4.0'
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$coroutineLifecycleScopeVersion"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.0-alpha01'
 
     //gson
     def gsonVersion = '2.8.9'
@@ -146,6 +155,9 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     //implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
     kapt "androidx.hilt:hilt-compiler:1.0.0"
+    kapt("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.9.0")
+
+
 
     // google mobile vision
     implementation 'com.google.android.gms:play-services-vision:20.1.3'

@@ -6,15 +6,15 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class AppUser(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) var id: Int = 0,
     @ColumnInfo(name = "username")
-    val username: String = "",
+    var username: String = "",
     @ColumnInfo(name = "password")
-    val password: String = "",
+    var password: String = "",
     @ColumnInfo(name = "displayName")
-    val displayName: String = "",
+    var displayName: String = "",
     @ColumnInfo(name = "token")
-    val token: String = "",
+    var token: String = "",
 ) {
     constructor(username: String, password: String, displayName: String, token: String) : this(
         0,

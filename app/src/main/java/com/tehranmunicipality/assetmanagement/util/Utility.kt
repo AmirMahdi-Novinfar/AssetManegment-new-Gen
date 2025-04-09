@@ -20,6 +20,7 @@ import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.Window
+import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
@@ -290,7 +291,6 @@ fun showListSearchTypesDialog(
 
     dialog.window?.attributes = layoutParams
 
-    dialog.window?.attributes?.windowAnimations = androidx.appcompat.R.anim.abc_slide_in_top
 
     val spinnerAdapter = com.tehranmunicipality.assetmanagement.ui.base.SpinnerAdapter(activity,
         array, object : IDialogListClickListener {
@@ -329,6 +329,137 @@ fun showCustomDialog(
     val btnClose = dialog.findViewById<Button>(R.id.btnClose)
 
     val animFadeIn: Animation = AnimationUtils.loadAnimation(activity, android.R.anim.fade_in)
+
+    ivIcon.animation = animFadeIn
+
+    ivIcon.animate()
+        .scaleY(1.0F)
+        .setDuration(600)
+        .setInterpolator(DecelerateInterpolator())
+        .start()
+
+    when (dialogType) {
+
+        DialogType.NORMAL -> {
+
+        }
+
+        DialogType.SUCCESS -> {
+            tvTitle.text = "تایید"
+            ivIcon.setImageResource(R.drawable.ic_success)
+            btnClose.setBackgroundResource(R.drawable.background_success)
+        }
+
+        DialogType.WARNING -> {
+            tvTitle.text = "هشدار"
+            ivIcon.setImageResource(R.drawable.ic_warning)
+            btnClose.setBackgroundResource(R.drawable.background_warning)
+        }
+
+        DialogType.ERROR -> {
+            tvTitle.text = "خطا"
+            ivIcon.setImageResource(R.drawable.ic_error)
+            btnClose.setBackgroundResource(R.drawable.background_error)
+        }
+    }
+    tvMessage.text = message
+
+    btnClose.setOnClickListener(object : View.OnClickListener {
+        override fun onClick(p0: View?) {
+            clickListener.onClick(p0, dialog)
+        }
+    })
+
+    dialog.show()
+
+}
+
+fun showCustomDialogwithtwobutton(
+    activity: Activity,
+    dialogType: DialogType,
+    message: String,
+    clickListener: IClickListener,
+    clickListenersubmit: IClickListener
+) {
+
+    val dialog = Dialog(activity)
+    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    dialog.setContentView(R.layout.dialog_info_with_two_buttons)
+    dialog.setCancelable(false)
+    val tvTitle = dialog.findViewById<TextView>(R.id.tvTitle)
+    val ivIcon = dialog.findViewById<ImageView>(R.id.ivIcon)
+    val tvMessage = dialog.findViewById<TextView>(R.id.tvMessage)
+    val btnClose = dialog.findViewById<Button>(R.id.btnClose)
+    val btnsubmit = dialog.findViewById<Button>(R.id.btnsubmit)
+
+    val animFadeIn: Animation = AnimationUtils.loadAnimation(activity, android.R.anim.fade_in)
+
+    ivIcon.animation = animFadeIn
+
+    ivIcon.animate()
+        .scaleY(1.0F)
+        .setDuration(600)
+        .setInterpolator(DecelerateInterpolator())
+        .start()
+
+    when (dialogType) {
+
+        DialogType.NORMAL -> {
+
+        }
+
+        DialogType.SUCCESS -> {
+            tvTitle.text = "تایید"
+            ivIcon.setImageResource(R.drawable.ic_success)
+            btnClose.setBackgroundResource(R.drawable.background_success)
+        }
+
+        DialogType.WARNING -> {
+            tvTitle.text = "هشدار"
+            ivIcon.setImageResource(R.drawable.ic_warning)
+            btnClose.setBackgroundResource(R.drawable.background_warning)
+        }
+
+        DialogType.ERROR -> {
+            tvTitle.text = "خطا"
+            ivIcon.setImageResource(R.drawable.ic_error)
+            btnClose.setBackgroundResource(R.drawable.background_error)
+        }
+    }
+    tvMessage.text = message
+
+    btnClose.setOnClickListener(object : View.OnClickListener {
+        override fun onClick(p0: View?) {
+            clickListener.onClick(p0, dialog)
+        }
+    })
+    btnsubmit.setOnClickListener(object : View.OnClickListener {
+        override fun onClick(p0: View?) {
+            clickListenersubmit.onClick(p0, dialog)
+        }
+    })
+
+    dialog.show()
+
+}
+
+fun showCustomDialogamir(
+    context: Context,
+    dialogType: DialogType,
+    message: String,
+    clickListener: IClickListener
+) {
+
+    val dialog = Dialog(context)
+    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    dialog.setContentView(R.layout.dialog_info)
+    dialog.setCancelable(false)
+    val tvTitle = dialog.findViewById<TextView>(R.id.tvTitle)
+    val ivIcon = dialog.findViewById<ImageView>(R.id.ivIcon)
+    val tvMessage = dialog.findViewById<TextView>(R.id.tvMessage)
+    val btnClose = dialog.findViewById<Button>(R.id.btnClose)
+
+    val animFadeIn: Animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in)
 
     ivIcon.animation = animFadeIn
 
@@ -530,6 +661,8 @@ fun showBarcodeDialog(context: Context, listener: IClickListener) {
     val acbConfirm = dialog.findViewById<AppCompatButton>(R.id.acbConfirm)
     val etBarcode = dialog.findViewById<EditText>(R.id.etBarcode)
     val ivClose = dialog.findViewById<ImageView>(R.id.ivClose)
+
+
     etBarcode.requestFocus()
     acbConfirm.setOnClickListener {
         if (!etBarcode.text.toString().isEmpty() && etBarcode.text.toString().length == 11) {
@@ -562,18 +695,40 @@ fun showBarcodeDialog(context: Context, listener: IClickListener) {
 }
 
 
-fun showAssetmoreDialog(context: Context, listener: IClickListenerWithEditText) {
+fun showAssetmoreDialog(context: Context, listener: IClickListenerWithEditText,listner2gone:IClickListenergone) {
     val dialog = Dialog(context)
-    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
     dialog.setContentView(R.layout.dialog_barcode_with_tag_more)
     dialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
     dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
     dialog.setCancelable(true)
     val acbConfirm = dialog.findViewById<AppCompatButton>(R.id.acbConfirm)
     val sabtmoreasset = dialog.findViewById<AppCompatButton>(R.id.sabtmoreasset)
+    val sabtmoreasset2 = dialog.findViewById<AppCompatButton>(R.id.sabtmoreasset2)
+    val sabtmoreasset3 = dialog.findViewById<AppCompatButton>(R.id.sabtmoreasset3)
+    val sabtmoreasset4 = dialog.findViewById<AppCompatButton>(R.id.sabtmoreasset4)
     val etBarcode = dialog.findViewById<EditText>(R.id.etBarcode)
     val moreassetedt = dialog.findViewById<EditText>(R.id.moreassetedt)
+    val moreassetedt2 = dialog.findViewById<EditText>(R.id.moreassetedt2)
+    val moreassetedt3 = dialog.findViewById<EditText>(R.id.moreassetedt3)
+    val moreassetedt4 = dialog.findViewById<EditText>(R.id.moreassetedt4)
     val ivClose = dialog.findViewById<ImageView>(R.id.ivClose)
+
+
+    val moreAssetsContainer = dialog.findViewById<LinearLayout>(R.id.moreAssetsContainer)
+    val moreAssetsContainer2 = dialog.findViewById<LinearLayout>(R.id.moreAssetsContainer2)
+    val moreAssetsContainer3 = dialog.findViewById<LinearLayout>(R.id.moreAssetsContainer3)
+    val moreAssetsContainer4 = dialog.findViewById<LinearLayout>(R.id.moreAssetsContainer4)
+
+
+    moreAssetsContainer2.visibility = View.GONE
+    moreAssetsContainer3.visibility = View.GONE
+    moreAssetsContainer4.visibility = View.GONE
+
+    listner2gone.onViewCreated(moreAssetsContainer,moreAssetsContainer2, moreAssetsContainer3, moreAssetsContainer4)
+
+
+
+
     etBarcode.requestFocus()
     acbConfirm.setOnClickListener {
         if (!etBarcode.text.toString().isEmpty() && etBarcode.text.toString().length == 11) {
@@ -609,12 +764,53 @@ fun showAssetmoreDialog(context: Context, listener: IClickListenerWithEditText) 
 
 
     }
+    sabtmoreasset2.setOnClickListener{
+        moreassetedt.clearFocus() // مقدار رو ذخیره کن
+            if (!moreassetedt2.text.toString().isEmpty() && moreassetedt2.text.toString().length in 6..11) {
+                listener.onClick(sabtmoreasset2, moreassetedt2,dialog)
+            } else {
+                val errorMessage = "طول برچسب باید بین 6 تا 11 رقم باشد"
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+
+
+    }
+    sabtmoreasset3.setOnClickListener{
+        moreassetedt.clearFocus() // مقدار رو ذخیره کن
+            if (!moreassetedt3.text.toString().isEmpty() && moreassetedt3.text.toString().length in 6..11) {
+                listener.onClick(sabtmoreasset3, moreassetedt3,dialog)
+            } else {
+                val errorMessage = "طول برچسب باید بین 6 تا 11 رقم باشد"
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+
+
+    }
+    sabtmoreasset4.setOnClickListener{
+        moreassetedt.clearFocus() // مقدار رو ذخیره کن
+            if (!moreassetedt4.text.toString().isEmpty() && moreassetedt4.text.toString().length in 6..11) {
+                listener.onClick(sabtmoreasset4, moreassetedt4,dialog)
+            } else {
+                val errorMessage = "طول برچسب باید بین 6 تا 11 رقم باشد"
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+
+
+    }
 
     ivClose.setOnClickListener {
         dialog.dismiss()
     }
     dialog.show()
 }
+
+interface IClickListenergone {
+    fun onViewCreated(moreAssetsContainer: LinearLayout,moreAssetsContainer2: LinearLayout, moreAssetsContainer3: LinearLayout, moreAssetsContainer4: LinearLayout)
+    // ... سایر متدهای مورد نیاز ...
+}
+
+
+
 
 fun showDialog2(
     activity: Activity,

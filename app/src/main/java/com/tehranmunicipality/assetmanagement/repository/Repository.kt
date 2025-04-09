@@ -131,7 +131,6 @@ class Repository @Inject constructor(
 
         val gsonObject = JsonObject()
         //
-        //body properties
         gsonObject.addProperty("articlePatternCode", "")
         gsonObject.addProperty("articlePatternName", "")
         //
@@ -150,7 +149,6 @@ class Repository @Inject constructor(
 
         val gsonObject = JsonObject()
         //
-        //body properties
 
         when (searchType) {
 

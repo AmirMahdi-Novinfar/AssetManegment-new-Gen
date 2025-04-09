@@ -184,6 +184,15 @@ class AssetListAdapter(
         holder.itemView.findViewById<AppCompatButton>(R.id.sabtmoreasset).setOnClickListener {
             itemClickListener.setAssetMoreClicked(filteredAssetList[position])
         }
+        holder.itemView.findViewById<AppCompatButton>(R.id.sabtmoreasset2).setOnClickListener {
+            itemClickListener.setAssetMoreClicked(filteredAssetList[position])
+        }
+        holder.itemView.findViewById<AppCompatButton>(R.id.sabtmoreasset3).setOnClickListener {
+            itemClickListener.setAssetMoreClicked(filteredAssetList[position])
+        }
+        holder.itemView.findViewById<AppCompatButton>(R.id.sabtmoreasset4).setOnClickListener {
+            itemClickListener.setAssetMoreClicked(filteredAssetList[position])
+        }
     }
 
     override fun getItemCount(): Int {

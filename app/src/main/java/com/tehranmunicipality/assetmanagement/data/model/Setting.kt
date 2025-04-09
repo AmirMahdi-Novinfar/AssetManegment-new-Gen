@@ -6,11 +6,11 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Setting(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) var id: Int = 0,
     @ColumnInfo(name = "username")
-    val username: String = "",
+    var username: String = "",
     @ColumnInfo(name = "password")
-    val password: String = "",
+    var password: String = "",
     @ColumnInfo(name = "isOnlineMode")
-    val isOnlineMode: Boolean = false,
+    var isOnlineMode: Boolean = false,
 )

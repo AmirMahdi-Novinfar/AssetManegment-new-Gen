@@ -55,26 +55,44 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/rlFooter"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="16dp"
         android:layout_alignParentBottom="true">
 
         <Button
             android:id="@+id/btnClose"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="8dp"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="بستن"
             android:textColor="@color/white"
             android:fontFamily="@font/iransansweb"
             android:textSize="16sp"
-            android:text="بستن"
-            android:background="#089DA7" />
+            android:textStyle="bold"
+            android:backgroundTint="#089DA7"
+           />
 
-    </RelativeLayout>
+        <Button
+            android:id="@+id/btnsubmit"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="تأیید"
+            android:textColor="@color/white"
+            android:fontFamily="@font/iransansweb"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:backgroundTint="#5EAB09">
+
+        </Button>
+    </LinearLayout>
+
 
 </RelativeLayout>

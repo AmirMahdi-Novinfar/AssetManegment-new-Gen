@@ -49,6 +49,7 @@ class ActivityModifyAsset : BaseActivity(), View.OnClickListener {
     private var barcode = ""
     private var assetTag = ""
     private var actorId = 0
+    private var actorIdold = 0
     private var actorName = ""
     private var costCenterId = 0
     private var costCenterName = ""
@@ -120,6 +121,7 @@ class ActivityModifyAsset : BaseActivity(), View.OnClickListener {
                 assetLocationId = (intent.getStringExtra("assetLocationID")).toString().toInt()
                 assetLocationName = (intent.getStringExtra("assetLocationName")).toString()
                 actorId = (intent.getStringExtra("actorID")).toString().toInt()
+                actorIdold = (intent.getStringExtra("actorID")).toString().toInt()
                 actorName = (intent.getStringExtra("actorName")).toString()
                 assetTypeCode = (intent.getStringExtra("assetTypeCode")).toString().toInt()
                 assetStatusCode = (intent.getStringExtra("assetStatusCode")).toString().toInt()
@@ -756,8 +758,6 @@ class ActivityModifyAsset : BaseActivity(), View.OnClickListener {
                                     barcode
                                 )
 
-
-
                             } else {
                                 val message = "اتصال اینترنت برقرار نیست"
                                 showCustomDialog(
@@ -785,17 +785,41 @@ class ActivityModifyAsset : BaseActivity(), View.OnClickListener {
                         val errorMessage = "اتصال اینترنت برقرار نیست"
                         showCustomDialog(this, DialogType.ERROR, errorMessage)
                     } else {
-                        modifyAssetViewModel.getModifyAssetHistory(
-                            accessToken,
-                            actorId,
-                            getCurrentDateTime(),
-                            assetHistoryId,
-                            assetId,
-                            locationListItem.assetLocationID.toString().toInt(),
-                            assetStatusCode,
-                            "",
-                            subCostCenterId
-                        )
+
+                        if (locationListItem.assetLocationID.toString().toInt()==assetLocationId && actorId==actorIdold ){
+
+                            showCustomDialog(this@ActivityModifyAsset, DialogType.WARNING,
+                                "هیچ تغییری در اموال اتفاق نیوفتاده", object : IClickListener {
+                                    override fun onClick(view: View?, dialog: Dialog) {
+                                        dialog.dismiss()
+                                    }
+                                })
+
+                        }else{
+
+                            showCustomDialogwithtwobutton(this@ActivityModifyAsset, DialogType.WARNING,
+                                "آیا از تغییرات خود مطمئن هستید؟", object : IClickListener {
+                                    override fun onClick(view: View?, dialog: Dialog) {
+                                        dialog.dismiss()
+                                    }
+                                },object :IClickListener{
+                                    override fun onClick(view: View?, dialog: Dialog) {
+                                        modifyAssetViewModel.getModifyAssetHistory(
+                                            accessToken,
+                                            actorId,
+                                            getCurrentDateTime(),
+                                            null,
+                                            assetId,
+                                            locationListItem.assetLocationID.toString().toInt(),
+                                            assetStatusCode,
+                                            "",
+                                            subCostCenterId
+                                        )
+                                    }
+                                })
+
+                        }
+
                     }
                 }
             }
@@ -904,10 +928,10 @@ class ActivityModifyAsset : BaseActivity(), View.OnClickListener {
         var isValid = true
         var errorMessage = ""
 
-//        if (!::assetStatusListItem.isInitialized) {
-//            isValid = false
-//            errorMessage = "هیچ وضعیت کالایی انتخاب نشده است"
-//        }
+        if (!::assetStatusListItem.isInitialized) {
+            isValid = false
+            errorMessage = "هیچ وضعیت کالایی انتخاب نشده است"
+        }
 
         if (actorId == 0) {
             isValid = false

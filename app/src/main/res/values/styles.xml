@@ -11,6 +11,14 @@
 
     </style>
 
+
+    <style name="button">
+        <item name="android:fontFamily">@font/iransansweb</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:radius">10dp</item>
+
+    </style>
+
     <style name="RobotoTextViewStyle">
         <item name="android:fontFamily">@font/iransansweb</item>
         <item name="android:textStyle">bold</item>

@@ -215,6 +215,9 @@ class AssetExpandableListAdapter internal constructor(
                             resultList.add(row)
                         }
                     }
+
+                    SearchType.NationalCode -> TODO()
+                    SearchType.Username -> TODO()
                 }
             }
             filteredAssetList = resultList

@@ -1,5 +1,7 @@
 package com.tehranmunicipality.assetmanagement.ui.asset_information
 
+import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.util.Log
@@ -11,10 +13,15 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.tehranmunicipality.assetmanagement.R
 import com.tehranmunicipality.assetmanagement.data.model.AssetListItem
+import com.tehranmunicipality.assetmanagement.util.DialogType
+import com.tehranmunicipality.assetmanagement.util.IClickListener
 import com.tehranmunicipality.assetmanagement.util.SearchType
 import com.tehranmunicipality.assetmanagement.util.englishToPersian
 import com.tehranmunicipality.assetmanagement.util.getPersianDate
 import com.tehranmunicipality.assetmanagement.util.setFormattedText
+import com.tehranmunicipality.assetmanagement.util.showCustomDialog
+import com.tehranmunicipality.assetmanagement.util.showCustomDialogamir
+import com.tehranmunicipality.assetmanagement.util.showDialog2
 
 /**
  * Created by david - dchoopani@yahoo.com on 12, November, 2023
@@ -51,6 +58,7 @@ class AssetExpandableListAdapter2(
 
     override fun getItemCount(): Int = filteredAssetList.size
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onBindViewHolder(holder: RowViewHolder, position: Int) {
 
         assetListItem = filteredAssetList[position]
@@ -61,6 +69,7 @@ class AssetExpandableListAdapter2(
         //group items
         val rlRowGroupRoot = holder.rlRowGroupRoot.findViewById<RelativeLayout>(R.id.rlRowGroupRoot)
         val tvAssetName = holder.tvAssetName.findViewById<TextView>(R.id.tvAssetName)
+        val tvAssetTag = holder.tvAssetTag.findViewById<TextView>(R.id.tvAssetTag)
         val ivDropDownAsset = holder.ivDropDownAsset.findViewById<ImageView>(R.id.ivDropDownAsset)
         val rlBarcode = holder.rlBarcode.findViewById<RelativeLayout>(R.id.rlBarcode)
         val tvBarcode = holder.tvBarcode.findViewById<TextView>(R.id.tvBarcode)
@@ -97,12 +106,21 @@ class AssetExpandableListAdapter2(
         val tvItem3 = holder.tvItem3.findViewById<TextView>(R.id.tvItem3)
         val tvItem4 = holder.tvItem4.findViewById<TextView>(R.id.tvItem4)
         val tvItem5 = holder.tvItem5.findViewById<TextView>(R.id.tvItem5)
+        val tvItem5time = holder.tvItem5yime.findViewById<TextView>(R.id.amirnovinqq)
         val tvItem7 = holder.tvItem7.findViewById<TextView>(R.id.tvItem7)
         val tvItem9 = holder.tvItem9.findViewById<TextView>(R.id.tvItem9)
         val tvItem11 = holder.tvItem11.findViewById<TextView>(R.id.tvItem11)
 
 
         tvAssetName.text = englishToPersian(assetListItem.productName.toString())
+        if (assetListItem.assetTag?.isEmpty() == true){
+
+            tvAssetTag.text =" فاقد برچسب اموال"
+
+        }else{
+
+            tvAssetTag.text =" برچسب اموال : "+ englishToPersian(assetListItem.assetTag.toString())
+        }
 
         //initializing
         val costCenterInfo =
@@ -114,10 +132,14 @@ class AssetExpandableListAdapter2(
         setFormattedText(tvItem2, "تحویل گیرنده : ", assetListItem.actorName.toString() )
         setFormattedText(tvItem3, "محل استقرار : ",assetListItem.assetLocationName.toString() )
         setFormattedText(tvItem4, "برچسب اموال : ",assetListItem.assetTag.toString() )
+        var validtime1= assetListItem.assetHistoryDate?.split(" ")?.get(0)
+
         setFormattedText(
             tvItem5, "تاریخ آخرین ویرایش : ",
-            englishToPersian(assetListItem.assetHistoryDate.toString())
+            englishToPersian(validtime1.toString())
         )
+        val time = assetListItem.assetHistoryDate?.split(" ")?.slice(1..2)?.joinToString(" ")
+        tvItem5time.text=time
         setFormattedText(
             tvItem7, "نام مرکز هزینه اصلی : ",
             englishToPersian(costCenterInfo)
@@ -142,19 +164,68 @@ class AssetExpandableListAdapter2(
 
         holder.btnAssetEdit.findViewById<Button>(R.id.btnAssetEdit)
 
-        holder.btnAssetEdit.setOnClickListener {
-            assetListItem = filteredAssetList[position]
-            itemClickListener.editItemClicked(assetListItem)
+
+
+
+
+
+            holder.btnSetBarcode.findViewById<Button>(R.id.btnSetBarcode).setOnClickListener {
+                if (assetListItem.assetStateCode==12 || assetListItem.assetStateCode==2){
+                    showCustomDialogamir(context, DialogType.WARNING,
+                        "اموال برکنار شده میباشد و هیچ عملیاتی را پذیرا نیست", object : IClickListener {
+                            override fun onClick(view: View?, dialog: Dialog) {
+                                dialog.dismiss()
+                            }
+                        })
+
+
+                }else{
+
+                    assetListItem = filteredAssetList[position]
+                    itemClickListener.setBarcodeClicked(assetListItem)
+                }
+
+
         }
 
-        holder.btnSetBarcode.findViewById<Button>(R.id.btnSetBarcode).setOnClickListener {
-            assetListItem = filteredAssetList[position]
-            itemClickListener.setBarcodeClicked(assetListItem)
-        }
-        holder.btnmoreasset.findViewById<Button>(R.id.btnAddAssetTag).setOnClickListener {
-            assetListItem = filteredAssetList[position]
-            itemClickListener.setAssetMoreClicked(assetListItem)
-        }
+            holder.btnmoreasset.findViewById<Button>(R.id.btnAddAssetTag).setOnClickListener {
+                if (assetListItem.assetStateCode==12 || assetListItem.assetStateCode==2){
+                    showCustomDialogamir(context, DialogType.WARNING,
+                        "اموال برکنار شده میباشد و هیچ عملیاتی را پذیرا نیست", object : IClickListener {
+                            override fun onClick(view: View?, dialog: Dialog) {
+                                dialog.dismiss()
+                            }
+                        })
+
+
+                }else{
+                    assetListItem = filteredAssetList[position]
+                    itemClickListener.setAssetMoreClicked(assetListItem)
+                }
+
+            }
+            holder.btnAssetEdit.setOnClickListener {
+                if (assetListItem.assetStateCode==12 || assetListItem.assetStateCode==2){
+                    showCustomDialogamir(context, DialogType.WARNING,
+                        "اموال برکنار شده میباشد و هیچ عملیاتی را پذیرا نیست", object : IClickListener {
+                            override fun onClick(view: View?, dialog: Dialog) {
+                                dialog.dismiss()
+                            }
+                        })
+
+
+                }else{
+                    assetListItem = filteredAssetList[position]
+                    itemClickListener.editItemClicked(assetListItem)
+                }
+
+
+            }
+
+
+
+
+
 
 //        if (assetListItem.barCode.toString().equals("")) {
 //            val linearLayoutParams =
@@ -222,6 +293,7 @@ class AssetExpandableListAdapter2(
         val tvItem3 = row.findViewById<TextView>(R.id.tvItem3)
         val tvItem4 = row.findViewById<TextView>(R.id.tvItem4)
         val tvItem5 = row.findViewById<TextView>(R.id.tvItem5)
+        val tvItem5yime = row.findViewById<TextView>(R.id.amirnovinqq)
         val tvItem6 = row.findViewById<TextView>(R.id.tvItem6)
         val tvItem7 = row.findViewById<TextView>(R.id.tvItem7)
         val tvItem8 = row.findViewById<TextView>(R.id.tvItem8)
