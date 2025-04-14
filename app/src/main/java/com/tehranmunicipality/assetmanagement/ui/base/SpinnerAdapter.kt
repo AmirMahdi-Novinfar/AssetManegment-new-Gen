@@ -10,7 +10,7 @@ import com.tehranmunicipality.assetmanagement.R
 import com.tehranmunicipality.assetmanagement.ui.asset_information.IDialogListClickListener
 
 /**
- * Created by david - dchoopani@yahoo.com on 28,October,2023
+ * Created by AmirMahdi Novinfar - amirnovin80@gmail.com on 28,October,2023
  */
 
 

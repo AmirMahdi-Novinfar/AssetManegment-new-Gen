@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="#89000000">
+    android:background="@android:color/transparent">
 
 
 
@@ -17,19 +17,79 @@
             android:src="@drawable/ic_close" />
 
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/amiriririri"
+        android:layout_margin="6dp"
+        android:gravity="center">
 
-        <!--<TextView
-            android:id="@+id/tvDeleteTitle"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/iransansweb"
-            android:text="@string/setBarcodeTitle"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />-->
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:layout_margin="8dp"
+            android:layout_gravity="center"
+            android:elevation="4dp"
+            android:layoutDirection="rtl"
+            android:backgroundTint="@android:color/white"
+            android:clipToPadding="false"
+            android:clipChildren="false"
+            android:backgroundTintMode="src_in"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/rounded_card_bg">
+
+            <TextView
+                android:id="@+id/asset_title_assetmore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/iransansweb"
+                android:text="مانیتور"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:gravity="right"
+                android:layoutDirection="rtl" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="#DDD" />
+
+            <TextView
+                android:id="@+id/asset_tag_assetmore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="برچسب اموال: ۱۲۳۴۵۶۷۸۹"
+                android:textColor="@android:color/black"
+                android:fontFamily="@font/iransansweb"
+                android:textSize="13sp"
+                android:gravity="right"
+                android:layoutDirection="rtl" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+
+    <!--<TextView
+        android:id="@+id/tvDeleteTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/iransansweb"
+        android:text="@string/setBarcodeTitle"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />-->
 
         <EditText
             android:id="@+id/etBarcode"
@@ -51,6 +111,7 @@
             android:maxLength="11"
             android:maxLines="1"
             android:paddingLeft="16dp"
+            android:layout_below="@+id/amiriririri"
             android:paddingRight="16dp"
             android:singleLine="true"
             android:textSize="16sp"
@@ -65,7 +126,7 @@
             android:layout_below="@+id/etBarcode"
             android:orientation="horizontal"
             android:gravity="center"
-            android:padding="10dp"
+            android:padding="5dp"
 
             android:id="@+id/moreAssetsContainer"
             >
@@ -76,7 +137,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/sabtmoreasset"
             android:layout_width="70dp"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_marginRight="10dp"
 
             android:background="@drawable/backscanbarcodetoosi"
@@ -90,7 +151,7 @@
             <EditText
                 android:id="@+id/moreassetedt"
                 android:layout_width="205dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:background="@drawable/background_gray_light_corners_round_5"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -101,7 +162,7 @@
                 android:maxLength="11"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 android:textStyle="bold" />
 
 
@@ -112,7 +173,7 @@
             android:layout_below="@+id/moreAssetsContainer"
             android:orientation="horizontal"
             android:gravity="center"
-            android:padding="10dp"
+            android:padding="5dp"
 
             android:id="@+id/moreAssetsContainer2"
             >
@@ -123,7 +184,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/sabtmoreasset2"
             android:layout_width="70dp"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_marginRight="10dp"
 
             android:background="@drawable/backscanbarcodetoosi"
@@ -137,7 +198,7 @@
             <EditText
                 android:id="@+id/moreassetedt2"
                 android:layout_width="205dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
 
                 android:background="@drawable/background_gray_light_corners_round_5"
                 android:focusable="true"
@@ -160,7 +221,7 @@
             android:layout_below="@+id/moreAssetsContainer2"
             android:orientation="horizontal"
             android:gravity="center"
-            android:padding="10dp"
+            android:padding="5dp"
 
             android:id="@+id/moreAssetsContainer3"
             >
@@ -171,7 +232,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/sabtmoreasset3"
             android:layout_width="70dp"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_marginRight="10dp"
 
             android:background="@drawable/backscanbarcodetoosi"
@@ -185,7 +246,7 @@
             <EditText
                 android:id="@+id/moreassetedt3"
                 android:layout_width="205dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:background="@drawable/background_gray_light_corners_round_5"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -207,7 +268,7 @@
             android:layout_below="@+id/moreAssetsContainer3"
             android:orientation="horizontal"
             android:gravity="center"
-            android:padding="10dp"
+            android:padding="5dp"
 
             android:id="@+id/moreAssetsContainer4"
             >
@@ -218,7 +279,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/sabtmoreasset4"
             android:layout_width="70dp"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_marginRight="10dp"
 
             android:background="@drawable/backscanbarcodetoosi"
@@ -232,7 +293,7 @@
             <EditText
                 android:id="@+id/moreassetedt4"
                 android:layout_width="205dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:background="@drawable/background_gray_light_corners_round_5"
                 android:focusable="true"
                 android:focusableInTouchMode="true"

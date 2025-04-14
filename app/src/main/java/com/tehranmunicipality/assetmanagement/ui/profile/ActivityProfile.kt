@@ -18,7 +18,7 @@ import com.tehranmunicipality.assetmanagement.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
- * Created by david - dchoopani@yahoo.com on 29,October,2023
+ * Created by AmirMahdi Novinfar - amirnovin80@gmail.com on 29,October,2023
  */
 
 @AndroidEntryPoint

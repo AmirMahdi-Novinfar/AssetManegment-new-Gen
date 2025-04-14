@@ -417,7 +417,7 @@ fun showCustomDialogwithtwobutton(
         DialogType.WARNING -> {
             tvTitle.text = "هشدار"
             ivIcon.setImageResource(R.drawable.ic_warning)
-            btnClose.setBackgroundResource(R.drawable.background_warning)
+            btnClose.setBackgroundResource(R.drawable.backscanbarcodetoosi)
         }
 
         DialogType.ERROR -> {
@@ -697,10 +697,12 @@ fun showBarcodeDialog(context: Context, listener: IClickListener) {
 
 fun showAssetmoreDialog(context: Context, listener: IClickListenerWithEditText,listner2gone:IClickListenergone) {
     val dialog = Dialog(context)
+    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
     dialog.setContentView(R.layout.dialog_barcode_with_tag_more)
     dialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
     dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
     dialog.setCancelable(true)
+    dialog.window?.setDimAmount(0.9f) // این قسمت مهمه!
     val acbConfirm = dialog.findViewById<AppCompatButton>(R.id.acbConfirm)
     val sabtmoreasset = dialog.findViewById<AppCompatButton>(R.id.sabtmoreasset)
     val sabtmoreasset2 = dialog.findViewById<AppCompatButton>(R.id.sabtmoreasset2)
@@ -711,6 +713,8 @@ fun showAssetmoreDialog(context: Context, listener: IClickListenerWithEditText,l
     val moreassetedt2 = dialog.findViewById<EditText>(R.id.moreassetedt2)
     val moreassetedt3 = dialog.findViewById<EditText>(R.id.moreassetedt3)
     val moreassetedt4 = dialog.findViewById<EditText>(R.id.moreassetedt4)
+    val asset_title_assetmore = dialog.findViewById<TextView>(R.id.asset_title_assetmore)
+    val asset_tag_assetmore = dialog.findViewById<TextView>(R.id.asset_tag_assetmore)
     val ivClose = dialog.findViewById<ImageView>(R.id.ivClose)
 
 
@@ -724,10 +728,7 @@ fun showAssetmoreDialog(context: Context, listener: IClickListenerWithEditText,l
     moreAssetsContainer3.visibility = View.GONE
     moreAssetsContainer4.visibility = View.GONE
 
-    listner2gone.onViewCreated(moreAssetsContainer,moreAssetsContainer2, moreAssetsContainer3, moreAssetsContainer4)
-
-
-
+    listner2gone.onViewCreated(asset_title_assetmore,asset_tag_assetmore,moreAssetsContainer,moreAssetsContainer2, moreAssetsContainer3, moreAssetsContainer4)
 
     etBarcode.requestFocus()
     acbConfirm.setOnClickListener {
@@ -805,7 +806,7 @@ fun showAssetmoreDialog(context: Context, listener: IClickListenerWithEditText,l
 }
 
 interface IClickListenergone {
-    fun onViewCreated(moreAssetsContainer: LinearLayout,moreAssetsContainer2: LinearLayout, moreAssetsContainer3: LinearLayout, moreAssetsContainer4: LinearLayout)
+    fun onViewCreated(asset_title_assetmore:TextView,asset_tag_assetmore:TextView, moreAssetsContainer: LinearLayout,moreAssetsContainer2: LinearLayout, moreAssetsContainer3: LinearLayout, moreAssetsContainer4: LinearLayout)
     // ... سایر متدهای مورد نیاز ...
 }
 

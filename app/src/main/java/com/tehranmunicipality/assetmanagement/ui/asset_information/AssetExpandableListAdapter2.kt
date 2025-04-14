@@ -24,7 +24,7 @@ import com.tehranmunicipality.assetmanagement.util.showCustomDialogamir
 import com.tehranmunicipality.assetmanagement.util.showDialog2
 
 /**
- * Created by david - dchoopani@yahoo.com on 12, November, 2023
+ * Created by AmirMahdi Novinfar - amirnovin80@gmail.com on 12, November, 2023
  */
 
 class AssetExpandableListAdapter2(
@@ -170,6 +170,10 @@ class AssetExpandableListAdapter2(
 
 
             holder.btnSetBarcode.findViewById<Button>(R.id.btnSetBarcode).setOnClickListener {
+
+
+
+
                 if (assetListItem.assetStateCode==12 || assetListItem.assetStateCode==2){
                     showCustomDialogamir(context, DialogType.WARNING,
                         "اموال برکنار شده میباشد و هیچ عملیاتی را پذیرا نیست", object : IClickListener {

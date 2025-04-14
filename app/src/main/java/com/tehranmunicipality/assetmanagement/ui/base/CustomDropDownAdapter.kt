@@ -1,7 +1,7 @@
 package com.tehranmunicipality.assetmanagement.ui.base
 
 /**
- * Created by david - dchoopani@yahoo.com on 07,November,2023
+ * Created by AmirMahdi Novinfar - amirnovin80@gmail.com on 07,November,2023
  */
 
 import android.content.Context

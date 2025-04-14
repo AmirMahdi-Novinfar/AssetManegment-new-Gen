@@ -4,7 +4,7 @@ import android.app.Dialog
 import android.view.View
 
 /**
- * Created by david - dchoopani@yahoo.com on 11,November,2023
+ * Created by AmirMahdi Novinfar - amirnovin80@gmail.com on 11,November,2023
  */
 
 interface IDialogListClickListener {

@@ -254,7 +254,7 @@ android:layout_alignParentTop="true"
                     android:layout_marginRight="16dp"
                     android:textColor="@color/black"
                     android:fontFamily="@font/iransansweb"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -273,7 +273,7 @@ android:layout_alignParentTop="true"
                     android:textColor="@color/black"
                     android:layout_marginLeft="10dp"
                     android:fontFamily="@font/iransansweb"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
 
 
 
@@ -369,34 +369,38 @@ android:layout_alignParentTop="true"
             android:textSize="14sp" />
 
 
-        <Button
-            android:id="@+id/btnAssetEdit"
-            android:layout_width="200dp"
-
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/btnSetBarcode"
-            android:layout_alignParentRight="true"
+            android:orientation="horizontal"
+            android:gravity="center">
 
-            android:layout_marginLeft="5dp"
-            android:layout_toEndOf="@+id/btnAddAssetTag"
-            android:background="@drawable/background_white_borders_green_corners_round_1"
-            android:fontFamily="@font/iransansweb"
-            android:text="ویرایش"
-            android:textColor="#089DA7"
-            android:textSize="14sp" />
+            <Button
+                android:id="@+id/btnAddAssetTag"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/backscanbarcode"
+                android:fontFamily="@font/iransansweb"
+                android:text="ثبت برچسب"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
 
+            <Button
+                android:id="@+id/btnAssetEdit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/background_white_borders_green_corners_round_1"
+                android:fontFamily="@font/iransansweb"
+                android:text="ویرایش"
+                android:textColor="#089DA7"
+                android:textSize="14sp" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/btnAddAssetTag"
-            android:layout_width="200dp"
-
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btnSetBarcode"
-            android:background="@drawable/backscanbarcode"
-            android:fontFamily="@font/iransansweb"
-            android:text="ثبت برچسب"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp" />
 
 
 
