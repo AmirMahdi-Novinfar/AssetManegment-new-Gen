@@ -91,43 +91,43 @@
         android:textSize="16sp"
         android:textStyle="bold" />-->
 
-        <EditText
-            android:id="@+id/etBarcode"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/background_gray_light_corners_round_5"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:fontFamily="@font/iransansweb"
-            android:gravity="center"
-            android:hint="بارکد را اسکن یا وارد نمایید..."
-            android:inputType="number"
-            android:maxLength="11"
-            android:maxLines="1"
-            android:paddingLeft="16dp"
-            android:layout_below="@+id/amiriririri"
-            android:paddingRight="16dp"
-            android:singleLine="true"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+<!--        <EditText-->
+<!--            android:id="@+id/etBarcodeamir"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginLeft="16dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:layout_marginRight="16dp"-->
+<!--            android:layout_marginBottom="16dp"-->
+<!--            android:background="@drawable/background_gray_light_corners_round_5"-->
+<!--            android:focusable="true"-->
+<!--            android:focusableInTouchMode="true"-->
+<!--            android:fontFamily="@font/iransansweb"-->
+<!--            android:gravity="center"-->
+<!--            android:hint="بارکد را اسکن یا وارد نمایید..."-->
+<!--            android:inputType="number"-->
+<!--            android:maxLength="11"-->
+<!--            android:maxLines="1"-->
+<!--            android:paddingLeft="16dp"-->
+<!--            android:layout_below="@+id/amiriririri"-->
+<!--            android:paddingRight="16dp"-->
+<!--            android:singleLine="true"-->
+<!--            android:textSize="16sp"-->
+<!--            android:textStyle="bold" />-->
 
 
 
+    <!--            android:layout_below="@+id/etBarcodeamir"-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/etBarcode"
             android:orientation="horizontal"
             android:gravity="center"
             android:padding="5dp"
-
+            android:layout_below="@+id/amiriririri"
             android:id="@+id/moreAssetsContainer"
             >
 

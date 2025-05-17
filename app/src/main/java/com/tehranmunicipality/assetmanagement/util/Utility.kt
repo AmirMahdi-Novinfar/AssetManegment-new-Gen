@@ -730,28 +730,38 @@ fun showAssetmoreDialog(context: Context, listener: IClickListenerWithEditText,l
 
     listner2gone.onViewCreated(asset_title_assetmore,asset_tag_assetmore,moreAssetsContainer,moreAssetsContainer2, moreAssetsContainer3, moreAssetsContainer4)
 
-    etBarcode.requestFocus()
+//    etBarcode.requestFocus()
+//    acbConfirm.setOnClickListener {
+//        if (!etBarcode.text.toString().isEmpty() && etBarcode.text.toString().length == 11) {
+//            listener.onClick(acbConfirm,etBarcode,dialog)
+//            dialog.dismiss()
+//        } else if (etBarcode.text.toString().length != 11) {
+//            val errorMessage = "طول بارکد باید 11 رقم باشد"
+//            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+//        } else {
+//            val errorMessage = "لطفا بارکد را وارد نمایید"
+//            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+//        }
+//
     acbConfirm.setOnClickListener {
-        if (!etBarcode.text.toString().isEmpty() && etBarcode.text.toString().length == 11) {
-            listener.onClick(acbConfirm,etBarcode,dialog)
-            dialog.dismiss()
-        } else if (etBarcode.text.toString().length != 11) {
-            val errorMessage = "طول بارکد باید 11 رقم باشد"
-            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
-        } else {
-            val errorMessage = "لطفا بارکد را وارد نمایید"
-            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
-        }
-        etBarcode.addTextChangedListener {
-            Log.i("DEBUG", "text changed. count=${it?.length}")
-            if (it?.length == 11) {
-                acbConfirm.setBackgroundResource(R.drawable.backscanbarcode)
-            }else{
-                acbConfirm.setBackgroundResource(R.drawable.backscanbarcodetoosi)
 
-        }
-        }
+        listener.onClick(acbConfirm, etBarcode, dialog)
+        dialog.dismiss()
+
+
     }
+
+
+//        etBarcode.addTextChangedListener {
+//            Log.i("DEBUG", "text changed. count=${it?.length}")
+//            if (it?.length == 11) {
+//                acbConfirm.setBackgroundResource(R.drawable.backscanbarcode)
+//            }else{
+//                acbConfirm.setBackgroundResource(R.drawable.backscanbarcodetoosi)
+//
+//        }
+//        }
+//    }
 
 
     sabtmoreasset.setOnClickListener{
