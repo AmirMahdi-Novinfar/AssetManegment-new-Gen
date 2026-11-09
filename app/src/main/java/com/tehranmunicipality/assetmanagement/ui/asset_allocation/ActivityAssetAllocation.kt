@@ -3,85 +3,130 @@ package com.tehranmunicipality.assetmanagement.ui.asset_allocation
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.text.LoginFilter.UsernameFilterGMail
 import android.util.Log
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.widget.AppCompatEditText
-import com.google.android.material.radiobutton.MaterialRadioButton
 import com.tehranmunicipality.assetmanagement.R
 import com.tehranmunicipality.assetmanagement.data.BARCODE_LENGTH
 import com.tehranmunicipality.assetmanagement.data.model.*
 import com.tehranmunicipality.assetmanagement.ui.asset.ActivityModifyAsset
+import com.tehranmunicipality.assetmanagement.ui.asset_information.ActivityCameraBarcodeScanner
+import com.tehranmunicipality.assetmanagement.ui.asset_information.ItemClickListener
 import com.tehranmunicipality.assetmanagement.ui.base.BaseActivity
 import com.tehranmunicipality.assetmanagement.ui.base.CustomDialog
-import com.tehranmunicipality.assetmanagement.ui.asset_information.ItemClickListener
 import com.tehranmunicipality.assetmanagement.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ActivityAssetAllocation : BaseActivity(), View.OnClickListener,
-    CompoundButton.OnCheckedChangeListener {
+class ActivityAssetAllocation : BaseActivity(),
+    View.OnClickListener,
+    android.widget.CompoundButton.OnCheckedChangeListener {
 
     private val assetAllocationViewModel: AssetAllocationViewModel by viewModels()
+
+    private lateinit var barcodeScannerLauncher: ActivityResultLauncher<Intent>
+
     private lateinit var ivBack: ImageView
     private lateinit var acetAssetBarcode: AppCompatEditText
+    private lateinit var btnScanBarcode: Button
+
     private lateinit var ivDropDownMainBranch: ImageView
     private lateinit var ivDropDownAssetName: ImageView
+
     private lateinit var rlChooseMainBranch: RelativeLayout
     private lateinit var rlChooseAssetName: RelativeLayout
+
     private lateinit var tvChooseMainBranch: TextView
     private lateinit var tvChooseAssetName: TextView
 
     private lateinit var btnAddAsset: Button
     private lateinit var tvAssetName: TextView
     private lateinit var vwLoading: View
-    private lateinit var articlePatternList: List<ArticlePatternListItem>
+
+    private var articlePatternList: List<ArticlePatternListItem> = emptyList()
     private var articlePatternListItem: ArticlePatternListItem? = null
-    private lateinit var goodList: List<GoodList>
+
+    private var goodList: List<GoodList> = emptyList()
     private var goodItem: GoodList? = null
+
     private var assetTypeCode: Int = 16
     private var barcode: String = "-1"
     private var productId: Int = -1
-    private var accessToken = ""
-
+    private var accessToken: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // لانچر باید قبل از ورود Activity به وضعیت STARTED ثبت شود.
+        barcodeScannerLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+
+            Log.d(
+                "BarcodeScanner",
+                "resultCode=${result.resultCode}, data=${result.data}"
+            )
+
+            if (result.resultCode == RESULT_OK) {
+                val scannedBarcode =
+                    result.data?.getStringExtra(ActivityCameraBarcodeScanner.EXTRA_BARCODE)
+
+                if (!scannedBarcode.isNullOrBlank()) {
+                    acetAssetBarcode.setText(scannedBarcode)
+                    acetAssetBarcode.setSelection(
+                        acetAssetBarcode.text?.length ?: 0
+                    )
+
+                    acetAssetBarcode.requestFocus()
+
+                    Toast.makeText(
+                        this,
+                        "بارکد با موفقیت اسکن شد",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    Log.d("BarcodeScanner", "Barcode received: $scannedBarcode")
+                } else {
+                    showCustomDialog(
+                        this,
+                        DialogType.ERROR,
+                        "بارکدی از صفحه اسکن دریافت نشد"
+                    )
+                }
+            } else {
+                // لغو اسکن یا Back؛ صفحه تخصیص اموال باز می‌ماند.
+                Log.d("BarcodeScanner", "Scanner canceled")
+            }
+        }
+
         setContentView(R.layout.activity_asset_allocation)
 
         bindView()
         setupClicks()
-        getUser()
         observeViewModel()
-    }
-
-    private fun getUser() {
-        assetAllocationViewModel.getUser()
-    }
-
-    private fun getGoodList(
-        accessToken: String,
-        goodCode: Int,
-        parentArticleParentId: Int,
-        productName: String
-    ) {
-        assetAllocationViewModel.getGoodList(
-            accessToken,
-            goodCode,
-            parentArticleParentId,
-            productName
-        )
+        getUser()
     }
 
     private fun bindView() {
         ivBack = findViewById(R.id.ivBack)
+
         acetAssetBarcode = findViewById(R.id.etAssetBarcode)
+        btnScanBarcode = findViewById(R.id.btnScanBarcode)
+
         ivDropDownMainBranch = findViewById(R.id.ivDropDownMainBranch)
         ivDropDownAssetName = findViewById(R.id.ivDropDownAssetName)
+
         rlChooseMainBranch = findViewById(R.id.rlChooseMainBranch)
         rlChooseAssetName = findViewById(R.id.rlChooseAssetName)
+
         tvChooseMainBranch = findViewById(R.id.tvChooseMainBranch)
         tvChooseAssetName = findViewById(R.id.tvChooseAssetName)
 
@@ -89,13 +134,45 @@ class ActivityAssetAllocation : BaseActivity(), View.OnClickListener,
         tvAssetName = findViewById(R.id.tvAssetName)
         vwLoading = findViewById(R.id.vwLoading)
 
-        if (intent.getStringExtra("fromactivitynewormakhdoosh")=="rlDenominateAssetamir") {
-            assetTypeCode = 16
-        }else if (intent.getStringExtra("fromactivitynewormakhdoosh")=="makhdoosh_activity"){
-            assetTypeCode=17
+        assetTypeCode = when (
+            intent.getStringExtra("fromactivitynewormakhdoosh")
+        ) {
+            "rlDenominateAssetamir" -> 16
+            "makhdoosh_activity" -> 17
+            else -> 16
         }
 
-        Log.i("amiramirassettype",assetTypeCode.toString())
+        Log.i("AssetAllocation", "assetTypeCode=$assetTypeCode")
+    }
+
+    private fun setupClicks() {
+        ivBack.setOnClickListener(this)
+        rlChooseMainBranch.setOnClickListener(this)
+        rlChooseAssetName.setOnClickListener(this)
+        btnScanBarcode.setOnClickListener(this)
+        btnAddAsset.setOnClickListener(this)
+    }
+
+    private fun getUser() {
+        assetAllocationViewModel.getUser()
+    }
+
+    private fun getGoodList(
+        token: String,
+        goodCode: Int,
+        parentArticleParentId: Int,
+        productName: String
+    ) {
+        assetAllocationViewModel.getGoodList(
+            token,
+            goodCode,
+            parentArticleParentId,
+            productName
+        )
+    }
+
+    private fun getArticlePatternList(token: String) {
+        assetAllocationViewModel.getArticlePatternList(token)
     }
 
     private fun showLoading() {
@@ -106,511 +183,471 @@ class ActivityAssetAllocation : BaseActivity(), View.OnClickListener,
         vwLoading.visibility = View.GONE
     }
 
+    private fun openBarcodeScanner() {
+        if (!::barcodeScannerLauncher.isInitialized) {
+            showCustomDialog(
+                this,
+                DialogType.ERROR,
+                "امکان باز کردن اسکنر وجود ندارد"
+            )
+            return
+        }
 
+        try {
+            val scannerIntent = Intent(
+                this,
+                ActivityCameraBarcodeScanner::class.java
+            )
 
-    private fun setupClicks() {
-        ivBack.setOnClickListener(this)
-        rlChooseMainBranch.setOnClickListener(this)
-        rlChooseAssetName.setOnClickListener(this)
-        btnAddAsset.setOnClickListener(this)
-        acetAssetBarcode.setOnClickListener(this)
+            barcodeScannerLauncher.launch(scannerIntent)
+        } catch (e: Exception) {
+            Log.e("BarcodeScanner", "Cannot open scanner", e)
+
+            showCustomDialog(
+                this,
+                DialogType.ERROR,
+                "خطا در باز کردن دوربین: ${e.localizedMessage ?: "خطای نامشخص"}"
+            )
+        }
     }
 
     private fun observeViewModel() {
 
-        assetAllocationViewModel.appUserResponse.observe(this) {
-
-            when (it.status) {
-
-                Status.SUCCESS -> {
-
-                    hideLoading()
-                    Log.i(
-                        "DEBUG",
-                        "ActivityAssetAllocation observeViewModel appUserResponse success.data=${it.data}"
-                    )
-                    if (it.data != null) {
-                        if (!applicationContext.let { isNetworkAvailable(it) }) {
-                            val errorMessage = "اتصال اینترنت برقرار نیست"
-                            showCustomDialog(this, DialogType.ERROR, errorMessage)
-                        } else {
-                            assetAllocationViewModel.getESBToken(it.data.username, it.data.password)
-                        }
-                    } else {
-                        Log.i(
-                            "DEBUG",
-                            "ActivityAssetAllocation observeViewModel appUserResponse success.data=null"
-                        )
-                        Log.i(
-                            "DEBUG",
-                            "so we have no username and password to call esbToken api!!!"
-                        )
-                        val errorMessage = "خطا در دریافت اطلاعات کاربر از دیتابیس محلی"
-                        showCustomDialog(this, DialogType.ERROR, errorMessage)
-                    }
-                }
-
-                Status.LOADING -> {
-                    showLoading()
-                    Log.i(
-                        "DEBUG",
-                        "ActivityAssetAllocation observeViewModel appUserResponse loading"
-                    )
-                }
-
-                Status.ERROR -> {
-                    hideLoading()
-                    Log.i(
-                        "DEBUG",
-                        "ActivityAssetAllocation observeViewModel appUserResponse error"
-                    )
-                    val errorMessage = it.message.toString()
-                    showCustomDialog(this, DialogType.ERROR, errorMessage)
-                }
-            }
-        }
-
-        assetAllocationViewModel.esbTokenResponse.observe(this) {
-            when (it.status) {
+        assetAllocationViewModel.appUserResponse.observe(this) { response ->
+            when (response.status) {
 
                 Status.SUCCESS -> {
                     hideLoading()
-                    Log.i(
-                        "DEBUG",
-                        "ActivityAssetAllocation observeViewModel esbTokenResponse success.data=${it.data}"
-                    )
-                    if (it.data!!.accessToken!!.isNotEmpty()) {
-                        accessToken = it.data.accessToken.toString()
-                        getArticlePatternList(it.data.accessToken.toString())
 
-                    } else {
-                        Log.i(
-                            "DEBUG",
-                            "ActivityAssetAllocation observeViewModel esbTokenResponse success.token is empty!!!"
-                        )
-                        if (!it.data.error?.isEmpty()!!) {
-                            val errorMessage = it.data.error_description.toString()
-                            showCustomDialog(
-                                this, DialogType.ERROR, errorMessage, object : IClickListener {
-                                    override fun onClick(view: View?, dialog: Dialog) {
-                                        dialog.dismiss()
-                                        finish()
-                                    }
-                                })
-                        }
-                    }
-                }
+                    val user = response.data
 
-                Status.LOADING -> {
-                    showLoading()
-                    Log.i(
-                        "DEBUG",
-                        "ActivityAssetAllocation observeViewModel esbTokenResponse loading"
-                    )
-                }
-
-                Status.ERROR -> {
-                    hideLoading()
-                    Log.i(
-                        "DEBUG",
-                        "ActivityAssetAllocation observeViewModel esbTokenResponse error.${it.message}"
-                    )
-                    val errorMessage = it.message.toString()
-                    showCustomDialog(this, DialogType.ERROR, errorMessage, object : IClickListener {
-                        override fun onClick(view: View?, dialog: Dialog) {
-                            dialog.dismiss()
-                            finish()
-                        }
-                    })
-                }
-            }
-        }
-
-        assetAllocationViewModel.getArticlePatternListsResponse.observe(this) {
-
-            when (it.status) {
-                Status.SUCCESS -> {
-                    hideLoading()
-                    if (it.data != null) {
-                        Log.i(
-                            "DEBUG",
-                            "ActivityAssetAllocation observeViewModel getArticlePatternListsResponse success.data=${it.data}"
-                        )
-                        if (!it.data.articlePatternList.isNullOrEmpty()) {
-                            articlePatternList =
-                                it.data.articlePatternList as List<ArticlePatternListItem>
-                        } else {
-                            val errorMessage = "لیست شاخه اصلی مقداری ندارد"
-                            showCustomDialog(this, DialogType.ERROR, errorMessage)
-                        }
-                    } else {
-                        var errorMessage = it.data?.detailError?.get(0)?.errorDesc.toString()
-                        if (errorMessage.isEmpty()) {
-                            errorMessage = it.message.toString()
-                        }
+                    if (user == null) {
                         showCustomDialog(
                             this,
                             DialogType.ERROR,
-                            errorMessage, object : IClickListener {
-                                override fun onClick(view: View?, dialog: Dialog) {
-                                    dialog.dismiss()
-                                    finish()
-                                }
-                            })
+                            "خطا در دریافت اطلاعات کاربر از دیتابیس محلی"
+                        )
+                        return@observe
                     }
-                }
 
-                Status.LOADING -> {
-                    showLoading()
-                    Log.i(
-                        "DEBUG",
-                        "ActivityAssetAllocation observeViewModel getArticlePatternListsResponse loading"
-                    )
-                }
-
-                Status.ERROR -> {
-                    hideLoading()
-                    Log.i(
-                        "DEBUG",
-                        "ActivityAssetAllocation observeViewModel getArticlePatternListsResponse error"
-                    )
-                    val errorMessage = it.message.toString()
-                    showCustomDialog(
-                        this,
-                        DialogType.ERROR,
-                        errorMessage, object : IClickListener {
-                            override fun onClick(view: View?, dialog: Dialog) {
-                                dialog.dismiss()
-                                finish()
-                            }
-                        })
-                }
-            }
-        }
-
-        assetAllocationViewModel.getGoodListResponse.observe(this) {
-
-            when (it.status) {
-
-                Status.SUCCESS -> {
-                    hideLoading()
-                    Log.i("DEBUG", "ActivityAssetAllocation getGoodList success.data=${it.data}")
-                    if (!it.data?.goodList.isNullOrEmpty()) {
-                        goodList = it.data?.goodList!!
-                    } else {
-                        val errorMessage = "لیست کالاها مقداری ندارد"
+                    if (!isNetworkAvailable(applicationContext)) {
                         showCustomDialog(
                             this,
                             DialogType.ERROR,
-                            errorMessage, object : IClickListener {
-                                override fun onClick(view: View?, dialog: Dialog) {
-                                    dialog.dismiss()
-                                    finish()
-                                }
-                            })
+                            "اتصال اینترنت برقرار نیست"
+                        )
+                        return@observe
                     }
+
+                    assetAllocationViewModel.getESBToken(
+                        user.username,
+                        user.password
+                    )
                 }
 
-                Status.LOADING -> {
-                    showLoading()
-                    Log.i("DEBUG", "ActivityAssetAllocation getGoodList loading")
-                }
+                Status.LOADING -> showLoading()
 
                 Status.ERROR -> {
                     hideLoading()
-                    Log.i("DEBUG", "ActivityAssetAllocation getGoodList error.->${it.message}")
-                    var errorMessage = it.data?.detailError?.get(0)?.errorDesc.toString()
-                    if (errorMessage.isEmpty()) {
-                        errorMessage = it.message.toString()
-                    }
                     showCustomDialog(
                         this,
                         DialogType.ERROR,
-                        errorMessage, object : IClickListener {
-                            override fun onClick(view: View?, dialog: Dialog) {
-                                dialog.dismiss()
-                                finish()
-                            }
-                        })
+                        response.message ?: "خطا در دریافت اطلاعات کاربر"
+                    )
                 }
             }
         }
 
-        assetAllocationViewModel.modifyAssetResponse.observe(this) {
-
-            when (it.status) {
+        assetAllocationViewModel.esbTokenResponse.observe(this) { response ->
+            when (response.status) {
 
                 Status.SUCCESS -> {
                     hideLoading()
-                    Log.i(
-                        "DEBUG",
-                        "ActivityAssetAllocation modifyAssetResponse success. data=${it.data}"
-                    )
-                    var message = ""
-                    if (it.data?.result != 0) {
-                        message = "عملیات ثبت اموال با موفقیت انجام شد"
-                        Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
-                        val intent = Intent(this, ActivityModifyAsset::class.java)
-                        intent.putExtra("assetId", it.data?.result.toString())
-                        intent.putExtra("assetTypeCode", assetTypeCode.toString())
-                        intent.putExtra("barcode", acetAssetBarcode.text.toString())
-                        intent.putExtra("productName", goodItem?.productName.toString())
-                        startActivity(intent)
+
+                    val token = response.data?.accessToken
+
+                    if (!token.isNullOrBlank()) {
+                        accessToken = token
+                        getArticlePatternList(token)
                     } else {
-                        val errorMessage = it.data.detailError?.get(0)?.errorDesc.toString()
-                        showCustomDialog(this, DialogType.ERROR, errorMessage)
+                        showCustomDialog(
+                            this,
+                            DialogType.ERROR,
+                            response.data?.error_description
+                                ?: "دریافت توکن با خطا مواجه شد"
+                        )
                     }
                 }
 
-                Status.LOADING -> {
-                    showLoading()
-                    Log.i("DEBUG", "ActivityAssetAllocation modifyAssetResponse loading")
-                }
+                Status.LOADING -> showLoading()
 
                 Status.ERROR -> {
                     hideLoading()
-                    Log.i(
-                        "DEBUG",
-                        "ActivityAssetAllocation modifyAssetResponse error.->${it.message}"
-                    )
-                    val errorMessage = it.data?.detailError?.get(0)?.errorDesc.toString()
                     showCustomDialog(
                         this,
                         DialogType.ERROR,
-                        errorMessage, object : IClickListener {
-                            override fun onClick(view: View?, dialog: Dialog) {
-                                dialog.dismiss()
-                                finish()
-                            }
-                        })
+                        response.message ?: "خطا در دریافت توکن"
+                    )
+                }
+            }
+        }
+
+        assetAllocationViewModel.getArticlePatternListsResponse.observe(this) { response ->
+            when (response.status) {
+
+                Status.SUCCESS -> {
+                    hideLoading()
+
+                    val receivedList = response.data?.articlePatternList
+
+                    if (!receivedList.isNullOrEmpty()) {
+                        articlePatternList =
+                            receivedList.filterIsInstance<ArticlePatternListItem>()
+                    } else {
+                        articlePatternList = emptyList()
+
+                        showCustomDialog(
+                            this,
+                            DialogType.ERROR,
+                            "لیست گروه‌های اصلی مقداری ندارد"
+                        )
+                    }
+                }
+
+                Status.LOADING -> showLoading()
+
+                Status.ERROR -> {
+                    hideLoading()
+                    showCustomDialog(
+                        this,
+                        DialogType.ERROR,
+                        response.message ?: "خطا در دریافت لیست گروه‌های اصلی"
+                    )
+                }
+            }
+        }
+
+        assetAllocationViewModel.getGoodListResponse.observe(this) { response ->
+            when (response.status) {
+
+                Status.SUCCESS -> {
+                    hideLoading()
+
+                    val receivedList = response.data?.goodList
+
+                    if (!receivedList.isNullOrEmpty()) {
+                        goodList = receivedList
+                    } else {
+                        goodList = emptyList()
+                        goodItem = null
+                        tvChooseAssetName.text = ""
+
+                        showCustomDialog(
+                            this,
+                            DialogType.ERROR,
+                            "لیست کالاها مقداری ندارد"
+                        )
+                    }
+                }
+
+                Status.LOADING -> showLoading()
+
+                Status.ERROR -> {
+                    hideLoading()
+
+                    val errorMessage =
+                        response.data?.detailError?.getOrNull(0)?.errorDesc
+                            ?: response.message
+                            ?: "خطا در دریافت لیست کالاها"
+
+                    showCustomDialog(
+                        this,
+                        DialogType.ERROR,
+                        errorMessage
+                    )
+                }
+            }
+        }
+
+        assetAllocationViewModel.modifyAssetResponse.observe(this) { response ->
+            when (response.status) {
+
+                Status.SUCCESS -> {
+                    hideLoading()
+
+                    val result = response.data?.result
+
+                    if (result != null && result != 0) {
+
+                        Toast.makeText(
+                            applicationContext,
+                            "عملیات ثبت اموال با موفقیت انجام شد",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                        val nextIntent = Intent(
+                            this,
+                            ActivityModifyAsset::class.java
+                        ).apply {
+                            putExtra("assetId", result.toString())
+                            putExtra("assetTypeCode", assetTypeCode.toString())
+                            putExtra(
+                                "barcode",
+                                acetAssetBarcode.text?.toString().orEmpty()
+                            )
+                            putExtra(
+                                "productName",
+                                goodItem?.productName.orEmpty()
+                            )
+                        }
+
+                        startActivity(nextIntent)
+
+                    } else {
+                        val errorMessage =
+                            response.data?.detailError?.getOrNull(0)?.errorDesc
+                                ?: "ثبت اموال با خطا مواجه شد"
+
+                        showCustomDialog(
+                            this,
+                            DialogType.ERROR,
+                            errorMessage
+                        )
+                    }
+                }
+
+                Status.LOADING -> showLoading()
+
+                Status.ERROR -> {
+                    hideLoading()
+
+                    val errorMessage =
+                        response.data?.detailError?.getOrNull(0)?.errorDesc
+                            ?: response.message
+                            ?: "خطا در ثبت اموال"
+
+                    showCustomDialog(
+                        this,
+                        DialogType.ERROR,
+                        errorMessage
+                    )
                 }
             }
         }
     }
 
-    private fun showArticlePatternListPopup(_articlePatternList: List<ArticlePatternListItem>) {
+    private fun showArticlePatternListPopup(
+        list: List<ArticlePatternListItem>
+    ) {
+        if (list.isEmpty()) {
+            showCustomDialog(
+                this,
+                DialogType.ERROR,
+                "لیست گروه‌های اصلی خالی است"
+            )
+            return
+        }
 
-        val customDialog1 = CustomDialog(this, "گروه اصلی را انتخاب کنید", _articlePatternList,
+        CustomDialog(
+            this,
+            "گروه اصلی را انتخاب کنید",
+            list,
             ObjectType.ARTICLE_PATTERN_LIST,
             object : ItemClickListener {
-                override fun articlePatternItemClicked(_articlePatternListItem: ArticlePatternListItem) {
+
+                override fun articlePatternItemClicked(
+                    item: ArticlePatternListItem
+                ) {
+                    articlePatternListItem = item
+
                     goodList = emptyList()
                     goodItem = null
-                    articlePatternListItem = _articlePatternListItem
-                    tvChooseMainBranch.setText(articlePatternListItem!!.articlePatternCode)
-                    tvChooseAssetName.setText("")
+
+                    tvChooseMainBranch.text =
+                        item.articlePatternCode.orEmpty()
+
+                    tvChooseAssetName.text = ""
+
+                    val parentId = item.articlePatternID
+
+                    if (parentId == null) {
+                        showCustomDialog(
+                            this@ActivityAssetAllocation,
+                            DialogType.ERROR,
+                            "شناسه گروه اصلی معتبر نیست"
+                        )
+                        return
+                    }
+
                     getGoodList(
                         accessToken,
                         0,
-                        articlePatternListItem!!.articlePatternID!!.toInt(),
-                        articlePatternListItem!!.articlePatternName.toString()
+                        parentId,
+                        item.articlePatternName.orEmpty()
                     )
                 }
 
-                override fun goodListItemClicked(goodListItem: GoodList) {
-                    TODO("Not yet implemented")
-                }
+                override fun goodListItemClicked(item: GoodList) {}
 
-                override fun locationItemClicked(_locationListItem: LocationListItem) {
-                    TODO("Not yet implemented")
-                }
+                override fun locationItemClicked(item: LocationListItem) {}
 
-                override fun costCenterItemClicked(costCenterListItem: CostCenterListItem) {
-                    TODO("Not yet implemented")
-                }
+                override fun costCenterItemClicked(item: CostCenterListItem) {}
 
-                override fun subCostCenterItemClicked(subCostCenterListItem: SubCostCenterListItem) {
-                    TODO("Not yet implemented")
-                }
+                override fun subCostCenterItemClicked(item: SubCostCenterListItem) {}
 
-                override fun personListItemClicked(personListItem: PersonListItem) {
-                    TODO("Not yet implemented")
-                }
+                override fun personListItemClicked(item: PersonListItem) {}
 
-                override fun assetStatusItemClicked(assetStatusListItem: AssetStatusListItem) {
-                    TODO("Not yet implemented")
-                }
-            })
+                override fun assetStatusItemClicked(item: AssetStatusListItem) {}
+            }
+        )
     }
 
-    private fun showGoodListPopup(_goodList: List<GoodList>) {
+    private fun showGoodListPopup(list: List<GoodList>) {
+        if (list.isEmpty()) {
+            showSnackBarMessage(
+                ivDropDownAssetName,
+                "لیست کالاها خالی است"
+            )
+            return
+        }
 
-        val customDialog1 = CustomDialog(this, "کالا را انتخاب کنید", _goodList,
+        CustomDialog(
+            this,
+            "کالا را انتخاب کنید",
+            list,
             ObjectType.GOOD_LIST,
             object : ItemClickListener {
-                override fun articlePatternItemClicked(_articlePatternListItem: ArticlePatternListItem) {
-                    TODO("Not yet implemented")
+
+                override fun articlePatternItemClicked(
+                    item: ArticlePatternListItem
+                ) {}
+
+                override fun goodListItemClicked(item: GoodList) {
+                    goodItem = item
+                    tvChooseAssetName.text = item.productName.orEmpty()
                 }
 
-                override fun goodListItemClicked(_goodListItem: GoodList) {
-                    goodItem = _goodListItem
-                    tvChooseAssetName.setText(_goodListItem.productName)
-                }
+                override fun locationItemClicked(item: LocationListItem) {}
 
-                override fun locationItemClicked(_locationListItem: LocationListItem) {
-                    TODO("Not yet implemented")
-                }
+                override fun costCenterItemClicked(item: CostCenterListItem) {}
 
-                override fun costCenterItemClicked(costCenterListItem: CostCenterListItem) {
-                    TODO("Not yet implemented")
-                }
+                override fun subCostCenterItemClicked(item: SubCostCenterListItem) {}
 
-                override fun subCostCenterItemClicked(subCostCenterListItem: SubCostCenterListItem) {
-                    TODO("Not yet implemented")
-                }
+                override fun personListItemClicked(item: PersonListItem) {}
 
-                override fun personListItemClicked(personListItem: PersonListItem) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun assetStatusItemClicked(assetStatusListItem: AssetStatusListItem) {
-                    TODO("Not yet implemented")
-                }
-            })
+                override fun assetStatusItemClicked(item: AssetStatusListItem) {}
+            }
+        )
     }
 
-    private fun getArticlePatternList(accessToken: String) {
-        assetAllocationViewModel.getArticlePatternList(accessToken)
-    }
-
-    override fun onClick(p0: View?) {
-        when (p0) {
+    override fun onClick(view: View?) {
+        when (view) {
 
             ivBack -> {
                 finish()
             }
 
-            acetAssetBarcode -> {
-                showBarcodeDialog(this@ActivityAssetAllocation, object : IClickListener {
-                    override fun onClick(view: View?, dialog: Dialog) {
-                        acetAssetBarcode.setText((view as AppCompatEditText).text.toString())
-                    }
-                })
-            }
-
             rlChooseMainBranch -> {
-                if (::articlePatternList.isInitialized) {
-                    showArticlePatternListPopup(articlePatternList)
-                } else {
-                    val errorMessage = "لیست مراکز هزینه خالی است"
-                    showCustomDialog(
-                        this,
-                        DialogType.ERROR,
-                        errorMessage, object : IClickListener {
-                            override fun onClick(view: View?, dialog: Dialog) {
-                                dialog.dismiss()
-                            }
-                        })                }
+                showArticlePatternListPopup(articlePatternList)
             }
 
             rlChooseAssetName -> {
-                if (::goodList.isInitialized) {
-                    if (!goodList.isEmpty()) {
-                        showGoodListPopup(goodList)
-                    } else {
-                        val errorMessage = "لیست کالاها خالی است"
-                        showSnackBarMessage(ivDropDownAssetName, errorMessage)
-                    }
+                if (articlePatternListItem == null) {
+                    showSnackBarMessage(
+                        ivDropDownAssetName,
+                        "ابتدا گروه اصلی را انتخاب کنید"
+                    )
                 } else {
-                    val errorMessage = "لیست کالاها خالی است"
-                    showSnackBarMessage(ivDropDownAssetName, errorMessage)
+                    showGoodListPopup(goodList)
                 }
             }
 
+            btnScanBarcode -> {
+                openBarcodeScanner()
+            }
+
             btnAddAsset -> {
-                Log.i("DEBUG", "class name = ${javaClass.simpleName}")
-                Log.i("amiramirfindassettype",assetTypeCode.toString())
-                if (isInputValid()) {
-                    barcode = acetAssetBarcode.text.toString()
-                    Log.i("DEBUG", "assetTypeCode=${assetTypeCode}")
-                    Log.i("DEBUG", "barcode=${barcode}")
-                    Log.i("DEBUG", "productId=${productId}")
-                    var assetId: Int? = null
-                    assetId = null
-                    assetAllocationViewModel.modifyAsset(
-                        accessToken,
-                        assetId,
-                        assetTypeCode,
-                        barcode,
-                        "",
-                        goodItem!!.productID
+                if (!isInputValid()) return
+
+                barcode = acetAssetBarcode.text?.toString()?.trim().orEmpty()
+                productId = goodItem?.productID ?: -1
+
+                if (productId == -1) {
+                    showCustomDialog(
+                        this,
+                        DialogType.ERROR,
+                        "شناسه کالای انتخاب‌شده معتبر نیست"
                     )
+                    return
                 }
+
+                if (accessToken.isBlank()) {
+                    showCustomDialog(
+                        this,
+                        DialogType.ERROR,
+                        "توکن دسترسی دریافت نشده است"
+                    )
+                    return
+                }
+
+                Log.d("AssetAllocation", "assetTypeCode=$assetTypeCode")
+                Log.d("AssetAllocation", "barcode=$barcode")
+                Log.d("AssetAllocation", "productId=$productId")
+
+                assetAllocationViewModel.modifyAsset(
+                    accessToken,
+                    null,
+                    assetTypeCode,
+                    barcode,
+                    "",
+                    productId
+                )
             }
         }
     }
 
     private fun isInputValid(): Boolean {
 
-        var isValid = true
-        var errorMessage = ""
+        val currentBarcode = acetAssetBarcode.text?.toString()?.trim().orEmpty()
 
-        if (!applicationContext.let { isNetworkAvailable(it) }) {
-            isValid = false
-            errorMessage = "اتصال اینترنت برقرار نیست"
+        val errorMessage = when {
+            !isNetworkAvailable(applicationContext) ->
+                "اتصال اینترنت برقرار نیست"
+
+            accessToken.isBlank() ->
+                "توکن دسترسی دریافت نشده است"
+
+            articlePatternListItem == null ->
+                "گروه اصلی انتخاب نشده است"
+
+            goodItem == null ->
+                "نام کالا انتخاب نشده است"
+
+            currentBarcode.isBlank() ->
+                "بارکد اموال را وارد کنید"
+
+            currentBarcode.length != BARCODE_LENGTH ->
+                "طول بارکد باید ${englishToPersian(BARCODE_LENGTH.toString())} رقم باشد"
+
+            else -> null
         }
 
-        if (goodItem == null) {
-            isValid = false
-            errorMessage = "نام کالا انتخاب نشده است"
-        } else {
-            if (goodList.isEmpty()) {
-                isValid = false
-                errorMessage = "لیست کالاها خالی است"
-            }
-        }
-
-        if (articlePatternListItem == null) {
-            isValid = false
-            errorMessage = "گروه اصلی انتخاب نشده است"
-        } else {
-            if (articlePatternList.isEmpty()) {
-                isValid = false
-                errorMessage = "گروه اصلی خالی است"
-            }
-        }
-
-        if (acetAssetBarcode.text!!.isEmpty()) {
-            isValid = false
-            errorMessage = "بارکد اموال را وارد کنید"
-        }
-
-        if (!acetAssetBarcode.text!!.isEmpty() && acetAssetBarcode.text!!.length != BARCODE_LENGTH) {
-            isValid = false
-            errorMessage = "طول بارکد باید ${englishToPersian(BARCODE_LENGTH.toString())} رقم باشد"
-        }
-
-        if (!isValid) {
+        if (errorMessage != null) {
             showCustomDialog(
                 this,
                 DialogType.ERROR,
-                errorMessage, object : IClickListener {
-                    override fun onClick(view: View?, dialog: Dialog) {
-                        dialog.dismiss()
-                    }
-                })        }
-        return isValid
+                errorMessage
+            )
+            return false
+        }
+
+        return true
     }
 
-    override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
-        when (p0) {
-
-//            mrbNew -> {
-//                if (p1) {
-//                    mrbNew.setButtonDrawable(R.drawable.ic_selected)
-//                    mrbScratch.setButtonDrawable(R.drawable.ic_unselected)
-//                    assetTypeCode = 16
-//
-//                }
-//            }
-//
-//            mrbScratch -> {
-//                if (p1) {
-//                    mrbNew.setButtonDrawable(R.drawable.ic_unselected)
-//                    mrbScratch.setButtonDrawable(R.drawable.ic_selected)
-//                    assetTypeCode = 17
-//                }
-         //   }
-        }
+    override fun onCheckedChanged(
+        buttonView: android.widget.CompoundButton,
+        isChecked: Boolean
+    ) {
+        // انتخاب نوع اموال از طریق Intent انجام می‌شود.
     }
 }

@@ -24,7 +24,8 @@
             android:layout_height="wrap_content"
           android:layout_centerInParent="true"
             android:padding="12dp"
-            android:src="@drawable/layer_2" />
+            android:src="@drawable/layer_2"
+            android:layout_marginBottom="30px"/>
 
         <!--<TextView
             android:id="@+id/tvDeleteTitle"
@@ -61,10 +62,26 @@
             android:maxLines="1"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
+            android:drawableEnd="@drawable/scnannnn"
+
             android:singleLine="true"
             android:textSize="16sp"
             android:textStyle="bold" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnScanBarcode"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/etBarcode"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/backscancamerabarcode"
+            android:fontFamily="@font/iransansweb"
+            android:text="اسکن با دوربین"
+            android:textColor="@color/app_background1"
+            android:textSize="16sp"
+            android:drawablePadding="8dp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/acbConfirm"
@@ -78,8 +95,7 @@
             android:background="@drawable/backscanbarcodetoosi"
             android:fontFamily="@font/iransansweb"
             android:text="ثبت"
-            android:layout_below="@+id/etBarcode"
-            android:textColor="@color/app_background1"
+            android:layout_below="@+id/btnScanBarcode"            android:textColor="@color/app_background1"
             android:textSize="20sp"
            />
 

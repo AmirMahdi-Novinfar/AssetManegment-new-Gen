@@ -10,25 +10,21 @@ import android.text.InputType
 import android.text.TextWatcher
 import android.text.method.DigitsKeyListener
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -49,30 +45,48 @@ import com.tehranmunicipality.assetmanagement.util.SearchType
 import com.tehranmunicipality.assetmanagement.util.Status
 import com.tehranmunicipality.assetmanagement.util.englishToPersian
 import com.tehranmunicipality.assetmanagement.util.getCurrentDateTime
-import com.tehranmunicipality.assetmanagement.util.getPersianDate
 import com.tehranmunicipality.assetmanagement.util.isNetworkAvailable
 import com.tehranmunicipality.assetmanagement.util.setFormattedText
 import com.tehranmunicipality.assetmanagement.util.showAssetmoreDialog
 import com.tehranmunicipality.assetmanagement.util.showBarcodeDialog
 import com.tehranmunicipality.assetmanagement.util.showCustomDialog
-import com.tehranmunicipality.assetmanagement.util.showDialog2
 import com.tehranmunicipality.assetmanagement.util.showSnackBarMessage
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import org.apache.commons.net.io.Util
-
+import kotlin.jvm.java
 
 @AndroidEntryPoint
 class ActivityShowAssetInformation : BaseActivity(), View.OnClickListener {
+
+    private var scanTargetEditText: EditText? = null
+
+    // دریافت نتیجه اسکن دوربین
+    private val barcodeScannerLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+
+            if (result.resultCode == RESULT_OK) {
+
+                val scannedBarcode =
+                    result.data?.getStringExtra("barcodeResult")
+
+                if (!scannedBarcode.isNullOrBlank()) {
+
+                    scanTargetEditText?.let { editText ->
+                        editText.setText(scannedBarcode)
+                        editText.setSelection(editText.text?.length ?: 0)
+                    }
+                }
+            }
+
+            // بعد از دریافت نتیجه، مرجع EditText پاک می‌شود
+            scanTargetEditText = null
+        }
 
     private val showAssetInformationViewModel: ShowAssetInformationViewModel by viewModels()
     private val modifyAssetViewModel: ModifyAssetViewModel by viewModels()
 
     private lateinit var ivBack: ImageView
-
-    // private lateinit var ivInfo: ImageView
     private lateinit var tvProductName: TextView
     private lateinit var tvLocation: TextView
     private lateinit var tvAssetTypeName: TextView
@@ -85,6 +99,7 @@ class ActivityShowAssetInformation : BaseActivity(), View.OnClickListener {
     private lateinit var tvRecordCount: TextView
     private lateinit var tvItem1: TextView
     private lateinit var tvItem2: TextView
+
     private var searchText = ""
     private var accessToken = ""
     private var assetId = 0
@@ -96,73 +111,122 @@ class ActivityShowAssetInformation : BaseActivity(), View.OnClickListener {
     private var subCostCenterID = 0
     private var barcode = ""
     private var note = ""
+
     private lateinit var searchTypeFromAPI: SearchType
     private var searchTypeLocally = SearchType.AssetName
+
     private lateinit var ivDropDownLocation2: ImageView
-    val searchArray = arrayOf("دارای بارکد", "تاریخ ویرایش", "حروف الفبا")
+
+    private val searchArray = arrayOf(
+        "دارای بارکد",
+        "تاریخ ویرایش",
+        "حروف الفبا"
+    )
+
     var responsetype = ""
+
     private lateinit var choose_data_pars_mode: Spinner
-    var myit: Resource<GetAssetListResponse> = Resource.success(GetAssetListResponse())
-  lateinit var  moreAssetsContainer11: LinearLayout
+
+    var myit: Resource<GetAssetListResponse> =
+        Resource.success(GetAssetListResponse())
+
+    lateinit var moreAssetsContainer11: LinearLayout
     lateinit var moreAssetsContainer22: LinearLayout
     lateinit var moreAssetsContainer33: LinearLayout
-    lateinit var  moreAssetsContainer44: LinearLayout
+    lateinit var moreAssetsContainer44: LinearLayout
+
+    // جلوگیری از اجرای چندباره درخواست اولیه
+    private var initialRequestStarted = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_asset_information)
 
-
         bindView()
+
         if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.M) {
-            val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(window.decorView.windowToken, 0)
+            val inputMethodManager =
+                getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+
+            inputMethodManager.hideSoftInputFromWindow(
+                window.decorView.windowToken,
+                0
+            )
         }
 
-
         setupClicks()
+
         if (intent.hasExtra("fromActivity")) {
 
             when (intent.getStringExtra("fromActivity")) {
 
                 "ActivitySearchByBarcode" -> {
+
                     if (intent.hasExtra("barcodeId")) {
-                        //assetTag = intent.getStringExtra("barcodeId").toString()
-                        searchText = intent.getStringExtra("barcodeId").toString()
+
+                        searchText =
+                            intent.getStringExtra("barcodeId").toString()
+
                         searchTypeFromAPI = SearchType.Barcode
                         searchTypeLocally = SearchType.Barcode
+
                         Log.i("DEBUG", "searchType is barcode")
-                        acetSearchText.filters = arrayOf(InputFilter.LengthFilter(BARCODE_LENGTH))
-                        acetSearchText.keyListener = DigitsKeyListener.getInstance("0123456789")
-                    } else if ((intent.hasExtra("tagText"))) {
-                        searchText = intent.getStringExtra("tagText").toString()
+
+                        acetSearchText.filters =
+                            arrayOf(InputFilter.LengthFilter(BARCODE_LENGTH))
+
+                        acetSearchText.keyListener =
+                            DigitsKeyListener.getInstance("0123456789")
+
+                    } else if (intent.hasExtra("tagText")) {
+
+                        searchText =
+                            intent.getStringExtra("tagText").toString()
+
                         searchTypeFromAPI = SearchType.TagText
                         searchTypeLocally = SearchType.TagText
+
                         Log.i("DEBUG", "searchType is tagtext")
-                        acetSearchText.filters = arrayOf(InputFilter.LengthFilter(11))
-                        acetSearchText.keyListener = DigitsKeyListener.getInstance("0123456789")
+
+                        acetSearchText.filters =
+                            arrayOf(InputFilter.LengthFilter(11))
+
+                        acetSearchText.keyListener =
+                            DigitsKeyListener.getInstance("0123456789")
                     }
                 }
 
                 "ActivitySearchByAssetLocation" -> {
+
                     if (intent.hasExtra("assetLocationId")) {
-                        //assetLocationId = intent.getStringExtra("assetLocationId").toString()
-                        searchText = intent.getStringExtra("assetLocationId").toString()
+
+                        searchText =
+                            intent.getStringExtra("assetLocationId").toString()
+
                         searchTypeFromAPI = SearchType.Location
                         searchTypeLocally = SearchType.Location
+
                         Log.i("DEBUG", "searchType is location")
                         Log.i("DEBUG22", searchText)
-                        acetSearchText.filters = arrayOf(InputFilter.LengthFilter(20))
-                        acetSearchText.keyListener = DigitsKeyListener.getInstance("0123456789")
-                        acetSearchText.inputType = InputType.TYPE_CLASS_TEXT
+
+                        acetSearchText.filters =
+                            arrayOf(InputFilter.LengthFilter(20))
+
+                        acetSearchText.keyListener =
+                            DigitsKeyListener.getInstance("0123456789")
+
+                        acetSearchText.inputType =
+                            InputType.TYPE_CLASS_TEXT
                     }
                 }
 
                 "ActivitySearchByUsernameOrNationalCode" -> {
 
                     if (intent.hasExtra("nationalCode")) {
-                        //nationalCode = intent.getStringExtra("nationalCode").toString()
-                        searchText = intent.getStringExtra("nationalCode").toString()
+
+                        searchText =
+                            intent.getStringExtra("nationalCode").toString()
+
                         searchTypeFromAPI = SearchType.NationalCode
                     }
                 }
@@ -170,41 +234,57 @@ class ActivityShowAssetInformation : BaseActivity(), View.OnClickListener {
                 "ActivityPersonList" -> {
 
                     if (intent.hasExtra("username")) {
-                        searchText = intent.getStringExtra("username").toString()
+
+                        searchText =
+                            intent.getStringExtra("username").toString()
+
                         searchTypeFromAPI = SearchType.NationalCode
                     }
                 }
             }
-            getUser()
+
+            // ابتدا Observerها ثبت می‌شوند
             observeViewModel()
+
+            // سپس درخواست اولیه فقط یک بار اجرا می‌شود
+            if (!initialRequestStarted) {
+                initialRequestStarted = true
+                getUser()
+            }
         }
     }
 
     private fun setupTextChangeListener() {
+
         acetSearchText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
+            override fun beforeTextChanged(
+                p0: CharSequence?,
+                p1: Int,
+                p2: Int,
+                p3: Int
+            ) {
             }
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
+            override fun onTextChanged(
+                p0: CharSequence?,
+                p1: Int,
+                p2: Int,
+                p3: Int
+            ) {
             }
-
-//            override fun afterTextChanged(p0: Editable?) {
-//                expandableListAdapter2.search(searchTypeLocally, p0.toString())
-//                tvRecordCount.text =
-//                    "تعداد:${englishToPersian(expandableListAdapter2.itemCount.toString())}"
-//            }
-
 
             override fun afterTextChanged(p0: Editable?) {
+
                 p0?.let {
-                    val fixedQuery = it.toString().replace('ی', 'ي') // تبدیل "ی" فارسی به "ي" عربی
+
+                    val fixedQuery =
+                        it.toString().replace('ی', 'ي')
 
                     expandableListAdapter2.search(
                         searchTypeLocally,
                         fixedQuery
-                    ) // جستجو با متن اصلاح‌شده
+                    )
 
                     tvRecordCount.text =
                         "تعداد: ${englishToPersian(expandableListAdapter2.itemCount.toString())}"
@@ -213,30 +293,32 @@ class ActivityShowAssetInformation : BaseActivity(), View.OnClickListener {
         })
     }
 
-
     private fun getUser() {
         showAssetInformationViewModel.getUser()
     }
 
     private fun bindView() {
+
         choose_data_pars_mode = findViewById(R.id.selectfilterasset)
         ivBack = findViewById(R.id.ivBack)
-        //ivInfo = findViewById(R.id.ivInfo)
+
         tvItem1 = findViewById(R.id.tvItem1)
         tvItem2 = findViewById(R.id.tvItem2)
+
         tvRecordCount = findViewById(R.id.tvRecordCount)
+
         tvProductName = findViewById(R.id.tvProductName)
         tvLocation = findViewById(R.id.tvLocation)
         tvAssetTypeName = findViewById(R.id.tvAssetTypeName)
         tvUsername = findViewById(R.id.tvUsername)
+
         acetSearchText = findViewById(R.id.acetSearchText)
         acetSearchText.clearFocus()
+
         ivSearch = findViewById(R.id.ivSearch)
-        //elvAssetInformation = findViewById(R.id.elvAssetInformation)
+
         rvAssetInformation = findViewById(R.id.rvAssetInformation)
         vwLoading = findViewById(R.id.vwLoading)
-
-
     }
 
     private fun searchAsset(
@@ -244,13 +326,22 @@ class ActivityShowAssetInformation : BaseActivity(), View.OnClickListener {
         accessToken: String = "",
         searchText: String = ""
     ) {
-        Log.i("DEBUG", "ActivityShowUserInformation searchType=$searchType")
-        showAssetInformationViewModel.getAssetList(searchType, accessToken, searchText)
+
+        Log.i(
+            "DEBUG",
+            "ActivityShowUserInformation searchType=$searchType"
+        )
+
+        showAssetInformationViewModel.getAssetList(
+            searchType,
+            accessToken,
+            searchText
+        )
     }
 
     private fun setupClicks() {
+
         ivBack.setOnClickListener(this)
-        //ivInfo.setOnClickListener(this)
         ivSearch.setOnClickListener(this)
     }
 
@@ -263,372 +354,572 @@ class ActivityShowAssetInformation : BaseActivity(), View.OnClickListener {
     }
 
     private fun observeViewModel() {
+
         showAssetInformationViewModel.appUserResponse.observe(this) {
+
             when (it.status) {
 
                 Status.SUCCESS -> {
+
                     hideLoading()
+
                     Log.i(
                         "DEBUG",
-                        "ActivityShowUserInformation observeViewModel appUserResponse success. dat=${it.data}"
+                        "ActivityShowUserInformation appUserResponse success. data=${it.data}"
                     )
+
                     if (!it.data?.token.isNullOrEmpty()) {
+
                         if (!applicationContext.let { isNetworkAvailable(it) }) {
+
                             val errorMessage = "اتصال اینترنت برقرار نیست"
-                            showCustomDialog(this, DialogType.ERROR, errorMessage)
+
+                            showCustomDialog(
+                                this,
+                                DialogType.ERROR,
+                                errorMessage
+                            )
+
                         } else {
+
                             showAssetInformationViewModel.getESBToken(
                                 it.data?.username.toString(),
                                 it.data?.password.toString()
                             )
                         }
+
                     } else {
+
                         Log.i(
                             "DEBUG",
-                            "ActivityShowUserInformation observeViewModel appUSerResponse user token is null or empty!!!"
+                            "User token is null or empty"
                         )
-                        val errorMessage = "خطا در دریافت توکن کاربر از دیتابیس محلی"
+
+                        val errorMessage =
+                            "خطا در دریافت توکن کاربر از دیتابیس محلی"
+
                         showCustomDialog(
                             this,
                             DialogType.ERROR,
-                            errorMessage, object : IClickListener {
-                                override fun onClick(view: View?, dialog: Dialog) {
+                            errorMessage,
+                            object : IClickListener {
+
+                                override fun onClick(
+                                    view: View?,
+                                    dialog: Dialog
+                                ) {
                                     dialog.dismiss()
                                     finish()
                                 }
-                            })
-
+                            }
+                        )
                     }
                 }
 
                 Status.LOADING -> {
+
                     showLoading()
+
                     Log.i(
                         "DEBUG",
-                        "ActivityShowUserInformation observeViewModel appUserResponse loading"
+                        "appUserResponse loading"
                     )
                 }
 
                 Status.ERROR -> {
+
                     hideLoading()
+
                     Log.i(
                         "DEBUG",
-                        "ActivityShowUserInformation observeViewModel appUserResponse error.${it.message}"
+                        "appUserResponse error: ${it.message}"
                     )
+
                     val errorMessage = it.message.toString()
-                    showCustomDialog(this, DialogType.ERROR, errorMessage, object : IClickListener {
-                        override fun onClick(view: View?, dialog: Dialog) {
-                            dialog.dismiss()
-                            finish()
-                        }
-                    })
-                }
-            }
-        }
-        showAssetInformationViewModel.esbTokenResponse.observe(this) {
-            when (it.status) {
 
-                Status.SUCCESS -> {
-                    hideLoading()
-                    Log.i(
-                        "DEBUG",
-                        "ActivityShowUserInformation observeViewModel esbTokenResponse success.data=${it.data}"
-                    )
-                    if (!it.data?.accessToken.isNullOrEmpty()) {
-                        accessToken = it.data?.accessToken.toString()
-                        searchAsset(searchTypeFromAPI, accessToken, searchText)
-
-                    } else {
-                        Log.i(
-                            "DEBUG",
-                            "ActivityShowUserInformation observeViewModel esbTokenResponse token is empty or null!!!"
-                        )
-                        val errorMessage = it.message.toString()
-                        showCustomDialog(
-                            this,
-                            DialogType.ERROR,
-                            errorMessage, object : IClickListener {
-                                override fun onClick(view: View?, dialog: Dialog) {
-                                    dialog.dismiss()
-                                    finish()
-                                }
-                            })
-                    }
-                }
-
-                Status.LOADING -> {
-                    showLoading()
-                    Log.i(
-                        "DEBUG",
-                        "ActivityShowUserInformation observeViewModel esbTokenResponse loading"
-                    )
-                }
-
-                Status.ERROR -> {
-                    hideLoading()
-                    Log.i(
-                        "DEBUG",
-                        "ActivityShowUserInformation observeViewModel esbTokenResponse error.${it.message}"
-                    )
-                    var errorMessage = it.data?.error_description.toString()
-                    if (errorMessage.isEmpty()) {
-                        errorMessage = it.message.toString()
-                    }
                     showCustomDialog(
                         this,
                         DialogType.ERROR,
-                        errorMessage, object : IClickListener {
-                            override fun onClick(view: View?, dialog: Dialog) {
+                        errorMessage,
+                        object : IClickListener {
+
+                            override fun onClick(
+                                view: View?,
+                                dialog: Dialog
+                            ) {
                                 dialog.dismiss()
                                 finish()
                             }
-                        })
+                        }
+                    )
                 }
             }
         }
-        showAssetInformationViewModel.getAssetListResponse.observe(this) {
-            myit = it
+
+        showAssetInformationViewModel.esbTokenResponse.observe(this) {
+
             when (it.status) {
+
                 Status.SUCCESS -> {
+
                     hideLoading()
+
                     Log.i(
                         "DEBUG",
-                        "ActivityShowUserInformation observeViewModel getAssetListResponse success.data=${it.data} "
+                        "esbTokenResponse success. data=${it.data}"
                     )
+
+                    if (!it.data?.accessToken.isNullOrEmpty()) {
+
+                        accessToken =
+                            it.data?.accessToken.toString()
+
+                        searchAsset(
+                            searchTypeFromAPI,
+                            accessToken,
+                            searchText
+                        )
+
+                    } else {
+
+                        Log.i(
+                            "DEBUG",
+                            "ESB access token is empty or null"
+                        )
+
+                        val errorMessage = it.message.toString()
+
+                        showCustomDialog(
+                            this,
+                            DialogType.ERROR,
+                            errorMessage,
+                            object : IClickListener {
+
+                                override fun onClick(
+                                    view: View?,
+                                    dialog: Dialog
+                                ) {
+                                    dialog.dismiss()
+                                    finish()
+                                }
+                            }
+                        )
+                    }
+                }
+
+                Status.LOADING -> {
+
+                    showLoading()
+
+                    Log.i(
+                        "DEBUG",
+                        "esbTokenResponse loading"
+                    )
+                }
+
+                Status.ERROR -> {
+
+                    hideLoading()
+
+                    Log.i(
+                        "DEBUG",
+                        "esbTokenResponse error: ${it.message}"
+                    )
+
+                    var errorMessage =
+                        it.data?.error_description.toString()
+
+                    if (errorMessage.isEmpty()) {
+                        errorMessage = it.message.toString()
+                    }
+
+                    showCustomDialog(
+                        this,
+                        DialogType.ERROR,
+                        errorMessage,
+                        object : IClickListener {
+
+                            override fun onClick(
+                                view: View?,
+                                dialog: Dialog
+                            ) {
+                                dialog.dismiss()
+                                finish()
+                            }
+                        }
+                    )
+                }
+            }
+        }
+
+        showAssetInformationViewModel.getAssetListResponse.observe(this) {
+
+            myit = it
+
+            when (it.status) {
+
+                Status.SUCCESS -> {
+
+                    hideLoading()
+
+                    Log.i(
+                        "DEBUG",
+                        "getAssetListResponse success. data=${it.data}"
+                    )
+
                     if (it.data?.assetList != null) {
+
                         if (responsetype == "setAssetMoreClicked") {
-                            if (it.data.assetList.size > 0) {
 
-                                moreAssetsContainer22.visibility =View.VISIBLE
-                                disableViewAndChildren(moreAssetsContainer11)
-                                note += "برچسب های اضافه : " + it.data.assetList[0]!!.assetTag + " , "
+                            if (it.data.assetList.isNotEmpty()) {
 
+                                moreAssetsContainer22.visibility =
+                                    View.VISIBLE
+
+                                disableViewAndChildren(
+                                    moreAssetsContainer11
+                                )
+
+                                note +=
+                                    "برچسب های اضافه : " +
+                                            it.data.assetList[0]!!.assetTag +
+                                            " , "
 
                             } else {
-                                val message = "اموالی یافت نشد"
+
                                 showCustomDialog(
                                     this,
                                     DialogType.WARNING,
-                                    message, object : IClickListener {
-                                        override fun onClick(view: View?, dialog: Dialog) {
+                                    "اموالی یافت نشد",
+                                    object : IClickListener {
+
+                                        override fun onClick(
+                                            view: View?,
+                                            dialog: Dialog
+                                        ) {
                                             dialog.dismiss()
                                         }
-                                    })
-
+                                    }
+                                )
                             }
+
                         } else if (responsetype == "setAssetMoreClicked2") {
 
-                            if (it.data.assetList.size > 0) {
+                            if (it.data.assetList.isNotEmpty()) {
 
+                                note +=
+                                    it.data.assetList[0]!!.assetTag + " , "
 
-                                note += it.data.assetList[0]!!.assetTag + " , "
+                                moreAssetsContainer33.visibility =
+                                    View.VISIBLE
 
-                                moreAssetsContainer33.visibility =View.VISIBLE
-                                disableViewAndChildren(moreAssetsContainer22)
+                                disableViewAndChildren(
+                                    moreAssetsContainer22
+                                )
+
                             } else {
-                                val message = "اموالی یافت نشد"
+
                                 showCustomDialog(
                                     this,
                                     DialogType.WARNING,
-                                    message, object : IClickListener {
-                                        override fun onClick(view: View?, dialog: Dialog) {
+                                    "اموالی یافت نشد",
+                                    object : IClickListener {
+
+                                        override fun onClick(
+                                            view: View?,
+                                            dialog: Dialog
+                                        ) {
                                             dialog.dismiss()
                                         }
-                                    })
-
+                                    }
+                                )
                             }
-
 
                         } else if (responsetype == "setAssetMoreClicked3") {
 
+                            if (it.data.assetList.isNotEmpty()) {
 
-                            if (it.data.assetList.size > 0) {
+                                note +=
+                                    it.data.assetList[0]!!.assetTag + " , "
 
+                                moreAssetsContainer44.visibility =
+                                    View.VISIBLE
 
-                                note += it.data.assetList[0]!!.assetTag + " , "
-                                moreAssetsContainer44.visibility =View.VISIBLE
-                                disableViewAndChildren(moreAssetsContainer33)
+                                disableViewAndChildren(
+                                    moreAssetsContainer33
+                                )
 
                             } else {
-                                val message = "اموالی یافت نشد"
+
                                 showCustomDialog(
                                     this,
                                     DialogType.WARNING,
-                                    message, object : IClickListener {
-                                        override fun onClick(view: View?, dialog: Dialog) {
+                                    "اموالی یافت نشد",
+                                    object : IClickListener {
+
+                                        override fun onClick(
+                                            view: View?,
+                                            dialog: Dialog
+                                        ) {
                                             dialog.dismiss()
                                         }
-                                    })
-
+                                    }
+                                )
                             }
 
                         } else if (responsetype == "setAssetMoreClicked4") {
 
+                            if (it.data.assetList.isNotEmpty()) {
 
-                            if (it.data.assetList.size > 0) {
+                                note +=
+                                    it.data.assetList[0]!!.assetTag + " , "
 
-
-                                note += it.data.assetList[0]!!.assetTag + " , "
-                                disableViewAndChildren(moreAssetsContainer44)
+                                disableViewAndChildren(
+                                    moreAssetsContainer44
+                                )
 
                             } else {
-                                val message = "اموالی یافت نشد"
+
                                 showCustomDialog(
                                     this,
                                     DialogType.WARNING,
-                                    message, object : IClickListener {
-                                        override fun onClick(view: View?, dialog: Dialog) {
+                                    "اموالی یافت نشد",
+                                    object : IClickListener {
+
+                                        override fun onClick(
+                                            view: View?,
+                                            dialog: Dialog
+                                        ) {
                                             dialog.dismiss()
                                         }
-                                    })
-
+                                    }
+                                )
                             }
 
                         } else {
-                            Log.i("DEdug","vaghtiassetmoremizanimiad inja1")
-                            if (it.data.assetList.size > 0) {
-                                when (searchTypeFromAPI) {
-                                    SearchType.Username, SearchType.NationalCode -> {
-                                        setFormattedText(
-                                            tvItem1, Color.WHITE,
-                                            "کد ملی : ", englishToPersian(
-                                                it.data.assetList[0]?.identityNo.toString()
-                                            )
 
-                                        )
-                                        nationalCode= it.data.assetList[0]?.identityNo.toString()
+                            Log.i(
+                                "DEdug",
+                                "vaghtiassetmoremizanimiad inja1"
+                            )
+
+                            if (it.data.assetList.isNotEmpty()) {
+
+                                when (searchTypeFromAPI) {
+
+                                    SearchType.Username,
+                                    SearchType.NationalCode -> {
+
                                         setFormattedText(
-                                            tvItem2, Color.WHITE,
-                                            "تحویل گیرنده : ", englishToPersian(
-                                                it.data.assetList[0]?.actorName.toString()
+                                            tvItem1,
+                                            Color.WHITE,
+                                            "کد ملی : ",
+                                            englishToPersian(
+                                                it.data.assetList[0]
+                                                    ?.identityNo.toString()
+                                            )
+                                        )
+
+                                        nationalCode =
+                                            it.data.assetList[0]
+                                                ?.identityNo.toString()
+
+                                        setFormattedText(
+                                            tvItem2,
+                                            Color.WHITE,
+                                            "تحویل گیرنده : ",
+                                            englishToPersian(
+                                                it.data.assetList[0]
+                                                    ?.actorName.toString()
                                             )
                                         )
                                     }
 
                                     SearchType.Barcode -> {
+
                                         setFormattedText(
-                                            tvItem1, Color.WHITE,
-                                            "بارکد : ", englishToPersian(
-                                                it.data.assetList[0]?.barCode.toString()
+                                            tvItem1,
+                                            Color.WHITE,
+                                            "بارکد : ",
+                                            englishToPersian(
+                                                it.data.assetList[0]
+                                                    ?.barCode.toString()
                                             )
                                         )
                                     }
 
                                     SearchType.TagText -> {
+
                                         setFormattedText(
-                                            tvItem1, Color.WHITE,
-                                            "برچسب : ", englishToPersian(
-                                                it.data.assetList[0]?.assetTag.toString()
+                                            tvItem1,
+                                            Color.WHITE,
+                                            "برچسب : ",
+                                            englishToPersian(
+                                                it.data.assetList[0]
+                                                    ?.assetTag.toString()
                                             )
                                         )
                                     }
 
                                     SearchType.Location -> {
+
                                         setFormattedText(
-                                            tvItem1, Color.WHITE,
-                                            "محل استقرار : ", englishToPersian(
-                                                it.data.assetList[0]?.assetLocationName.toString()
+                                            tvItem1,
+                                            Color.WHITE,
+                                            "محل استقرار : ",
+                                            englishToPersian(
+                                                it.data.assetList[0]
+                                                    ?.assetLocationName.toString()
                                             )
                                         )
                                     }
 
                                     SearchType.AssetName -> {
+
                                         setFormattedText(
-                                            tvItem1, Color.WHITE,
-                                            "نام اموال : ", englishToPersian(
-                                                it.data.assetList[0]?.assetLocationName.toString()
+                                            tvItem1,
+                                            Color.WHITE,
+                                            "نام اموال : ",
+                                            englishToPersian(
+                                                it.data.assetList[0]
+                                                    ?.assetLocationName.toString()
                                             )
                                         )
                                     }
-
                                 }
 
                                 initializeExpandableListView(
-                                    it.data.assetList.sortedByDescending { it?.barCode } as List<AssetListItem>
-
+                                    it.data.assetList
+                                        .sortedByDescending { item -> item?.barCode }
+                                            as List<AssetListItem>
                                 )
-                                Log.i("DEdug","vaghtiassetmoremizanimiad inja2")
+
+                                Log.i(
+                                    "DEdug",
+                                    "vaghtiassetmoremizanimiad inja2"
+                                )
 
                                 spinnerconfig()
+
                                 tvRecordCount.text =
                                     "تعداد : ${englishToPersian(it.data.assetList.size.toString())}"
+
                             } else {
+
                                 Log.i(
                                     "DEBUG",
-                                    "ActivityShowUserInformation observeViewModel getAssetListResponse success. list is empty. so we return back"
+                                    "Asset list is empty"
                                 )
 
-                                val message = "اموالی یافت نشد"
                                 showCustomDialog(
                                     this,
                                     DialogType.WARNING,
-                                    message, object : IClickListener {
-                                        override fun onClick(view: View?, dialog: Dialog) {
+                                    "اموالی یافت نشد",
+                                    object : IClickListener {
+
+                                        override fun onClick(
+                                            view: View?,
+                                            dialog: Dialog
+                                        ) {
                                             dialog.dismiss()
                                             finish()
                                         }
-                                    })
+                                    }
+                                )
                             }
                         }
+
                     } else {
-                        var errorMessage = it.data?.detailError?.get(0)?.errorDesc.toString()
+
+                        var errorMessage =
+                            it.data?.detailError?.get(0)?.errorDesc.toString()
+
                         if (errorMessage.isEmpty()) {
                             errorMessage = it.message.toString()
                         }
+
                         showCustomDialog(
                             this,
                             DialogType.ERROR,
-                            errorMessage, object : IClickListener {
-                                override fun onClick(view: View?, dialog: Dialog) {
+                            errorMessage,
+                            object : IClickListener {
+
+                                override fun onClick(
+                                    view: View?,
+                                    dialog: Dialog
+                                ) {
                                     dialog.dismiss()
                                     finish()
                                 }
-                            })
+                            }
+                        )
                     }
                 }
 
                 Status.LOADING -> {
+
                     showLoading()
+
                     Log.i(
                         "DEBUG",
-                        "ActivityShowUserInformation observeViewModel getAssetListResponse loading"
+                        "getAssetListResponse loading"
                     )
                 }
 
                 Status.ERROR -> {
+
                     hideLoading()
+
                     Log.i(
                         "DEBUG",
-                        "ActivityShowUserInformation observeViewModel getAssetListResponse error.error=${it.message}"
+                        "getAssetListResponse error: ${it.message}"
                     )
-                    val errorMessage = it.message.toString()
-                    showCustomDialog(this, DialogType.ERROR, errorMessage, object : IClickListener {
-                        override fun onClick(view: View?, dialog: Dialog) {
-                            dialog.dismiss()
-                            finish()
+
+                    showCustomDialog(
+                        this,
+                        DialogType.ERROR,
+                        it.message.toString(),
+                        object : IClickListener {
+
+                            override fun onClick(
+                                view: View?,
+                                dialog: Dialog
+                            ) {
+                                dialog.dismiss()
+                                finish()
+                            }
                         }
-                    })
+                    )
                 }
             }
         }
 
+        // Observer ثبت بارکد
         showAssetInformationViewModel.setBarcodeForAssetResponse.observe(this) {
 
             when (it.status) {
+
                 Status.SUCCESS -> {
+
                     hideLoading()
+
                     Log.i(
                         "DEBUG",
-                        "ActivityShowUserInformation observeViewModel setBarcodeForAssetResponse success.data=${it.data}"
+                        "setBarcodeForAssetResponse success. data=${it.data}"
                     )
 
                     if (it.data?.result == 100) {
 
-                        val message = "بارکد به اموال با کد $assetId اضافه شد"
-                        //showSnackBarMessage(elvAssetInformation, message)
-                        showSnackBarMessage(rvAssetInformation, message)
-                        getUser()
+                        val message =
+                            "بارکد به اموال با کد $assetId اضافه شد"
 
+                        showSnackBarMessage(
+                            rvAssetInformation,
+                            message
+                        )
+
+                        // رفرش اطلاعات فقط بعد از ثبت موفق بارکد
+                        getUser()
 
                         modifyAssetViewModel.getModifyAssetHistory(
                             accessToken,
@@ -637,125 +928,175 @@ class ActivityShowAssetInformation : BaseActivity(), View.OnClickListener {
                             null,
                             assetId,
                             assetLocationID.toString().toInt(),
-                            assetStatusCode!!,
+                            assetStatusCode,
                             "",
-                            subCostCenterID!!
+                            subCostCenterID
                         )
 
-
                     } else {
-                        val errorMessage = it.data?.detailError?.get(0)?.errorDesc.toString()
+
+                        val errorMessage =
+                            it.data?.detailError?.get(0)?.errorDesc.toString()
+
                         showCustomDialog(
                             this,
                             DialogType.ERROR,
-                            errorMessage, object : IClickListener {
-                                override fun onClick(view: View?, dialog: Dialog) {
-                                    dialog.dismiss()
+                            errorMessage,
+                            object : IClickListener {
 
+                                override fun onClick(
+                                    view: View?,
+                                    dialog: Dialog
+                                ) {
+                                    dialog.dismiss()
                                 }
-                            })
+                            }
+                        )
                     }
                 }
 
                 Status.LOADING -> {
+
                     showLoading()
+
                     Log.i(
                         "DEBUG",
-                        "ActivityShowUserInformation observeViewModel setBarcodeForAssetResponse loading"
+                        "setBarcodeForAssetResponse loading"
                     )
                 }
 
                 Status.ERROR -> {
+
                     hideLoading()
+
                     Log.i(
                         "DEBUG",
-                        "ActivityShowUserInformation observeViewModel setBarcodeForAssetResponse error.${it.message}"
+                        "setBarcodeForAssetResponse error: ${it.message}"
                     )
-                    var errorMessage = it.data?.detailError?.get(0)?.errorDesc.toString()
+
+                    var errorMessage =
+                        it.data?.detailError?.get(0)?.errorDesc.toString()
+
                     if (errorMessage.isEmpty()) {
                         errorMessage = it.message.toString()
                     }
+
                     showCustomDialog(
                         this,
                         DialogType.ERROR,
-                        errorMessage, object : IClickListener {
-                            override fun onClick(view: View?, dialog: Dialog) {
+                        errorMessage,
+                        object : IClickListener {
+
+                            override fun onClick(
+                                view: View?,
+                                dialog: Dialog
+                            ) {
                                 dialog.dismiss()
                             }
-                        })
+                        }
+                    )
                 }
             }
         }
+
         showAssetInformationViewModel.getModifyAssetHistoryResponse.observe(this) {
+
             Log.i(
                 "DEBUG",
-                "ActivityshowAssetinformation getModifyAssetHistoryResponse "
+                "ActivityShowAssetInformation getModifyAssetHistoryResponse"
             )
+
             when (it.status) {
+
                 Status.SUCCESS -> {
+
                     hideLoading()
+
                     Log.i(
                         "DEBUG",
-                        "ActivityshowAssetinformation getModifyAssetHistoryResponse sucseess "
+                        "getModifyAssetHistoryResponse success"
                     )
-                    if (it.data?.detailError?.isEmpty()==true) {
-                       // getUser()
 
+                    if (it.data?.detailError?.isEmpty() == true) {
 
+                        val message =
+                            "برچسب های اضافه به اموال اعمال شد"
 
-                        val message = "برچسب های اضافه به اموال اعمال شد"
                         showCustomDialog(
                             this,
                             DialogType.SUCCESS,
-                            message, object : IClickListener {
-                                override fun onClick(view: View?, dialog: Dialog) {
+                            message,
+                            object : IClickListener {
+
+                                override fun onClick(
+                                    view: View?,
+                                    dialog: Dialog
+                                ) {
                                     dialog.dismiss()
+
                                     showAssetInformationViewModel.getAssetList(
                                         SearchType.NationalCode,
-                                        accessToken,nationalCode)
-                                    
-
+                                        accessToken,
+                                        nationalCode
+                                    )
                                 }
-                            })
-                    }  else {
+                            }
+                        )
+
+                    } else {
+
                         Log.i(
                             "DEBUG",
-                            "ActivityshowAssetinformation getModifyAssetHistoryResponse eroor "
+                            "getModifyAssetHistoryResponse error"
                         )
-                        val errorMessage = "خطا در افزوده شدن تغییرات به اموال"
+
                         showCustomDialog(
                             this,
                             DialogType.ERROR,
-                            errorMessage, object : IClickListener {
-                                override fun onClick(view: View?, dialog: Dialog) {
+                            "خطا در افزوده شدن تغییرات به اموال",
+                            object : IClickListener {
+
+                                override fun onClick(
+                                    view: View?,
+                                    dialog: Dialog
+                                ) {
                                     dialog.dismiss()
                                 }
-                            })
+                            }
+                        )
                     }
                 }
 
                 Status.LOADING -> {
                     showLoading()
-
                 }
 
                 Status.ERROR -> {
+
                     hideLoading()
 
-                    val errorMessage = it.data?.detailError?.get(0).toString()
-                    showCustomDialog(this, DialogType.ERROR, errorMessage)
+                    val errorMessage =
+                        it.data?.detailError?.get(0).toString()
+
+                    showCustomDialog(
+                        this,
+                        DialogType.ERROR,
+                        errorMessage
+                    )
                 }
             }
-
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        getUser()
-    }
+    /*
+     * عمداً onResume را override نکرده‌ایم.
+     *
+     * چون برگشت از دوربین باعث اجرای مجدد onResume می‌شود
+     * و نباید در این مرحله getUser فراخوانی شود.
+     */
 
     override fun onClick(p0: View?) {
+
         when (p0) {
 
             ivBack -> {
@@ -763,582 +1104,735 @@ class ActivityShowAssetInformation : BaseActivity(), View.OnClickListener {
             }
 
             ivSearch -> {
+
                 if (acetSearchText.text?.isEmpty() == false) {
-                    expandableListAdapter2.search(searchTypeLocally, acetSearchText.text.toString())
+
+                    expandableListAdapter2.search(
+                        searchTypeLocally,
+                        acetSearchText.text.toString()
+                    )
+
                 } else {
-                    val errorMessage = "متن جستجو را وارد نمایید"
-                    Toast.makeText(applicationContext, errorMessage, Toast.LENGTH_LONG).show()
+
+                    Toast.makeText(
+                        applicationContext,
+                        "متن جستجو را وارد نمایید",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         }
     }
 
-    public fun initializeExpandableListView(assetList: List<AssetListItem>) {
-        val intent = Intent(this, ActivityModifyAsset::class.java)
-        expandableListAdapter2 = AssetExpandableListAdapter2(this, object : AssetItemClickListener {
-            override fun editItemClicked(assetListItem: AssetListItem) {
-                responsetype = "edititem"
+    public fun initializeExpandableListView(
+        assetList: List<AssetListItem>
+    ) {
 
+        val intent = Intent(
+            this,
+            ActivityModifyAsset::class.java
+        )
 
-                Log.i("DEBUG", "ActivityShowUserInformation assetID=${assetListItem.assetID}")
-                Log.i(
-                    "DEBUG",
-                    "ActivityShowUserInformation assetTypeCode=${assetListItem.assetTypeCode}"
-                )
-                Log.i("DEBUG", "ActivityShowUserInformation barCode=${assetListItem.barCode}")
+        expandableListAdapter2 =
+            AssetExpandableListAdapter2(
+                this,
+                object : AssetItemClickListener {
 
-                intent.putExtra("type", "edit")
+                    override fun editItemClicked(
+                        assetListItem: AssetListItem
+                    ) {
 
-                if (assetListItem.assetID != null) {
-                    assetId = assetListItem.assetID.toString().toInt()
-                    intent.putExtra("assetId", assetListItem.assetID.toString())
-                    Log.d("DEBUG", "assetIdeee: $assetId")
+                        responsetype = "edititem"
 
-                }
-                if (assetListItem.assetCode != null) {
-                    intent.putExtra("assetCode", assetListItem.assetCode.toString())
-                }
+                        Log.i(
+                            "DEBUG",
+                            "assetID=${assetListItem.assetID}"
+                        )
 
-                if (assetListItem.assetStateCode != null) {
-                    intent.putExtra("assetStateCode", assetListItem.assetStateCode.toString())
-                }
-                if (assetListItem.assetTypeCode != null) {
-                    intent.putExtra("assetTypeCode", assetListItem.assetTypeCode.toString())
-                }
-                if (assetListItem.barCode != null) {
-                    intent.putExtra("barcode", assetListItem.barCode.toString())
-                }
-                if (assetListItem.assetTag != null) {
-                    intent.putExtra("assetTag", assetListItem.assetTag.toString())
-                }
-                if (assetListItem.productName != null) {
-                    var productName = assetListItem.productName.toString()
-                    intent.putExtra("productName", productName)
-                    Log.i("ghandman", productName)
-                }
-                if (assetListItem.assetHistoryId != null) {
-                    intent.putExtra("assetHistoryId", assetListItem.assetHistoryId.toString())
-                }
+                        Log.i(
+                            "DEBUG",
+                            "assetTypeCode=${assetListItem.assetTypeCode}"
+                        )
 
-                if (assetListItem.costCenterID != null) {
-                    intent.putExtra("costCenterID", assetListItem.costCenterID.toString())
-                }
+                        Log.i(
+                            "DEBUG",
+                            "barCode=${assetListItem.barCode}"
+                        )
 
-                if (assetListItem.costCenterName != null) {
-                    intent.putExtra("costCenterName", assetListItem.costCenterName.toString())
-                }
+                        intent.putExtra("type", "edit")
 
-                if (assetListItem.costCenterCode != null) {
-                    intent.putExtra("costCenterCode", assetListItem.costCenterCode.toString())
-                }
+                        assetListItem.assetID?.let {
 
-                if (assetListItem.subCostCenterID != null) {
-                    intent.putExtra("subCostCenterID", assetListItem.subCostCenterID.toString())
-                    subCostCenterID = assetListItem.subCostCenterID.toString().toInt()
+                            assetId = it.toString().toInt()
 
-                }
-
-                if (assetListItem.subCostCenterName != null) {
-                    intent.putExtra(
-                        "subCostCenterName",
-                        assetListItem.subCostCenterName.toString()
-                    )
-                }
-
-                if (assetListItem.subCostCenterCode != null) {
-                    intent.putExtra(
-                        "subCostCenterCode",
-                        assetListItem.subCostCenterCode.toString()
-                    )
-                }
-
-                if (assetListItem.assetLocationID != null) {
-                    intent.putExtra("assetLocationID", assetListItem.assetLocationID.toString())
-                    assetLocationID = assetListItem.assetLocationID.toString().toInt()
-
-                }
-                if (assetListItem.assetStateCode != null) {
-                    intent.putExtra("assetLocationID", assetListItem.assetLocationID.toString())
-                    assetstatenum = assetListItem.assetStateCode.toString().toInt()
-
-                }
-
-                if (assetListItem.assetLocationName != null) {
-                    intent.putExtra(
-                        "assetLocationName",
-                        assetListItem.assetLocationName.toString()
-                    )
-                }
-
-                if (assetListItem.actorID != null) {
-                    intent.putExtra("actorID", assetListItem.actorID.toString())
-                    actorID = assetListItem.actorID.toString().toInt()
-                }
-
-                if (assetListItem.actorName != null) {
-                    intent.putExtra("actorName", assetListItem.actorName.toString())
-                }
-
-                if (assetListItem.assetStatusCode != null) {
-                    intent.putExtra("assetStatusCode", assetListItem.assetStatusCode.toString())
-                    assetStatusCode = assetListItem.assetStatusCode
-                }
-
-                if (assetListItem.assetTypeName != null) {
-                    intent.putExtra("assetTypeName", assetListItem.assetTypeName.toString())
-                }
-
-                if (assetListItem.barCode == null || assetListItem.barCode == "") {
-                    Log.i("DEBUG", "ActivityShowUserInformation ${assetListItem.barCode}")
-                    val message = "ابتدا بارکد تخصیص داده شود"
-                    showCustomDialog(this@ActivityShowAssetInformation, DialogType.WARNING,
-                        message, object : IClickListener {
-                            override fun onClick(view: View?, dialog: Dialog) {
-                                dialog.dismiss()
-                            }
-                        })
-                    return
-                }
-
-
-
-                startActivity(intent)
-
-
-                Log.d("DEBUG", assetListItem.assetStateCode.toString())
-
-            }
-
-            override fun setBarcodeClicked(assetListItem: AssetListItem) {
-                showBarcodeDialog(this@ActivityShowAssetInformation, object : IClickListener {
-                    override fun onClick(view: View?, dialog: Dialog) {
-                        responsetype = "setBarcodeClicked"
-                        barcode = (view as EditText).text.toString()
-
-                        if (barcode.length == 11) {
-                            Log.i(
-                                "DEBUG",
-                                "ActivityShowUserInformation showBarcodeDialog barcode=$barcode"
+                            intent.putExtra(
+                                "assetId",
+                                it.toString()
                             )
-                            if (applicationContext?.let { isNetworkAvailable(it) } == true) {
-                                Log.i(
-                                    "DEBUG",
-                                    "raw result detected.try to call setBarcodeForAsset"
-                                )
-
-
-                                if (assetListItem.assetID != null) {
-                                    assetId = assetListItem.assetID.toString().toInt()
-                                    intent.putExtra("assetId", assetListItem.assetID.toString())
-                                    Log.d("DEBUG", "assetIdeee: $assetId")
-
-
-                                }
-                                if (assetListItem.subCostCenterID != null) {
-                                    intent.putExtra(
-                                        "subCostCenterID",
-                                        assetListItem.subCostCenterID.toString()
-                                    )
-                                    subCostCenterID =
-                                        assetListItem.subCostCenterID.toString().toInt()
-
-                                }
-                                if (assetListItem.assetLocationID != null) {
-                                    intent.putExtra(
-                                        "assetLocationID",
-                                        assetListItem.assetLocationID.toString()
-                                    )
-                                    assetLocationID =
-                                        assetListItem.assetLocationID.toString().toInt()
-
-                                }
-                                if (assetListItem.actorID != null) {
-                                    intent.putExtra("actorID", assetListItem.actorID.toString())
-                                    actorID = assetListItem.actorID.toString().toInt()
-                                }
-
-                                if (assetListItem.assetStatusCode != null) {
-                                    intent.putExtra(
-                                        "assetStatusCode",
-                                        assetListItem.assetStatusCode.toString()
-                                    )
-                                    assetStatusCode = assetListItem.assetStatusCode
-                                }
-
-
-                                showAssetInformationViewModel.setBarcodeForAsset(
-                                    accessToken,
-                                    assetListItem.assetID.toString(),
-                                    assetListItem.assetTypeCode!!,
-                                    barcode
-                                )
-
-
-//                                Toast.makeText(applicationContext, barcode, Toast.LENGTH_SHORT)
-//                                    .show()
-
-
-                            } else {
-                                val message = "اتصال شبکه برقرار نیست"
-                                showCustomDialog(
-                                    this@ActivityShowAssetInformation,
-                                    DialogType.ERROR,
-                                    message
-                                )
-                            }
-                        } else {
-                            val errorMessage = "طول بارکد باید 11  رقم باشد"
-                            Toast.makeText(applicationContext, errorMessage, Toast.LENGTH_SHORT)
-                                .show()
                         }
+
+                        assetListItem.assetCode?.let {
+                            intent.putExtra("assetCode", it.toString())
+                        }
+
+                        assetListItem.assetStateCode?.let {
+                            intent.putExtra(
+                                "assetStateCode",
+                                it.toString()
+                            )
+                        }
+
+                        assetListItem.assetTypeCode?.let {
+                            intent.putExtra(
+                                "assetTypeCode",
+                                it.toString()
+                            )
+                        }
+
+                        assetListItem.barCode?.let {
+                            intent.putExtra("barcode", it.toString())
+                        }
+
+                        assetListItem.assetTag?.let {
+                            intent.putExtra("assetTag", it.toString())
+                        }
+
+                        assetListItem.productName?.let {
+                            intent.putExtra(
+                                "productName",
+                                it.toString()
+                            )
+
+                            Log.i("ghandman", it.toString())
+                        }
+
+                        assetListItem.assetHistoryId?.let {
+                            intent.putExtra(
+                                "assetHistoryId",
+                                it.toString()
+                            )
+                        }
+
+                        assetListItem.costCenterID?.let {
+                            intent.putExtra(
+                                "costCenterID",
+                                it.toString()
+                            )
+                        }
+
+                        assetListItem.costCenterName?.let {
+                            intent.putExtra(
+                                "costCenterName",
+                                it.toString()
+                            )
+                        }
+
+                        assetListItem.costCenterCode?.let {
+                            intent.putExtra(
+                                "costCenterCode",
+                                it.toString()
+                            )
+                        }
+
+                        assetListItem.subCostCenterID?.let {
+
+                            intent.putExtra(
+                                "subCostCenterID",
+                                it.toString()
+                            )
+
+                            subCostCenterID = it.toString().toInt()
+                        }
+
+                        assetListItem.subCostCenterName?.let {
+                            intent.putExtra(
+                                "subCostCenterName",
+                                it.toString()
+                            )
+                        }
+
+                        assetListItem.subCostCenterCode?.let {
+                            intent.putExtra(
+                                "subCostCenterCode",
+                                it.toString()
+                            )
+                        }
+
+                        assetListItem.assetLocationID?.let {
+
+                            intent.putExtra(
+                                "assetLocationID",
+                                it.toString()
+                            )
+
+                            assetLocationID = it.toString().toInt()
+                        }
+
+                        assetListItem.assetStateCode?.let {
+
+                            assetstatenum = it.toString().toInt()
+                        }
+
+                        assetListItem.assetLocationName?.let {
+                            intent.putExtra(
+                                "assetLocationName",
+                                it.toString()
+                            )
+                        }
+
+                        assetListItem.actorID?.let {
+
+                            intent.putExtra(
+                                "actorID",
+                                it.toString()
+                            )
+
+                            actorID = it.toString().toInt()
+                        }
+
+                        assetListItem.actorName?.let {
+                            intent.putExtra(
+                                "actorName",
+                                it.toString()
+                            )
+                        }
+
+                        assetListItem.assetStatusCode?.let {
+
+                            intent.putExtra(
+                                "assetStatusCode",
+                                it.toString()
+                            )
+
+                            assetStatusCode = it
+                        }
+
+                        assetListItem.assetTypeName?.let {
+                            intent.putExtra(
+                                "assetTypeName",
+                                it.toString()
+                            )
+                        }
+
+                        if (assetListItem.barCode.isNullOrEmpty()) {
+
+                            showCustomDialog(
+                                this@ActivityShowAssetInformation,
+                                DialogType.WARNING,
+                                "ابتدا بارکد تخصیص داده شود",
+                                object : IClickListener {
+
+                                    override fun onClick(
+                                        view: View?,
+                                        dialog: Dialog
+                                    ) {
+                                        dialog.dismiss()
+                                    }
+                                }
+                            )
+
+                            return
+                        }
+
+                        startActivity(intent)
+
+                        Log.d(
+                            "DEBUG",
+                            assetListItem.assetStateCode.toString()
+                        )
                     }
-                })
-            }
 
+                    override fun setBarcodeClicked(
+                        assetListItem: AssetListItem
+                    ) {
 
-            override fun setAssetMoreClicked(assetListItem: AssetListItem) {
-                if (assetListItem.barCode?.isEmpty()==true){
-                    showCustomDialog(
-                        this@ActivityShowAssetInformation,
-                        DialogType.WARNING,
-                        "برای ثبت برچسب اضافه باید اول بارکد ثبت گردد"
-                    )
-                }else{
+                        showBarcodeDialog(
+                            this@ActivityShowAssetInformation,
+                            object : IClickListener {
 
-                    showAssetmoreDialog(
-                        this@ActivityShowAssetInformation,
-                        object : IClickListenerWithEditText {
-                            override fun onClick(view: View?, editText: EditText?, dialog: Dialog) {
-                                when (view?.id) {
-                                    R.id.sabtmoreasset -> {
-                                        responsetype = "setAssetMoreClicked"
-                                        Log.d("DEBUG", "دکمه ثبت دارایی بیشتر کلیک شد")
-                                        val note = editText?.text.toString()
-                                        if (note.isNotEmpty()) {
-                                            Log.i("DEBUGnote", note)
+                                override fun onClick(
+                                    view: View?,
+                                    dialog: Dialog
+                                ) {
 
-                                            val showAssetInformationViewModel =
-                                                ViewModelProvider(this@ActivityShowAssetInformation)
-                                                    .get(ShowAssetInformationViewModel::class.java)
+                                    responsetype = "setBarcodeClicked"
 
-                                            showAssetInformationViewModel.getAssetList(
-                                                SearchType.TagText,
-                                                accessToken,
-                                                note
+                                    barcode =
+                                        (view as EditText).text.toString()
+
+                                    if (barcode.length == 11) {
+
+                                        Log.i(
+                                            "DEBUG",
+                                            "barcode=$barcode"
+                                        )
+
+                                        if (isNetworkAvailable(applicationContext)) {
+
+                                            Log.i(
+                                                "DEBUG",
+                                                "Calling setBarcodeForAsset"
                                             )
 
+                                            assetListItem.assetID?.let {
 
-                                        } else {
-                                            showCustomDialog(
-                                                this@ActivityShowAssetInformation,
-                                                DialogType.ERROR,
-                                                "لطفا مقدار برچسب را وارد کنید."
-                                            )
-
-                                            Log.e("DEBUG", "EditText مربوط به دارایی بیشتر خالی است!")
-                                        }
-                                    }
-
-                                    R.id.sabtmoreasset2 -> {
-                                        responsetype = "setAssetMoreClicked2"
-
-                                        Log.d("DEBUG", "دکمه ثبت دارایی بیشتر کلیک شد")
-                                        val note = editText?.text.toString()
-                                        if (note.isNotEmpty()) {
-                                            Log.i("DEBUGnote", note)
-
-                                            val showAssetInformationViewModel =
-                                                ViewModelProvider(this@ActivityShowAssetInformation)
-                                                    .get(ShowAssetInformationViewModel::class.java)
-
-                                            showAssetInformationViewModel.getAssetList(
-                                                SearchType.TagText,
-                                                accessToken,
-                                                note
-                                            )
-
-                                        } else {
-                                            showCustomDialog(
-                                                this@ActivityShowAssetInformation,
-                                                DialogType.ERROR,
-                                                "لطفا مقدار برچسب را وارد کنید."
-                                            )
-
-                                            Log.e("DEBUG", "EditText مربوط به دارایی بیشتر خالی است!")
-                                        }
-                                    }
-
-                                    R.id.sabtmoreasset3 -> {
-                                        responsetype = "setAssetMoreClicked3"
-
-                                        Log.d("DEBUG", "دکمه ثبت دارایی بیشتر کلیک شد")
-                                        val note = editText?.text.toString()
-                                        if (note.isNotEmpty()) {
-                                            Log.i("DEBUGnote", note)
-
-                                            val showAssetInformationViewModel =
-                                                ViewModelProvider(this@ActivityShowAssetInformation)
-                                                    .get(ShowAssetInformationViewModel::class.java)
-
-                                            showAssetInformationViewModel.getAssetList(
-                                                SearchType.TagText,
-                                                accessToken,
-                                                note
-                                            )
-
-                                        } else {
-                                            showCustomDialog(
-                                                this@ActivityShowAssetInformation,
-                                                DialogType.ERROR,
-                                                "لطفا مقدار برچسب را وارد کنید."
-                                            )
-
-                                            Log.e("DEBUG", "EditText مربوط به دارایی بیشتر خالی است!")
-                                        }
-                                    }
-
-                                    R.id.sabtmoreasset4 -> {
-                                        responsetype = "setAssetMoreClicked4"
-
-                                        Log.d("DEBUG", "دکمه ثبت دارایی بیشتر کلیک شد")
-                                        val note = editText?.text.toString()
-                                        if (note.isNotEmpty()) {
-                                            Log.i("DEBUGnote", note)
-
-                                            val showAssetInformationViewModel =
-                                                ViewModelProvider(this@ActivityShowAssetInformation)
-                                                    .get(ShowAssetInformationViewModel::class.java)
-
-                                            showAssetInformationViewModel.getAssetList(
-                                                SearchType.TagText,
-                                                accessToken,
-                                                note
-                                            )
-
-                                        } else {
-                                            showCustomDialog(
-                                                this@ActivityShowAssetInformation,
-                                                DialogType.ERROR,
-                                                "لطفا مقدار برچسب را وارد کنید."
-                                            )
-
-                                            Log.e("DEBUG", "EditText مربوط به دارایی بیشتر خالی است!")
-                                        }
-                                    }
-
-                                    R.id.acbConfirm -> {
-                                        if (note.isNotEmpty()) {
-                                            if (applicationContext?.let { isNetworkAvailable(it) } == true) {
-                                                val intent = Intent()
-                                                assetListItem.assetID?.let {
-                                                    intent.putExtra("assetId", it.toString())
-                                                    assetId = it.toInt()
-                                                    Log.d("DEBUG", "assetId: $assetId")
-                                                }
-                                                assetListItem.subCostCenterID?.let {
-                                                    intent.putExtra(
-                                                        "subCostCenterID",
-                                                        it.toString()
-                                                    )
-                                                    subCostCenterID = it.toInt()
-                                                }
-                                                assetListItem.assetLocationID?.let {
-                                                    intent.putExtra(
-                                                        "assetLocationID",
-                                                        it.toString()
-                                                    )
-                                                    assetLocationID = it.toInt()
-                                                }
-                                                assetListItem.actorID?.let {
-                                                    intent.putExtra("actorID", it.toString())
-                                                    actorID = it.toInt()
-                                                }
-                                                assetListItem.assetStatusCode?.let {
-                                                    intent.putExtra(
-                                                        "assetStatusCode",
-                                                        it.toString()
-                                                    )
-                                                    assetStatusCode = it
-                                                }
-
-//                                                val showAssetInformationViewModel =
-//                                                    ViewModelProvider(this@ActivityShowAssetInformation)
-//                                                        .get(ShowAssetInformationViewModel::class.java)
-
-//                                                showAssetInformationViewModel.setAssetMoreClicked(
-//                                                    accessToken,
-//                                                    assetListItem.assetID.toString(),
-//                                                    assetListItem.assetTypeCode!!,
-//                                                    barcode
-//                                                )
-
-                                                showAssetInformationViewModel.getModifyAssetHistory(
-                                                    accessToken,
-                                                    actorID,
-                                                    getCurrentDateTime(),
-                                                    null,
-                                                    assetId,
-                                                    assetLocationID.toString().toInt(),
-                                                    assetStatusCode!!,
-                                                    note,
-                                                    subCostCenterID!!
-
-                                                )
-
-
-                                            } else {
-                                                showCustomDialog(
-                                                    this@ActivityShowAssetInformation,
-                                                    DialogType.ERROR,
-                                                    "اتصال شبکه برقرار نیست"
-                                                )
+                                                assetId = it.toString().toInt()
                                             }
 
+                                            assetListItem.subCostCenterID?.let {
+
+                                                subCostCenterID =
+                                                    it.toString().toInt()
+                                            }
+
+                                            assetListItem.assetLocationID?.let {
+
+                                                assetLocationID =
+                                                    it.toString().toInt()
+                                            }
+
+                                            assetListItem.actorID?.let {
+
+                                                actorID =
+                                                    it.toString().toInt()
+                                            }
+
+                                            assetListItem.assetStatusCode?.let {
+
+                                                assetStatusCode = it
+                                            }
+
+                                            // API ثبت بارکد فقط با زدن دکمه ثبت اجرا می‌شود
+                                            showAssetInformationViewModel.setBarcodeForAsset(
+                                                accessToken,
+                                                assetListItem.assetID.toString(),
+                                                assetListItem.assetTypeCode!!,
+                                                barcode
+                                            )
 
                                         } else {
+
                                             showCustomDialog(
                                                 this@ActivityShowAssetInformation,
                                                 DialogType.ERROR,
-                                                "برچسب اضافه وارد نشده است"
+                                                "اتصال شبکه برقرار نیست"
                                             )
                                         }
 
+                                    } else {
+
+                                        Toast.makeText(
+                                            applicationContext,
+                                            "طول بارکد باید 11 رقم باشد",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
                                 }
+                            },
+
+                            // باز کردن دوربین برای اسکن بارکد
+                            onScanClick = { editText ->
+
+                                scanTargetEditText = editText
+
+                                val scannerIntent = Intent(
+                                    this@ActivityShowAssetInformation,
+                                    ActivityCameraBarcodeScanner::class.java
+                                )
+
+                                barcodeScannerLauncher.launch(scannerIntent)
                             }
-                        },object :IClickListenergone{
-                            override fun onViewCreated(
-                                asset_title_assetmore:TextView,
-                                asset_tag_assetmore:TextView,
-                                moreAssetsContainer: LinearLayout,
-                                moreAssetsContainer2: LinearLayout,
-                                moreAssetsContainer3: LinearLayout,
-                                moreAssetsContainer4: LinearLayout
-                            ) {
-                                moreAssetsContainer11=moreAssetsContainer
-                                moreAssetsContainer22=moreAssetsContainer2
-                                moreAssetsContainer33=moreAssetsContainer3
-                                moreAssetsContainer44=moreAssetsContainer4
+                        )
+                    }
 
+                    override fun setAssetMoreClicked(
+                        assetListItem: AssetListItem
+                    ) {
 
-                                asset_title_assetmore.text=assetListItem.productName
-                                if (assetListItem.assetTag?.isNotEmpty() == true){
+                        if (assetListItem.barCode.isNullOrEmpty()) {
 
-                                    asset_tag_assetmore.text="شماره برچسب: "+assetListItem.assetTag
-                                }else{
+                            showCustomDialog(
+                                this@ActivityShowAssetInformation,
+                                DialogType.WARNING,
+                                "برای ثبت برچسب اضافه باید اول بارکد ثبت گردد"
+                            )
 
-                                    asset_tag_assetmore.text="بدون شماره برچسب"
+                        } else {
 
+                            showAssetmoreDialog(
+                                this@ActivityShowAssetInformation,
+
+                                object : IClickListenerWithEditText {
+
+                                    override fun onClick(
+                                        view: View?,
+                                        editText: EditText?,
+                                        dialog: Dialog
+                                    ) {
+
+                                        when (view?.id) {
+
+                                            R.id.sabtmoreasset -> {
+
+                                                responsetype =
+                                                    "setAssetMoreClicked"
+
+                                                val enteredNote =
+                                                    editText?.text.toString()
+
+                                                if (enteredNote.isNotEmpty()) {
+
+                                                    Log.i(
+                                                        "DEBUGnote",
+                                                        enteredNote
+                                                    )
+
+                                                    showAssetInformationViewModel.getAssetList(
+                                                        SearchType.TagText,
+                                                        accessToken,
+                                                        enteredNote
+                                                    )
+
+                                                } else {
+
+                                                    showCustomDialog(
+                                                        this@ActivityShowAssetInformation,
+                                                        DialogType.ERROR,
+                                                        "لطفا مقدار برچسب را وارد کنید."
+                                                    )
+                                                }
+                                            }
+
+                                            R.id.sabtmoreasset2 -> {
+
+                                                responsetype =
+                                                    "setAssetMoreClicked2"
+
+                                                val enteredNote =
+                                                    editText?.text.toString()
+
+                                                if (enteredNote.isNotEmpty()) {
+
+                                                    Log.i(
+                                                        "DEBUGnote",
+                                                        enteredNote
+                                                    )
+
+                                                    showAssetInformationViewModel.getAssetList(
+                                                        SearchType.TagText,
+                                                        accessToken,
+                                                        enteredNote
+                                                    )
+
+                                                } else {
+
+                                                    showCustomDialog(
+                                                        this@ActivityShowAssetInformation,
+                                                        DialogType.ERROR,
+                                                        "لطفا مقدار برچسب را وارد کنید."
+                                                    )
+                                                }
+                                            }
+
+                                            R.id.sabtmoreasset3 -> {
+
+                                                responsetype =
+                                                    "setAssetMoreClicked3"
+
+                                                val enteredNote =
+                                                    editText?.text.toString()
+
+                                                if (enteredNote.isNotEmpty()) {
+
+                                                    Log.i(
+                                                        "DEBUGnote",
+                                                        enteredNote
+                                                    )
+
+                                                    showAssetInformationViewModel.getAssetList(
+                                                        SearchType.TagText,
+                                                        accessToken,
+                                                        enteredNote
+                                                    )
+
+                                                } else {
+
+                                                    showCustomDialog(
+                                                        this@ActivityShowAssetInformation,
+                                                        DialogType.ERROR,
+                                                        "لطفا مقدار برچسب را وارد کنید."
+                                                    )
+                                                }
+                                            }
+
+                                            R.id.sabtmoreasset4 -> {
+
+                                                responsetype =
+                                                    "setAssetMoreClicked4"
+
+                                                val enteredNote =
+                                                    editText?.text.toString()
+
+                                                if (enteredNote.isNotEmpty()) {
+
+                                                    Log.i(
+                                                        "DEBUGnote",
+                                                        enteredNote
+                                                    )
+
+                                                    showAssetInformationViewModel.getAssetList(
+                                                        SearchType.TagText,
+                                                        accessToken,
+                                                        enteredNote
+                                                    )
+
+                                                } else {
+
+                                                    showCustomDialog(
+                                                        this@ActivityShowAssetInformation,
+                                                        DialogType.ERROR,
+                                                        "لطفا مقدار برچسب را وارد کنید."
+                                                    )
+                                                }
+                                            }
+
+                                            R.id.acbConfirm -> {
+
+                                                if (note.isNotEmpty()) {
+
+                                                    if (isNetworkAvailable(applicationContext)) {
+
+                                                        assetListItem.assetID?.let {
+
+                                                            assetId = it.toInt()
+                                                        }
+
+                                                        assetListItem.subCostCenterID?.let {
+
+                                                            subCostCenterID = it.toInt()
+                                                        }
+
+                                                        assetListItem.assetLocationID?.let {
+
+                                                            assetLocationID = it.toInt()
+                                                        }
+
+                                                        assetListItem.actorID?.let {
+
+                                                            actorID = it.toInt()
+                                                        }
+
+                                                        assetListItem.assetStatusCode?.let {
+
+                                                            assetStatusCode = it
+                                                        }
+
+                                                        showAssetInformationViewModel.getModifyAssetHistory(
+                                                            accessToken,
+                                                            actorID,
+                                                            getCurrentDateTime(),
+                                                            null,
+                                                            assetId,
+                                                            assetLocationID,
+                                                            assetStatusCode,
+                                                            note,
+                                                            subCostCenterID
+                                                        )
+
+                                                    } else {
+
+                                                        showCustomDialog(
+                                                            this@ActivityShowAssetInformation,
+                                                            DialogType.ERROR,
+                                                            "اتصال شبکه برقرار نیست"
+                                                        )
+                                                    }
+
+                                                } else {
+
+                                                    showCustomDialog(
+                                                        this@ActivityShowAssetInformation,
+                                                        DialogType.ERROR,
+                                                        "برچسب اضافه وارد نشده است"
+                                                    )
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+
+                                object : IClickListenergone {
+
+                                    override fun onViewCreated(
+                                        asset_title_assetmore: TextView,
+                                        asset_tag_assetmore: TextView,
+                                        moreAssetsContainer: LinearLayout,
+                                        moreAssetsContainer2: LinearLayout,
+                                        moreAssetsContainer3: LinearLayout,
+                                        moreAssetsContainer4: LinearLayout
+                                    ) {
+
+                                        moreAssetsContainer11 =
+                                            moreAssetsContainer
+
+                                        moreAssetsContainer22 =
+                                            moreAssetsContainer2
+
+                                        moreAssetsContainer33 =
+                                            moreAssetsContainer3
+
+                                        moreAssetsContainer44 =
+                                            moreAssetsContainer4
+
+                                        asset_title_assetmore.text =
+                                            assetListItem.productName
+
+                                        if (assetListItem.assetTag?.isNotEmpty() == true) {
+
+                                            asset_tag_assetmore.text =
+                                                "شماره برچسب: " +
+                                                        assetListItem.assetTag
+
+                                        } else {
+
+                                            asset_tag_assetmore.text =
+                                                "بدون شماره برچسب"
+                                        }
+                                    }
                                 }
-
-
-                            }
-                        })
+                            )
+                        }
+                    }
                 }
+            )
 
-            }
+        rvAssetInformation.layoutManager =
+            LinearLayoutManager(this)
 
-        })
-
-        rvAssetInformation.layoutManager = LinearLayoutManager(this)
-        rvAssetInformation.itemAnimator = DefaultItemAnimator()
+        rvAssetInformation.itemAnimator =
+            DefaultItemAnimator()
 
         expandableListAdapter2.addData(assetList)
-        expandableListAdapter2
-        rvAssetInformation.adapter = expandableListAdapter2
+
+        rvAssetInformation.adapter =
+            expandableListAdapter2
+
         setupTextChangeListener()
     }
 
-
     private fun spinnerconfig() {
 
-        var spineradapter = SpinnerFilterAdapter(this, searchArray)
-        spineradapter.spinnerfilteradapter(this, searchArray)
-        ivDropDownLocation2 = findViewById(R.id.ivDropcodee)
-        choose_data_pars_mode.adapter = spineradapter
+        val spineradapter =
+            SpinnerFilterAdapter(this, searchArray)
 
-        choose_data_pars_mode.setOnTouchListener { v, event ->
+        spineradapter.spinnerfilteradapter(
+            this,
+            searchArray
+        )
+
+        ivDropDownLocation2 =
+            findViewById(R.id.ivDropcodee)
+
+        choose_data_pars_mode.adapter =
+            spineradapter
+
+        choose_data_pars_mode.setOnTouchListener { _, event ->
+
             if (event.action == MotionEvent.ACTION_UP) {
-                ivDropDownLocation2.setImageResource(R.drawable.ic_up)
-                choose_data_pars_mode.performClick() // برای باز کردن منو
+
+                ivDropDownLocation2.setImageResource(
+                    R.drawable.ic_up
+                )
+
+                choose_data_pars_mode.performClick()
             }
-            false // به سایر رویدادها اجازه می‌دهد ادامه یابند
+
+            false
         }
 
+        choose_data_pars_mode.onItemSelectedListener =
+            object : AdapterView.OnItemClickListener,
+                AdapterView.OnItemSelectedListener {
 
-        choose_data_pars_mode.onItemSelectedListener = object : AdapterView.OnItemClickListener,
-            AdapterView.OnItemSelectedListener {
-            override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                ivDropDownLocation2.setImageResource(R.drawable.ic_down)
+                override fun onItemClick(
+                    p0: AdapterView<*>?,
+                    p1: View?,
+                    p2: Int,
+                    p3: Long
+                ) {
 
-
-            }
-
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                ivDropDownLocation2.setImageResource(R.drawable.ic_down)
-
-                if (p2 == 0) {
-                    initializeExpandableListView(
-                        myit.data?.assetList?.sortedByDescending { it?.barCode } as List<AssetListItem>)
-
-                    // ارسال داده‌های سورت شده به آداپتر
-
-// اطلاع‌رسانی به آداپتر که داده‌ها تغییر کرده است
-                    expandableListAdapter2.notifyDataSetChanged()
-
-// اختصاص آداپتر به RecyclerView
-                    rvAssetInformation.adapter = expandableListAdapter2
-
-                } else if (p2 == 1) {
-                    Log.i("aa", "bb")
-                    initializeExpandableListView(
-                        myit.data?.assetList?.sortedByDescending { it?.assetHistoryDate } as List<AssetListItem>)
-
-                    // ارسال داده‌های سورت شده به آداپتر
-
-// اطلاع‌رسانی به آداپتر که داده‌ها تغییر کرده است
-                    expandableListAdapter2.notifyDataSetChanged()
-
-// اختصاص آداپتر به RecyclerView
-                    rvAssetInformation.adapter = expandableListAdapter2
-
-
-                } else if (p2 == 2) {
-                    initializeExpandableListView(
-                        myit.data?.assetList?.sortedBy { it?.productName } as List<AssetListItem>)
-
-                    // ارسال داده‌های سورت شده به آداپتر
-
-// اطلاع‌رسانی به آداپتر که داده‌ها تغییر کرده است
-                    expandableListAdapter2.notifyDataSetChanged()
-
-// اختصاص آداپتر به RecyclerView
-                    rvAssetInformation.adapter = expandableListAdapter2
-
+                    ivDropDownLocation2.setImageResource(
+                        R.drawable.ic_down
+                    )
                 }
 
+                override fun onItemSelected(
+                    p0: AdapterView<*>?,
+                    p1: View?,
+                    p2: Int,
+                    p3: Long
+                ) {
 
+                    ivDropDownLocation2.setImageResource(
+                        R.drawable.ic_down
+                    )
+
+                    val sortedList = when (p2) {
+
+                        0 -> {
+                            myit.data?.assetList
+                                ?.sortedByDescending { it?.barCode }
+                        }
+
+                        1 -> {
+                            myit.data?.assetList
+                                ?.sortedByDescending { it?.assetHistoryDate }
+                        }
+
+                        2 -> {
+                            myit.data?.assetList
+                                ?.sortedBy { it?.productName }
+                        }
+
+                        else -> null
+                    }
+
+                    sortedList?.let {
+
+                        initializeExpandableListView(
+                            it as List<AssetListItem>
+                        )
+
+                        expandableListAdapter2.notifyDataSetChanged()
+
+                        rvAssetInformation.adapter =
+                            expandableListAdapter2
+                    }
+                }
+
+                override fun onNothingSelected(
+                    p0: AdapterView<*>?
+                ) {
+
+                    ivDropDownLocation2.setImageResource(
+                        R.drawable.ic_down
+                    )
+                }
             }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                ivDropDownLocation2.setImageResource(R.drawable.ic_down)
-
-            }
-
-        }
-
-
     }
 
     fun disableViewAndChildren(view: View) {
+
         view.isEnabled = false
+
         if (view is ViewGroup) {
+
             for (i in 0 until view.childCount) {
-                disableViewAndChildren(view.getChildAt(i))
+
+                disableViewAndChildren(
+                    view.getChildAt(i)
+                )
             }
         }
     }
-
-
-
 }

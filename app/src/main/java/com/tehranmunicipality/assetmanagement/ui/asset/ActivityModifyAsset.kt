@@ -1,17 +1,21 @@
 package com.tehranmunicipality.assetmanagement.ui.asset
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doOnTextChanged
 import com.tehranmunicipality.assetmanagement.R
 import com.tehranmunicipality.assetmanagement.data.model.*
+import com.tehranmunicipality.assetmanagement.ui.asset_information.ActivityCameraBarcodeScanner
 import com.tehranmunicipality.assetmanagement.ui.asset_information.ActivityShowAssetInformation
 import com.tehranmunicipality.assetmanagement.ui.base.BaseActivity
 import com.tehranmunicipality.assetmanagement.ui.base.CustomDialog
@@ -42,6 +46,10 @@ class ActivityModifyAsset : BaseActivity(), View.OnClickListener {
     private var type = ""
     private var fromActivity = ""
     private var accessToken = ""
+
+    // دریافت نتیجه اسکن بارکد
+    private lateinit var barcodeScannerLauncher: ActivityResultLauncher<Intent>
+    private var scanTargetEditText: EditText? = null
     private var assetId = 0
     private var assetHistoryId: Int? = 0
     private var assetTypeCode = 1
@@ -75,6 +83,22 @@ class ActivityModifyAsset : BaseActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        barcodeScannerLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val scannedBarcode = result.data?.getStringExtra("barcodeResult")
+                if (!scannedBarcode.isNullOrBlank()) {
+                    scanTargetEditText?.let { editText ->
+                        editText.setText(scannedBarcode)
+                        editText.setSelection(editText.text?.length ?: 0)
+                    }
+                }
+            }
+            scanTargetEditText = null
+        }
+
         setContentView(R.layout.activity_modify_asset)
 
         bindView()
@@ -139,7 +163,7 @@ class ActivityModifyAsset : BaseActivity(), View.OnClickListener {
             acbRegisterBarcode.visibility = View.GONE
             tvTitle.text = "تخصیص اموال"
         }
-       var amirnovin= intent.getStringExtra("productName").toString()
+        var amirnovin= intent.getStringExtra("productName").toString()
         tvAssetName.text =amirnovin
         setFormattedText(
             tvAssetTag,
@@ -172,7 +196,7 @@ class ActivityModifyAsset : BaseActivity(), View.OnClickListener {
         tvSubCostCenter = findViewById(R.id.tvSubCostCenter)
         tvLocation = findViewById(R.id.tvLocation)
         tvPerson = findViewById(R.id.tvPerson)
-       tvAssetStatus = findViewById(R.id.tvAssetStatus)
+        tvAssetStatus = findViewById(R.id.tvAssetStatus)
         acbRegisterBarcode = findViewById(R.id.acbRegisterBarcode)
         acbRegisterAsset = findViewById(R.id.acbRegisterAsset)
         vwLoading = findViewById(R.id.vwLoading)
@@ -772,7 +796,17 @@ class ActivityModifyAsset : BaseActivity(), View.OnClickListener {
                                 .show()
                         }
                     }
-                })
+                },
+
+                    // باز کردن دوربین و قرار دادن نتیجه در همان فیلد داخل دیالوگ
+                    onScanClick = { editText ->
+                        scanTargetEditText = editText
+                        val scannerIntent = Intent(
+                            this@ActivityModifyAsset,
+                            ActivityCameraBarcodeScanner::class.java
+                        )
+                        barcodeScannerLauncher.launch(scannerIntent)
+                    })
             }
 
             acbRegisterAsset -> {

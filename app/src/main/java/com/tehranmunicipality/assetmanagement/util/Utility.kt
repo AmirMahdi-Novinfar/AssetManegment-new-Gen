@@ -651,49 +651,127 @@ fun showDialog3(
     return sweetAlertDialog
 }
 
-fun showBarcodeDialog(context: Context, listener: IClickListener) {
+//fun showBarcodeDialog(context: Context, listener: IClickListener) {
+//    val dialog = Dialog(context)
+//    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//    dialog.setContentView(R.layout.dialog_barcode)
+//    dialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+//    dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+//    dialog.setCancelable(true)
+//    val acbConfirm = dialog.findViewById<AppCompatButton>(R.id.acbConfirm)
+//    val etBarcode = dialog.findViewById<EditText>(R.id.etBarcode)
+//    val ivClose = dialog.findViewById<ImageView>(R.id.ivClose)
+//
+//
+//    etBarcode.requestFocus()
+//    acbConfirm.setOnClickListener {
+//        if (!etBarcode.text.toString().isEmpty() && etBarcode.text.toString().length == 11) {
+//            listener.onClick(etBarcode, dialog)
+//
+//            dialog.dismiss()
+//        } else if (etBarcode.text.toString().length != 11) {
+//            val errorMessage = "طول بارکد باید 11 رقم باشد"
+//            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+//        } else {
+//            val errorMessage = "لطفا بارکد را وارد نمایید"
+//            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+//        }
+//    }
+//
+//    etBarcode.addTextChangedListener {
+//        Log.i("DEBUG", "text changed. count=${it?.length}")
+//        if (it?.length == 11) {
+//            acbConfirm.setBackgroundResource(R.drawable.backscanbarcode)
+//        }else{
+//            acbConfirm.setBackgroundResource(R.drawable.backscanbarcodetoosi)
+//
+//        }
+//    }
+//
+//    ivClose.setOnClickListener {
+//        dialog.dismiss()
+//    }
+//    dialog.show()
+//}
+
+
+fun showBarcodeDialog(
+    context: Context,
+    listener: IClickListener,
+    onScanClick: (EditText) -> Unit
+) {
+
     val dialog = Dialog(context)
+
     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
     dialog.setContentView(R.layout.dialog_barcode)
-    dialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
-    dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-    dialog.setCancelable(true)
-    val acbConfirm = dialog.findViewById<AppCompatButton>(R.id.acbConfirm)
-    val etBarcode = dialog.findViewById<EditText>(R.id.etBarcode)
-    val ivClose = dialog.findViewById<ImageView>(R.id.ivClose)
 
+    dialog.window?.setBackgroundDrawable(
+        ColorDrawable(android.graphics.Color.TRANSPARENT)
+    )
+
+    dialog.setCancelable(true)
+
+    val acbConfirm =
+        dialog.findViewById<AppCompatButton>(R.id.acbConfirm)
+
+    val etBarcode =
+        dialog.findViewById<EditText>(R.id.etBarcode)
+
+    val ivClose =
+        dialog.findViewById<ImageView>(R.id.ivClose)
+
+    val btnScanBarcode =
+        dialog.findViewById<AppCompatButton>(R.id.btnScanBarcode)
 
     etBarcode.requestFocus()
-    acbConfirm.setOnClickListener {
-        if (!etBarcode.text.toString().isEmpty() && etBarcode.text.toString().length == 11) {
-            listener.onClick(etBarcode, dialog)
 
+    // اسکن با دوربین
+    btnScanBarcode.setOnClickListener {
+        onScanClick(etBarcode)
+    }
+
+    // ثبت بارکد
+    acbConfirm.setOnClickListener {
+
+        if (etBarcode.text.toString().length == 11) {
+
+            listener.onClick(etBarcode, dialog)
             dialog.dismiss()
-        } else if (etBarcode.text.toString().length != 11) {
-            val errorMessage = "طول بارکد باید 11 رقم باشد"
-            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+
+        } else if (etBarcode.text.toString().isEmpty()) {
+
+            Toast.makeText(
+                context,
+                "لطفا بارکد را وارد نمایید",
+                Toast.LENGTH_SHORT
+            ).show()
+
         } else {
-            val errorMessage = "لطفا بارکد را وارد نمایید"
-            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+
+            Toast.makeText(
+                context,
+                "طول بارکد باید 11 رقم باشد",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
     etBarcode.addTextChangedListener {
-        Log.i("DEBUG", "text changed. count=${it?.length}")
+
         if (it?.length == 11) {
             acbConfirm.setBackgroundResource(R.drawable.backscanbarcode)
-        }else{
+        } else {
             acbConfirm.setBackgroundResource(R.drawable.backscanbarcodetoosi)
-
         }
     }
 
     ivClose.setOnClickListener {
         dialog.dismiss()
     }
+
     dialog.show()
 }
-
 
 fun showAssetmoreDialog(context: Context, listener: IClickListenerWithEditText,listner2gone:IClickListenergone) {
     val dialog = Dialog(context)

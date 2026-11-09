@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/barcode_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/barcode_main_layout"
     android:background="@drawable/background_gradient">
 
+    <!-- هدر صفحه -->
     <RelativeLayout
         android:id="@+id/rlSecond"
         android:layout_width="match_parent"
@@ -27,90 +29,94 @@
             android:id="@+id/ivBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
             android:src="@drawable/ic_arrow_left" />
 
     </RelativeLayout>
 
-
-
-
-
-
+    <!-- انتخاب نوع جستجو -->
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/select_queri_db_mode"
+        style="@style/SpinnerTheme"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-
-        android:layout_below="@+id/rlSecond"
-        android:layout_margin="30dp"
-        android:dropDownVerticalOffset="60dp"
-        android:spinnerMode="dropdown"
+        android:layout_below="@id/rlSecond"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
         android:background="@drawable/background_gray4_light_corners_round_2"
+        android:dropDownVerticalOffset="60dp"
         android:gravity="center"
-
-
-        style="@style/SpinnerTheme"
         android:layoutDirection="rtl"
-        android:textDirection="rtl">
-
-    </androidx.appcompat.widget.AppCompatSpinner>
-
+        android:spinnerMode="dropdown"
+        android:textDirection="rtl" />
 
     <ImageView
         android:id="@+id/ivDropcodee"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="32dp"
-        android:layout_below="@+id/rlSecond"
-        android:padding="12dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/rlSecond"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="30dp"
+        android:padding="12dp"
         android:src="@drawable/ic_down"
         android:translationZ="10dp" />
 
-        <EditText
-            android:id="@+id/etBarcode"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_below="@+id/select_queri_db_mode"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/background_gray4_light_corners_round_2"
-            android:fontFamily="@font/iransansweb"
-            android:gravity="right|center_vertical"
-            android:imeOptions="actionDone"
-            android:maxLength="25"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp"
-            android:paddingRight="24dp"
-            android:paddingBottom="10dp"
-            android:textColorHint="@color/hint_color"
-            android:textSize="15sp"
-            />
+    <!-- فیلد ورود بارکد یا برچسب -->
+    <EditText
+        android:id="@+id/etBarcode"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/select_queri_db_mode"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/background_gray4_light_corners_round_2"
+        android:fontFamily="@font/iransansweb"
+        android:gravity="right|center_vertical"
+        android:imeOptions="actionDone"
+        android:maxLength="25"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="10dp"
+        android:textColorHint="@color/hint_color"
+        android:textSize="15sp" />
 
-        <Button
-            android:id="@+id/btnInquiry"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/background_gradient_right_with_border"
-            android:fontFamily="@font/iransansweb"
-            android:text="@string/inquiry_fa"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:visibility="gone"/>
+    <!-- دکمه اسکن؛ دقیقاً زیر فیلد بارکد -->
+    <Button
+        android:id="@+id/btnScanBarcode"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_below="@id/etBarcode"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/background_gradient_right_with_border"
+        android:fontFamily="@font/iransansweb"
+        android:text="اسکن بارکد با دوربین"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:visibility="gone" />
 
+    <!-- دکمه استعلام؛ ثابت در پایین صفحه -->
+    <Button
+        android:id="@+id/btnInquiry"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/background_gradient_right_with_border"
+        android:fontFamily="@font/iransansweb"
+        android:text="@string/inquiry_fa"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:visibility="visible" />
 
 </RelativeLayout>

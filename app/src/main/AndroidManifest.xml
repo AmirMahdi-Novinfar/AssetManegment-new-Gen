@@ -3,8 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.tehranmunicipality.assetmanagement">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".AssetManagementApplication"
@@ -18,59 +23,85 @@
         android:windowSoftInputMode="adjustResize"
         tools:replace="android:label"
         tools:targetApi="31">
+
         <activity
-            android:name=".ui.asset.TestActivity"
+            android:name=".ui.asset_information.ActivityCameraBarcodeScanner"
             android:exported="false"
-            android:label="@string/title_activity_test"
-            android:theme="@style/Theme.assetManagement" />
+            android:fitsSystemWindows="true"
+            android:noHistory="false"
+            android:launchMode="standard"
+            android:windowSoftInputMode="adjustResize" />
+
+
+
         <activity
             android:name=".ui.user_information.HelpActivity"
             android:exported="false" />
+
         <activity
             android:name=".ui.login.ActivityLogin"
             android:exported="true"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.main.ActivityMain"
             android:exported="true"
             android:fitsSystemWindows="true"
             android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".ui.asset_allocation.ActivityAssetAllocation"
+            android:exported="false"
             android:fitsSystemWindows="true"
-            android:noHistory="true"
+            android:noHistory="false"
+            android:launchMode="standard"
             android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".ui.asset.ActivityModifyAsset"
+            android:exported="false"
             android:fitsSystemWindows="true"
             android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".ui.search.barcode.ActivitySearchByBarcode"
+            android:exported="false"
             android:fitsSystemWindows="true"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ui.search.location.ActivitySearchByAssetLocation" />
+
+        <activity
+            android:name=".ui.search.location.ActivitySearchByAssetLocation"
+            android:exported="false" />
+
         <activity
             android:name=".ui.search.username_or_national_code.ActivitySearchByUsernameOrNationalCode"
+            android:exported="false"
             android:fitsSystemWindows="true"
             android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".ui.asset_information.ActivityShowAssetInformation"
+            android:exported="false"
             android:fitsSystemWindows="true"
             android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".ui.profile.ActivityProfile"
+            android:exported="false"
             android:fitsSystemWindows="true"
             android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".ui.person_list.ActivityPersonList"
+            android:exported="false"
             android:fitsSystemWindows="true"
             android:windowSoftInputMode="adjustResize" />
+
     </application>
 
 </manifest>
